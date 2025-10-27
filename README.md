@@ -1,3 +1,5 @@
+# Automated MRI QC training for HBCD data
+
 # Tensorboard set-up test
 
 ## 1. Find your log directory
