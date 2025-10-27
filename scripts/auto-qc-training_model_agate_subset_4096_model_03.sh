@@ -2,10 +2,10 @@
 
 #SBATCH --job-name=automated-qc-Regressor # job name
 
-#SBATCH --mem=240g        
+#SBATCH --mem=128g        
 #SBATCH --time=24:00:00          
 #SBATCH -p a100-4,a100-8
-#SBATCH --gres=gpu:a100:2
+#SBATCH --gres=gpu:a100:1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16    
 
@@ -14,20 +14,23 @@
 #SBATCH --mail-user=lundq163@umn.edu
 #SBATCH -e logs/automated-qc-Regressor-%j.err
 #SBATCH -o logs/automated-qc-Regressor-%j.out
-#SBATCH -A feczk001
+#SBATCH -A csandova
+
+# make sure all directories exist before running
 
 cd /users/1/lundq163/projects/automated-qc/src/training || exit
 
 export PYTHONPATH=/users/1/lundq163/projects/automated-qc/src:$PYTHONPATH
-export AUTO_QC_CACHE_DIR=/scratch.global/lundq163/auto_qc_model_00_cache/
+export AUTO_QC_CACHE_DIR=/scratch.global/lundq163/auto_qc_model_03_cache/
+export PYTORCH_ALLOC_CONF=expandable_segments:True
 
 /users/1/lundq163/projects/automated-qc/.venv/bin/python \
 /users/1/lundq163/projects/automated-qc/src/training/training.py \
---model-save-location "/scratch.global/lundq163/auto_qc_model_00/model_00.pt" \
---plot-location "/users/1/lundq163/projects/automated-qc/doc/models/model_00/model_00.png" \
---folder "/scratch.global/lundq163/auto_qc_subset_256/" \
---csv-input-file "/users/1/lundq163/projects/automated-qc/data/anat_qc_t1w_t2w_subset_256.csv" \
---csv-output-file "/users/1/lundq163/projects/automated-qc/doc/models/model_00/model_00.csv" \
+--model-save-location "/scratch.global/lundq163/auto_qc_model_03/model_03.pt" \
+--plot-location "/users/1/lundq163/projects/automated-qc/doc/models/model_03/model_03.png" \
+--folder "/scratch.global/lundq163/auto_qc_subset_4096/" \
+--csv-input-file "/users/1/lundq163/projects/automated-qc/data/anat_qc_t1w_t2w_subset_4096.csv" \
+--csv-output-file "/users/1/lundq163/projects/automated-qc/doc/models/model_03/model_03.csv" \
 --tb-run-dir "/users/1/lundq163/projects/automated-qc/src/training/runs/" \
 --split-strategy "stratified" \
 --train-split 0.8 \
@@ -35,6 +38,7 @@ export AUTO_QC_CACHE_DIR=/scratch.global/lundq163/auto_qc_model_00_cache/
 --lr 0.001 \
 --scheduler "plateau" \
 --batch-size 4 \
---epochs 50 \
+--epochs 100 \
 --optimizer "Adam" \
---num-workers 12
+--num-workers 12 \
+--use-amp

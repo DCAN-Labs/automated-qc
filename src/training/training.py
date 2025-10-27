@@ -8,6 +8,7 @@ import pandas as pd
 from scipy import stats
 import torch
 import torch.nn as nn
+from torch.amp import autocast, GradScaler
 from torch.optim import Adam, SGD
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
@@ -134,6 +135,9 @@ class Config:
         self.parser.add_argument(
             "--tb-run-dir", default="runs", help="Tensorboard log directory."
         )
+        self.parser.add_argument(
+            "--use-amp", action="store_true", help="Use Automatic Mixed Precision (AMP) for training."
+        )
 
     def parse_args(self, sys_argv: list[str]) -> argparse.Namespace:
         return self.parser.parse_args(sys_argv)
@@ -214,13 +218,18 @@ class TrainingLoop:
         self.device = device
         self.total_samples = 0
         self.df = df
-        self.scheduler = scheduler  # Add scheduler to the training loop
+        self.scheduler = scheduler
+        self.config = config
+        
+        device_type = 'cuda' if device.type == 'cuda' else 'cpu'
+        self.scaler = GradScaler(device_type) if self.config.use_amp and device_type == 'cuda' else None
+        self.device_type = device_type
+
         training_df = df[df["training"] == 1]
         qu_motion_scores = list(training_df["QU_motion"])
         item_counts = count_items(qu_motion_scores)
         weighted_counts = {key: 1.0 / value for key, value in item_counts.items()}
         self.weights = weighted_counts
-        self.config = config
 
     def train_epoch(self, epoch, train_dl):
         self.model_handler.model.train()
@@ -231,11 +240,20 @@ class TrainingLoop:
             train_dl, f"E{epoch} Training", start_ndx=train_dl.num_workers
         ):
             self.optimizer.zero_grad()
-            loss_var = self._compute_batch_loss(
-                batch_ndx, batch_tup, train_dl.batch_size, trn_metrics_g
-            )
-            loss_var.backward()
-            self.optimizer.step()
+            
+            if self.config.use_amp:
+                loss_var = self._compute_batch_loss_amp(
+                    batch_ndx, batch_tup, train_dl.batch_size, trn_metrics_g
+                )
+                self.scaler.scale(loss_var).backward()
+                self.scaler.step(self.optimizer)
+                self.scaler.update()
+            else:
+                loss_var = self._compute_batch_loss(
+                    batch_ndx, batch_tup, train_dl.batch_size, trn_metrics_g
+                )
+                loss_var.backward()
+                self.optimizer.step()
 
             # Step OneCycleLR scheduler after each batch
             if self.scheduler and isinstance(self.scheduler, OneCycleLR):
@@ -243,6 +261,42 @@ class TrainingLoop:
 
         self.total_samples += len(train_dl.dataset)
         return trn_metrics_g.to("cpu")
+    
+    def _compute_batch_loss_amp(self, batch_ndx, batch_tup, batch_size, metrics_g):
+        """Compute batch loss with automatic mixed precision"""
+        input_t, label_t, _, _ = batch_tup
+        input_g = input_t.to(self.device, non_blocking=True)
+        label_g = label_t.to(self.device, non_blocking=True)
+
+        # Forward pass with autocast
+        with autocast(self.device_type):
+            outputs_g = self.model_handler.model(input_g)
+
+            # If outputs_g is a list or tuple, take the first element
+            if isinstance(outputs_g, (list, tuple)):
+                outputs_g = outputs_g[0]
+
+            outputs_g = outputs_g.squeeze(dim=-1)
+            label_g = label_g.view(-1)
+
+            # Calculate loss
+            if self.config.use_weighted_loss:
+                loss_g = self.weighted_mse_loss(outputs_g, label_g)
+                loss_mean = loss_g.mean()
+            else:
+                loss_func = nn.MSELoss(reduction="none")
+                loss_g = loss_func(outputs_g, label_g)
+                loss_mean = loss_g.mean()
+
+        # Store metrics (outside autocast)
+        start_ndx = batch_ndx * batch_size
+        end_ndx = start_ndx + label_t.size(0)
+
+        metrics_g[METRICS_LABEL_NDX, start_ndx:end_ndx] = label_g.detach()
+        metrics_g[METRICS_PRED_NDX, start_ndx:end_ndx] = outputs_g.detach()
+        metrics_g[METRICS_LOSS_NDX, start_ndx:end_ndx] = loss_mean.detach()
+
+        return loss_mean
 
     def validate_epoch(self, epoch, val_dl):
         with torch.no_grad():
@@ -253,6 +307,11 @@ class TrainingLoop:
             for batch_ndx, batch_tup in enumerateWithEstimate(
                 val_dl, f"E{epoch} Validation", start_ndx=val_dl.num_workers
             ):
+                if self.config.use_amp:
+                    with autocast(self.device_type):
+                        self._compute_batch_loss_amp(
+                            batch_ndx, batch_tup, val_dl.batch_size, val_metrics_g
+                        )
                 self._compute_batch_loss(
                     batch_ndx, batch_tup, val_dl.batch_size, val_metrics_g
                 )
@@ -479,10 +538,16 @@ class AutoQcTrainingApp:
 
     def main(self):
         log.info("Starting training...")
-        self.output_df["prediction"] = np.nan
-
+        
         # if self.config.gd == 0:
         #     self.input_df = self.input_df[~self.input_df["scan"].str.contains("Gd")]
+        
+        # Log GPU memory info at start
+        if self.use_cuda:
+            log.info(f"GPU Device: {torch.cuda.get_device_name(0)}")
+            log.info(f"Total GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
+        
+        self.output_df["prediction"] = np.nan
 
         if self.config.use_train_validation_cols:
             training_rows = self.input_df.loc[self.input_df["training"] == 1]
@@ -514,6 +579,11 @@ class AutoQcTrainingApp:
 
         for epoch in range(1, self.config.epochs + 1):
             log.info(f"Epoch {epoch}/{self.config.epochs}")
+            
+            # Log GPU memory before epoch
+            if self.use_cuda:
+                log.info(f"GPU Memory Allocated: {torch.cuda.memory_allocated() / 1e9:.2f} GB")
+                log.info(f"GPU Memory Reserved: {torch.cuda.memory_reserved() / 1e9:.2f} GB")
 
             trn_metrics = loop_handler.train_epoch(epoch, self.train_dl)
             val_metrics = loop_handler.validate_epoch(epoch, val_dl)
@@ -549,6 +619,9 @@ class AutoQcTrainingApp:
             # Log current learning rate
             current_lr = self.optimizer.param_groups[0]["lr"]
             log.info(f"Current learning rate: {current_lr}")
+            
+            if self.use_cuda:
+                torch.cuda.empty_cache()
 
         input_csv_location = self.config.csv_input_file
         subjects, sessions, runs, suffixes, actual_scores, predict_vals = get_validation_info(

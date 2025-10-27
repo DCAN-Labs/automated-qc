@@ -2,10 +2,10 @@
 
 #SBATCH --job-name=automated-qc-Regressor # job name
 
-#SBATCH --mem=240g        
+#SBATCH --mem=128g        
 #SBATCH --time=24:00:00          
 #SBATCH -p a100-4,a100-8
-#SBATCH --gres=gpu:a100:2
+#SBATCH --gres=gpu:a100:1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16    
 
@@ -15,10 +15,6 @@
 #SBATCH -e logs/automated-qc-Regressor-%j.err
 #SBATCH -o logs/automated-qc-Regressor-%j.out
 #SBATCH -A csandova
-
-
-# 24GB+ GPU memory when using batch size 32
-# could also try using --use-weighted-loss flag if needed
 
 cd /users/1/lundq163/projects/automated-qc/src/training || exit
 
@@ -42,4 +38,5 @@ export PYTORCH_ALLOC_CONF=expandable_segments:True
 --batch-size 8 \
 --epochs 100 \
 --optimizer "Adam" \
---num-workers 12
+--num-workers 12 \
+--use-amp

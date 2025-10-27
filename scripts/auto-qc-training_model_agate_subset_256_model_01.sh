@@ -16,10 +16,6 @@
 #SBATCH -o logs/automated-qc-Regressor-%j.out
 #SBATCH -A csandova
 
-
-# 24GB+ GPU memory when using batch size 32
-# could also try using --use-weighted-loss flag if needed
-
 cd /users/1/lundq163/projects/automated-qc/src/training || exit
 
 export PYTHONPATH=/users/1/lundq163/projects/automated-qc/src:$PYTHONPATH
