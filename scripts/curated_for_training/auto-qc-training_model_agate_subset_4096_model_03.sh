@@ -29,7 +29,7 @@ export PYTORCH_ALLOC_CONF=expandable_segments:True
 --model-save-location "/scratch.global/lundq163/auto_qc_model_03/model_03.pt" \
 --plot-location "/users/1/lundq163/projects/automated-qc/doc/models/model_03/model_03.png" \
 --folder "/scratch.global/lundq163/auto_qc_subset_4096/" \
---csv-input-file "/users/1/lundq163/projects/automated-qc/data/anat_qc_t1w_t2w_subset_4096.csv" \
+--csv-input-file "/users/1/lundq163/projects/automated-qc/data/raw/anat_qc_t1w_t2w_subset_4096.csv" \
 --csv-output-file "/users/1/lundq163/projects/automated-qc/doc/models/model_03/model_03.csv" \
 --tb-run-dir "/users/1/lundq163/projects/automated-qc/src/training/runs/" \
 --split-strategy "stratified" \
@@ -38,7 +38,7 @@ export PYTORCH_ALLOC_CONF=expandable_segments:True
 --lr 0.001 \
 --scheduler "plateau" \
 --batch-size 4 \
---epochs 100 \
+--epochs 50 \
 --optimizer "Adam" \
 --num-workers 12 \
 --use-amp
