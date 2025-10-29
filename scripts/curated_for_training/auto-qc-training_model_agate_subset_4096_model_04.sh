@@ -42,3 +42,5 @@ export PYTORCH_ALLOC_CONF=expandable_segments:True
 --optimizer "Adam" \
 --num-workers 12 \
 --use-amp
+
+# review OOM error for this one - 42765929
