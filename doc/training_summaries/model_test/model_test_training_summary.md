@@ -13,7 +13,8 @@
 
 ## Visualization
 
-![QU Motion Score Analysis](model_test.png)
+![QU Motion Score Analysis](../../models/model_test/model_test.png)
+
 
 ## Interpretation
 
@@ -40,7 +41,14 @@
 | csv_input_file | /users/1/lundq163/projects/automated-qc/data/anat_qc_t1w_t2w_test_subset.csv |
 | csv_output_file | /users/1/lundq163/projects/automated-qc/doc/models/model_test/model_test.csv |
 | folder | /scratch.global/lundq163/auto_qc_test/ |
+| gres | gpu:a100:2 |
+| job_name | automated-qc-Regressor |
+| mail_type | end |
+| mail_user | lundq163@umn.edu |
+| mem | 180g |
 | model_save_location | /users/1/lundq163/projects/automated-qc/models/model_test.pt |
+| ntasks | 6 |
 | plot_location | /users/1/lundq163/projects/automated-qc/doc/models/model_test/model_test.png |
 | tb_run_dir | /users/1/lundq163/projects/automated-qc/src/training/runs/ |
+| time | 1:00:00 |
 

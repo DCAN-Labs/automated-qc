@@ -10,16 +10,6 @@
 | Correlation (r) | 0.0000 |
 | P-value | 0.0000e+00 |
 | Standard Error | 0.0000 |
-
-## Visualization
-
-![QU Motion Score Analysis]()
-
-## Interpretation
-
-- **Correlation**: 0.0000 indicates a negative relationship between actual and predicted scores.
-- **P-value**: 0.0000e+00 is statistically significant (p < 0.05).
-- **Standardized RMSE**: 0.0000 represents the RMSE as a proportion of the standard deviation of the actual values.
 ## Notes
 
 uses even large subset: ~40% of total dataset, less epochs but greater batch size than model_03 with lr of 0.01, but ran into OOM error

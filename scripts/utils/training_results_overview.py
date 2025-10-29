@@ -5,6 +5,7 @@ from sklearn.metrics import mean_squared_error
 import os
 import argparse
 import re
+from pathlib import Path
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description='Analyze QU motion scores and generate markdown report')
@@ -181,7 +182,6 @@ if csv_file is not None and png_file is not None:
 else:
     print("CSV file or PNG file not provided; skipping statistical analysis.")
     n = rmse = standardized_rmse = correlation = p_value = standard_error = 0
-    png_file = ""
 
 # Create markdown content
 markdown_content = f"""# QU Motion Score Analysis Results
@@ -196,10 +196,41 @@ markdown_content = f"""# QU Motion Score Analysis Results
 | Correlation (r) | {correlation:.4f} |
 | P-value | {p_value:.4e} |
 | Standard Error | {standard_error:.4f} |
+"""
 
+if png_file:
+    # Resolve PNG path relative to the output markdown file
+    png_path = Path(png_file).expanduser()
+    output_path = Path(output_md).expanduser()
+    
+    # Make PNG path absolute first
+    if not png_path.is_absolute():
+        png_path = (Path.cwd() / png_path).resolve()
+    
+    # Check if the PNG file exists
+    if not png_path.is_file():
+        print(f"Warning: PNG file not found at {png_path}")
+        png_file = None  # Set png_file to None to skip visualization
+    else:
+        # Make output path absolute
+        if not output_path.is_absolute():
+            output_path = (Path.cwd() / output_path).resolve()
+        
+        # Calculate relative path from markdown to PNG
+        try:
+            relative_png_path = os.path.relpath(png_path, output_path.parent)
+        except ValueError:
+            # Fallback to absolute if on different drives (Windows)
+            relative_png_path = str(png_path)
+        
+        markdown_content += f"""
 ## Visualization
 
-![QU Motion Score Analysis]({os.path.basename(png_file)})
+![QU Motion Score Analysis]({relative_png_path})
+"""
+
+if png_file:  # Only add interpretation if PNG was successfully processed
+    markdown_content += f"""
 
 ## Interpretation
 

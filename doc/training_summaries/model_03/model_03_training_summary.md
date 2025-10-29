@@ -13,7 +13,8 @@
 
 ## Visualization
 
-![QU Motion Score Analysis](model_03.png)
+![QU Motion Score Analysis](../../models/model_03/model_03.png)
+
 
 ## Interpretation
 
@@ -22,7 +23,7 @@
 - **Standardized RMSE**: 0.8730 represents the RMSE as a proportion of the standard deviation of the actual values.
 ## Notes
 
-uses even larger subset: ~40% of total dataset, half as many epochs and batch size as model_02, took about 20 hours on the node
+uses even larger subset: ~40% of total dataset, half as many epochs and batch size as model_02, took close to 24 hours on the node
 ## Hyperparameters
 
 ### Training Parameters

@@ -13,7 +13,8 @@
 
 ## Visualization
 
-![QU Motion Score Analysis](model_01.png)
+![QU Motion Score Analysis](../../models/model_01/model_01.png)
+
 
 ## Interpretation
 
@@ -22,7 +23,7 @@
 - **Standardized RMSE**: 1.0511 represents the RMSE as a proportion of the standard deviation of the actual values.
 ## Notes
 
-includes PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True, double epochs and batch-size from model_00, same prelim set
+includes PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True, double epochs and batch-size, same prelim set
 ## Hyperparameters
 
 ### Training Parameters
@@ -43,10 +44,18 @@ includes PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True, double epochs and bat
 
 | Parameter | Value |
 |-----------|-------|
+| cpus_per_task | 16 |
 | csv_input_file | /users/1/lundq163/projects/automated-qc/data/anat_qc_t1w_t2w_subset_256.csv |
 | csv_output_file | /users/1/lundq163/projects/automated-qc/doc/models/model_01/model_01.csv |
 | folder | /scratch.global/lundq163/auto_qc_subset_256/ |
+| gres | gpu:a100:2 |
+| job_name | automated-qc-Regressor |
+| mail_type | end |
+| mail_user | lundq163@umn.edu |
+| mem | 240g |
 | model_save_location | /scratch.global/lundq163/auto_qc_model_01/model_01.pt |
+| ntasks | 1 |
 | plot_location | /users/1/lundq163/projects/automated-qc/doc/models/model_01/model_01.png |
 | tb_run_dir | /users/1/lundq163/projects/automated-qc/src/training/runs/ |
+| time | 24:00:00 |
 

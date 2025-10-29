@@ -13,7 +13,8 @@
 
 ## Visualization
 
-![QU Motion Score Analysis](model_02.png)
+![QU Motion Score Analysis](../../models/model_02/model_02.png)
+
 
 ## Interpretation
 
