@@ -11,7 +11,7 @@ code_dir=CODEDIR
 run_dir="/tmp"
 template_dir="/projects/standard/faird/shared/data/templateflow/tpl-MNIInfant"
 
-#TODO: ingress age information to select correct template
+#TODO: ingress age information to select correct template, follow nibabies mapping and use age_adjusted variable from scans.tsv
 if [ ${ses_id} -eq "V02" ]; then
     cohort="cohort-1"
     REF="${template_dir}/res-1/${cohort}/t1w/tpl-MNIInfant_res-1_${cohort}_T1w.nii.gz"
