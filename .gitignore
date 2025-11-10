@@ -6,6 +6,10 @@
 /data/raw/*
 data-unversioned
 
+# registration wrapper
+/scripts/registration_wrapper/run_files.registration
+/scripts/registration_wrapper/output_logs
+
 # logs
 /logs/*
 runs
