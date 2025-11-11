@@ -140,7 +140,7 @@ eval "${cmd}"
 if [ $? -eq 0 ]; then
   echo "Registration completed successfully."
   mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${registered_data_dir}/${MRI_IN}
-  mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REG} ${transforms_dir}/${REG}
+  mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REG}* ${transforms_dir}
 else
   echo "Registration failed. Please check the inputs and try again."
   exit 1
