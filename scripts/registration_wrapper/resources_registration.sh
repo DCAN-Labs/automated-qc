@@ -3,7 +3,7 @@
 #SBATCH -c 4
 #SBATCH --mem=16gb
 #SBATCH --tmp=10gb
-#SBATCH -t 3:00:00
+#SBATCH -t 2:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lundq163@umn.edu
 #SBATCH -p msismall

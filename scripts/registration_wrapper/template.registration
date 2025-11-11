@@ -53,25 +53,25 @@ elif [ "$age_adjusted_months_int" -lt 8 ]; then
 elif [ "$age_adjusted_months_int" -lt 11 ]; then
     cohort="cohort-4"
     REF_DIR="${template_dir}/${cohort}"
-elif [ "$age_adjusted_months_int" -lt 14 ]; then # URGENT: cohort 5 looks empty in templateflow?
+elif [ "$age_adjusted_months_int" -lt 14 ]; then
     cohort="cohort-5"
     REF_DIR="${template_dir}/${cohort}"
 elif [ "$age_adjusted_months_int" -lt 17 ]; then
     cohort="cohort-6"
     REF_DIR="${template_dir}/${cohort}"
-elif [ "$age_adjusted_months_int" -lt 21 ]; then # URGENT: cohort 7 looks empty in templateflow?
+elif [ "$age_adjusted_months_int" -lt 21 ]; then
     cohort="cohort-7"
     REF_DIR="${template_dir}/${cohort}"
-elif [ "$age_adjusted_months_int" -lt 27 ]; then # URGENT: cohort 8 looks empty in templateflow?
+elif [ "$age_adjusted_months_int" -lt 27 ]; then
     cohort="cohort-8"
     REF_DIR="${template_dir}/${cohort}"
 elif [ "$age_adjusted_months_int" -lt 33 ]; then
     cohort="cohort-9"
     REF_DIR="${template_dir}/${cohort}"
-elif [ "$age_adjusted_months_int" -lt 44 ]; then # URGENT: cohort 10 looks empty in templateflow?
+elif [ "$age_adjusted_months_int" -lt 44 ]; then
     cohort="cohort-10"
     REF_DIR="${template_dir}/${cohort}"
-elif [ "$age_adjusted_months_int" -lt 60 ]; then # URGENT: cohort 11 looks empty in templateflow?
+elif [ "$age_adjusted_months_int" -lt 60 ]; then
     cohort="cohort-11"
     REF_DIR="${template_dir}/${cohort}"
 else
@@ -79,7 +79,7 @@ else
     exit 1
 fi
 
-REF="tpl-MNIInfant_${cohort}_res-1_T1w.nii.gz"
+REF="tpl-MNIInfant_${cohort}_res-1_${suffix}.nii.gz"
 
 if [ ! -d ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix} ]; then
     mkdir -pv ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}
@@ -94,54 +94,10 @@ cd "${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}" || 
 
 echo "Working in run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
 
-module load ants
-
 echo "Registering ${MRI_IN} to ${REF}"
 echo "Output will be saved as ${MRI_OUT}, with transformations saved as ${REG}"
 
-# Construct the antsRegistration command
-cmd=$(cat <<EOF
-antsRegistration --collapse-output-transforms 1 \
-  --dimensionality 3 \
-  --float 1 \
-  --initialize-transforms-per-stage 0 \
-  --interpolation LanczosWindowedSinc \
-  --output [${REG}, ${MRI_OUT}] \
-  --transform Rigid[0.05] \
-  --metric Mattes[${REF}, ${MRI_IN}, 1, 56, Regular, 0.25] \
-  --convergence [100x100, 1e-06, 20] \
-  --smoothing-sigmas 2.0x1.0vox \
-  --shrink-factors 2x1 \
-  --use-histogram-matching 1 \
-  --transform Affine[0.08] \
-  --metric Mattes[${REF}, ${MRI_IN}, 1, 56, Regular, 0.25] \
-  --convergence [100x100, 1e-06, 20] \
-  --smoothing-sigmas 1.0x0.0vox \
-  --shrink-factors 2x1 \
-  --use-histogram-matching 1 \
-  --transform SyN[0.1, 3.0, 0.0] \
-  --metric CC[${REF}, ${MRI_IN}, 1, 4, None, 1] \
-  --convergence [100x70x50x20, 1e-06, 10] \
-  --smoothing-sigmas 3.0x2.0x1.0x0.0vox \
-  --shrink-factors 8x4x2x1 \
-  --use-histogram-matching 1 \
-  --winsorize-image-intensities [0.005, 0.995] \
-  --write-composite-transform 1 \
-  -v
-EOF
-)
+${code_dir}/antsRegistration_Rigid_Affine.sh ${MRI_IN} ${MRI_OUT} ${REF} ${REG}
 
-# Print and execute the command
-echo "Running command:"
-echo "${cmd}"
-eval "${cmd}"
-
-# Check the command's success
-if [ $? -eq 0 ]; then
-  echo "Registration completed successfully."
-  mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${registered_data_dir}/${MRI_IN}
-  mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REG}* ${transforms_dir}
-else
-  echo "Registration failed. Please check the inputs and try again."
-  exit 1
-fi
+mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${registered_data_dir}/${MRI_IN}
+mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REG}* ${transforms_dir}
