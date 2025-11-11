@@ -3,7 +3,7 @@
 .venv/*
 
 # data
-/data/raw/*
+data
 data-unversioned
 
 # registration wrapper

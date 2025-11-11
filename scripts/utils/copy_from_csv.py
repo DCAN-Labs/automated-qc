@@ -79,6 +79,12 @@ def parse_args():
     p.add_argument("--preserve-tree", action="store_true",
                    help="Mirror BIDS sub/ses/modality folder structure under dst "
                         "(default: place all files at dst root unless bids layout used).")
+    p.add_argument("--exclude-csv", default=None,
+                   help="Optional: CSV file containing filenames to exclude from copying. "
+                        "Will read the filename column from this CSV and skip any matching files.")
+    p.add_argument("--limit", type=int, default=None,
+                   help="Optional: limit the number of rows from the input CSV to process. "
+                        "If not specified, all rows will be processed.")
     return p.parse_args()
 
 def read_rows(csv_path: Path):
@@ -98,6 +104,22 @@ def motion_ok(row: dict, motion_col: str, max_motion: float | None):
     except Exception:
         # If motion missing or unparsable, skip row when filtering
         return False
+
+def load_excluded_filenames(csv_path: Path | None, filename_column: str) -> set[str]:
+    """Load filenames to exclude from an optional CSV."""
+    if csv_path is None:
+        return set()
+    if not csv_path.exists():
+        print(f"Warning: exclude CSV not found: {csv_path}", file=sys.stderr)
+        return set()
+    excluded = set()
+    with csv_path.open(newline='', encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            fname = row.get(filename_column, "").strip()
+            if fname:
+                excluded.add(fname)
+    return excluded
 
 def guess_modality(suffix: str | None) -> str | None:
     if not suffix:
@@ -186,7 +208,7 @@ def copy_or_link(src: Path, dst: Path, symlink: bool, dry_run: bool):
 def process_row(row: dict, cfg) -> tuple[str, str, str]:
     """
     Returns (status, src_path_str, dst_path_str)
-    status: 'COPIED' | 'LINKED' | 'SKIPPED' | 'MISSING' | 'FILTERED'
+    status: 'COPIED' | 'LINKED' | 'SKIPPED' | 'MISSING' | 'FILTERED' | 'EXCLUDED'
     """
     # motion filter
     if not motion_ok(row, cfg.motion_column, cfg.max_motion):
@@ -195,6 +217,10 @@ def process_row(row: dict, cfg) -> tuple[str, str, str]:
     fname = row.get(cfg.filename_column, "").strip()
     if not fname:
         return ("SKIPPED", "", "")
+
+    # check exclusion list
+    if hasattr(cfg, 'excluded_filenames') and fname in cfg.excluded_filenames:
+        return ("EXCLUDED", "", "")
 
     src_root = Path(cfg.src)
     dst_root = Path(cfg.dst)
@@ -235,6 +261,7 @@ def write_manifest(rows: list[tuple[str, str, str]], dst_root: Path):
     copied = [r for r in rows if r[0] in ("COPIED", "LINKED")]
     missing = [r for r in rows if r[0] == "MISSING"]
     filtered = [r for r in rows if r[0] == "FILTERED"]
+    excluded = [r for r in rows if r[0] == "EXCLUDED"]
 
     def _write(name, data, headers):
         path = dst_root / name
@@ -254,6 +281,9 @@ def write_manifest(rows: list[tuple[str, str, str]], dst_root: Path):
     if filtered:
         manifests.append(_write("filtered_manifest.csv", filtered,
                                 ["status", "src_path", "dst_path"]))
+    if excluded:
+        manifests.append(_write("excluded_manifest.csv", excluded,
+                                ["status", "src_path", "dst_path"]))
 
     return manifests
 
@@ -268,9 +298,23 @@ def main():
         sys.exit(2)
     Path(cfg.dst).mkdir(parents=True, exist_ok=True)
 
+    # Load excluded filenames if provided
+    exclude_path = Path(cfg.exclude_csv) if cfg.exclude_csv else None
+    cfg.excluded_filenames = load_excluded_filenames(exclude_path, cfg.filename_column)
+    if cfg.excluded_filenames:
+        print(f"Loaded {len(cfg.excluded_filenames)} filenames to exclude from {cfg.exclude_csv}")
+
     rows = read_rows(csv_path)
     if not rows:
         sys.exit(1)
+
+    # Apply limit if specified
+    if cfg.limit is not None:
+        if cfg.limit <= 0:
+            print(f"Warning: --limit must be > 0, got {cfg.limit}. Processing all rows.")
+        else:
+            rows = rows[:cfg.limit]
+            print(f"Limited to {len(rows)} rows from {cfg.csv}")
 
     to_process = []
     for r in rows:

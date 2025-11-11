@@ -44,7 +44,7 @@ echo "Age adjusted in months (int): $age_adjusted_months_int"
 if [ "$age_adjusted_months_int" -lt 2 ]; then
     cohort="cohort-1"
     REF_DIR="${template_dir}/${cohort}"
-elif [ "${age_adjusted_months}" -lt 5 ]; then
+elif [ "$age_adjusted_months_int" -lt 5 ]; then
     cohort="cohort-2"
     REF_DIR="${template_dir}/${cohort}"
 elif [ "$age_adjusted_months_int" -lt 8 ]; then
