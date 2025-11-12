@@ -23,7 +23,7 @@
 - **Standardized RMSE**: 0.8301 represents the RMSE as a proportion of the standard deviation of the actual values.
 ## Notes
 
-Same paramters and input data size as model_02, but removes three scans with poor QU_motion gt scores. Run time was 3h 11m 52s
+Same paramters and input data size as model_02, but uses data registered to an MNIInfant template with ridge + affine transform using ANTs and removes three scans with poor QU_motion gt scores. Run time was 3h 11m 52s
 ## Hyperparameters
 
 ### Training Parameters
