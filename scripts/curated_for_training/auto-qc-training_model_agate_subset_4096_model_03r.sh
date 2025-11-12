@@ -14,7 +14,7 @@
 #SBATCH --mail-user=lundq163@umn.edu
 #SBATCH -e logs/automated-qc-Regressor-%j.err
 #SBATCH -o logs/automated-qc-Regressor-%j.out
-#SBATCH -A csandova
+#SBATCH -A cdni-nih-bdc
 
 # make sure all directories exist before running
 
@@ -29,7 +29,7 @@ export PYTORCH_ALLOC_CONF=expandable_segments:True
 --model-save-location "/scratch.global/lundq163/auto_qc_model_03r/model_03r.pt" \
 --plot-location "/users/1/lundq163/projects/automated-qc/doc/models/model_03r/model_03r.png" \
 --folder "/scratch.global/lundq163/auto_qc_subset_4096r/" \
---csv-input-file "/users/1/lundq163/projects/automated-qc/data/raw/anat_qc_t1w_t2w_subset_4096.csv" \
+--csv-input-file "/users/1/lundq163/projects/automated-qc/data/raw/anat_qc_t1w_t2w_subset_4096r.csv" \
 --csv-output-file "/users/1/lundq163/projects/automated-qc/doc/models/model_03r/model_03r.csv" \
 --tb-run-dir "/users/1/lundq163/projects/automated-qc/src/training/runs/" \
 --split-strategy "stratified" \
