@@ -14,12 +14,12 @@ then
 
 else
       echo ""
-      echo "Submitting the following jobs for registration now: $array"
+      echo "Submitting the following jobs for preproc now: $array"
       echo ""
 
-      abcd=$(sbatch --parsable -a ${array} resources_registration.sh)
+      abcd=$(sbatch --parsable -a ${array} resources_preproc.sh)
 
-      echo "registration JOB ID: $abcd"
+      echo "preproc JOB ID: $abcd"
 
       echo ""
       echo "Output logs will appear in output_logs folder. Use 'squeue -al --me' to monitor jobs."

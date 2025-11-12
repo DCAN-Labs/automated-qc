@@ -1,0 +1,102 @@
+#!/bin/bash
+
+subj_id=SUBJECTID
+ses_id=SESSIONID
+run_number=RUNNUMBER
+suffix=SUFFIX
+tier1_data_dir=TIER1DIR
+registered_data_dir=OUTPUTDIR
+transforms_dir=TRANSFORMSDIR
+code_dir=CODEDIR
+
+run_dir="/tmp"
+template_dir="/projects/standard/faird/shared/data/templateflow/tpl-MNIInfant"
+
+MRI_IN="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}.nii.gz"
+MRI_OUT="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_registered.nii.gz"
+REG="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_to_tpl-MNIInfant_transform"
+
+# Load age information from scans.tsv
+scans_tsv_dir="/scratch.global/lundq163/scan_tsv_outputs_HBCD_10-22-25"
+scans_tsv_file="${scans_tsv_dir}/sub-${subj_id}_ses-${ses_id}_scans.tsv"
+if [ ! -f "${scans_tsv_file}" ]; then
+    echo "Error: scans.tsv file not found for subject ${subj_id}, session ${ses_id} at ${scans_tsv_file}"
+    exit 1
+fi
+
+# Match the filename column to find the row with the corresponding MRI file, then extract age_adjusted (column 9)
+filename_pattern="anat/${MRI_IN}"
+age_adjusted=$(awk -F'\t' -v pattern="${filename_pattern}" 'NR>1 {if ($1 ~ pattern) print $9}' "${scans_tsv_file}")
+
+if [ -z "$age_adjusted" ]; then
+    echo "Error: No matching filename found in scans.tsv for file ${filename_pattern}."
+    exit 1
+fi
+
+#convert age_adjusted from days to months (as float), then to integer
+age_adjusted_months=$(echo "$age_adjusted / 30" | bc -l)
+age_adjusted_months_int=$(printf "%.0f" "$age_adjusted_months")
+echo "Age adjusted in days: $age_adjusted"
+echo "Age adjusted in months (float): $age_adjusted_months"
+echo "Age adjusted in months (int): $age_adjusted_months_int"
+
+if [ "$age_adjusted_months_int" -lt 2 ]; then
+    cohort="cohort-1"
+    REF_DIR="${template_dir}/${cohort}"
+elif [ "$age_adjusted_months_int" -lt 5 ]; then
+    cohort="cohort-2"
+    REF_DIR="${template_dir}/${cohort}"
+elif [ "$age_adjusted_months_int" -lt 8 ]; then
+    cohort="cohort-3"
+    REF_DIR="${template_dir}/${cohort}"
+elif [ "$age_adjusted_months_int" -lt 11 ]; then
+    cohort="cohort-4"
+    REF_DIR="${template_dir}/${cohort}"
+elif [ "$age_adjusted_months_int" -lt 14 ]; then
+    cohort="cohort-5"
+    REF_DIR="${template_dir}/${cohort}"
+elif [ "$age_adjusted_months_int" -lt 17 ]; then
+    cohort="cohort-6"
+    REF_DIR="${template_dir}/${cohort}"
+elif [ "$age_adjusted_months_int" -lt 21 ]; then
+    cohort="cohort-7"
+    REF_DIR="${template_dir}/${cohort}"
+elif [ "$age_adjusted_months_int" -lt 27 ]; then
+    cohort="cohort-8"
+    REF_DIR="${template_dir}/${cohort}"
+elif [ "$age_adjusted_months_int" -lt 33 ]; then
+    cohort="cohort-9"
+    REF_DIR="${template_dir}/${cohort}"
+elif [ "$age_adjusted_months_int" -lt 44 ]; then
+    cohort="cohort-10"
+    REF_DIR="${template_dir}/${cohort}"
+elif [ "$age_adjusted_months_int" -lt 60 ]; then
+    cohort="cohort-11"
+    REF_DIR="${template_dir}/${cohort}"
+else
+    echo "Age in months too high. Cannot determine reference template cohort for infant templates."
+    exit 1
+fi
+
+REF="tpl-MNIInfant_${cohort}_res-1_${suffix}.nii.gz"
+
+if [ ! -d ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix} ]; then
+    mkdir -pv ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}
+    cp ${tier1_data_dir}/${MRI_IN} ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_IN} -v
+    cp ${REF_DIR}/${REF} ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REF} -v
+fi
+
+cd "${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}" || {
+    echo "Error: Could not change to run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
+    exit 1
+}
+
+echo "Working in run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
+
+echo "Registering ${MRI_IN} to ${REF}"
+echo "Output will be saved as ${MRI_OUT}, with transformations saved as ${REG}"
+
+${code_dir}/antsRegistration_Rigid_Affine.sh ${MRI_IN} ${MRI_OUT} ${REF} ${REG}
+
+mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${registered_data_dir}/${MRI_IN}
+mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REG}* ${transforms_dir}

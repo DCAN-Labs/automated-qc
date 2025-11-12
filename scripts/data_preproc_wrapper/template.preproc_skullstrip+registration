@@ -5,16 +5,18 @@ ses_id=SESSIONID
 run_number=RUNNUMBER
 suffix=SUFFIX
 tier1_data_dir=TIER1DIR
-registered_data_dir=OUTPUTDIR
+output_data_dir=OUTPUTDIR
 transforms_dir=TRANSFORMSDIR
 code_dir=CODEDIR
 
 run_dir="/tmp"
+singularity_file="/projects/standard/faird/shared/code/external/utilities/synthstrip_1.4.sif"
 template_dir="/projects/standard/faird/shared/data/templateflow/tpl-MNIInfant"
 
 MRI_IN="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}.nii.gz"
-MRI_OUT="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_registered.nii.gz"
-REG="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_to_tpl-MNIInfant_transform"
+MRI_SS="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_skullstripped.nii.gz"
+MRI_OUT="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_skullstripped_registered.nii.gz"
+REG="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_ss_to_tpl-MNIInfant_transform"
 
 # Load age information from scans.tsv
 scans_tsv_dir="/scratch.global/lundq163/scan_tsv_outputs_HBCD_10-22-25"
@@ -40,7 +42,6 @@ echo "Age adjusted in days: $age_adjusted"
 echo "Age adjusted in months (float): $age_adjusted_months"
 echo "Age adjusted in months (int): $age_adjusted_months_int"
 
-#TODO: ingress age information to select correct template, follow nibabies mapping and use age_adjusted variable from scans.tsv
 if [ "$age_adjusted_months_int" -lt 2 ]; then
     cohort="cohort-1"
     REF_DIR="${template_dir}/${cohort}"
@@ -87,17 +88,32 @@ if [ ! -d ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix
     cp ${REF_DIR}/${REF} ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REF} -v
 fi
 
-cd "${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}" || {
+if test -f "${singularity_file}" && test -x "${singularity_file}";
+then
+    cd "${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}" || {
     echo "Error: Could not change to run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
     exit 1
-}
+    }
 
-echo "Working in run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
+    echo "Working in run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
+fi
 
-echo "Registering ${MRI_IN} to ${REF}"
+if [ ! -f ${singularity_file} ]; then
+    echo "${singularity_file} file not found!"
+    exit 1
+fi
+
+echo "Skull stripping ${MRI_IN}"
+echo "Output will be saved as ${MRI_SS}"
+
+module load singularity
+
+sg faird -c "singularity run -B ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix} ${singularity_file} -i ${MRI_IN} -o ${MRI_SS} --no-csf"
+
+echo "Registering ${MRI_SS} to ${REF}"
 echo "Output will be saved as ${MRI_OUT}, with transformations saved as ${REG}"
 
-${code_dir}/antsRegistration_Rigid_Affine.sh ${MRI_IN} ${MRI_OUT} ${REF} ${REG}
+${code_dir}/antsRegistration_Rigid_Affine.sh ${MRI_SS} ${MRI_OUT} ${REF} ${REG}
 
-mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${registered_data_dir}/${MRI_IN}
+mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${skullstrip_data_dir}/${MRI_IN}
 mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REG}* ${transforms_dir}

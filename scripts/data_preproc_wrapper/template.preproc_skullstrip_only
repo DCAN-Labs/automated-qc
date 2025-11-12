@@ -1,0 +1,44 @@
+#!/bin/bash
+
+subj_id=SUBJECTID
+ses_id=SESSIONID
+run_number=RUNNUMBER
+suffix=SUFFIX
+tier1_data_dir=TIER1DIR
+skullstrip_data_dir=OUTPUTDIR
+code_dir=CODEDIR
+
+run_dir="/tmp"
+singularity_file="/projects/standard/faird/shared/code/external/utilities/synthstrip_1.4.sif"
+
+MRI_IN="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}.nii.gz"
+MRI_OUT="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_skullstripped.nii.gz"
+
+if [ ! -d ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix} ]; then
+    mkdir -pv ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}
+    cp ${tier1_data_dir}/${MRI_IN} ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_IN} -v
+fi
+
+if test -f "${singularity_file}" && test -x "${singularity_file}";
+then
+    cd "${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}" || {
+    echo "Error: Could not change to run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
+    exit 1
+    }
+
+    echo "Working in run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
+fi
+
+if [ ! -f ${singularity_file} ]; then
+    echo "${singularity_file} file not found!"
+    exit 1
+fi
+
+echo "Skull stripping ${MRI_IN}"
+echo "Output will be saved as ${MRI_OUT}"
+
+module load singularity
+
+sg faird -c "singularity run -B ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix} ${singularity_file} -i ${MRI_IN} -o ${MRI_OUT} --no-csf"
+
+mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${skullstrip_data_dir}/${MRI_IN}
