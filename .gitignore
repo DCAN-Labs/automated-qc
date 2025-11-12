@@ -6,9 +6,9 @@
 data
 data-unversioned
 
-# registration wrapper
-/scripts/registration_wrapper/run_files.registration
-/scripts/registration_wrapper/output_logs
+# data preproc wrapper
+/scripts/data_preproc_wrapper/run_files*
+/scripts/data_preproc_wrapper/output_log*
 
 # logs
 /logs/*
