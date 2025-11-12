@@ -9,7 +9,7 @@ output_data_dir=OUTPUTDIR
 transforms_dir=TRANSFORMSDIR
 code_dir=CODEDIR
 
-run_dir="/tmp"
+run_dir="/tmp/ss_reg"
 singularity_file="/projects/standard/faird/shared/code/external/utilities/synthstrip_1.4.sif"
 template_dir="/projects/standard/faird/shared/data/templateflow/tpl-MNIInfant"
 
@@ -115,5 +115,5 @@ echo "Output will be saved as ${MRI_OUT}, with transformations saved as ${REG}"
 
 ${code_dir}/antsRegistration_Rigid_Affine.sh ${MRI_SS} ${MRI_OUT} ${REF} ${REG}
 
-mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${skullstrip_data_dir}/${MRI_IN}
+mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${output_data_dir}/${MRI_IN}
 mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REG}* ${transforms_dir}
