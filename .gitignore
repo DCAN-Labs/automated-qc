@@ -4,11 +4,10 @@
 
 # data
 data
-data-unversioned
 
-# data preproc wrapper
-/scripts/data_preproc_wrapper/run_files*
-/scripts/data_preproc_wrapper/output_log*
+# data preproc wrappers
+scripts/data_preproc_wrappers/*/run_files*
+scripts/data_preproc_wrappers/*/output_logs*
 
 # logs
 /logs/*

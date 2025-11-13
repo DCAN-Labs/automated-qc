@@ -9,14 +9,13 @@ output_data_dir=OUTPUTDIR
 transforms_dir=TRANSFORMSDIR
 code_dir=CODEDIR
 
-run_dir="/tmp/ss_reg"
-singularity_file="/projects/standard/faird/shared/code/external/utilities/synthstrip_1.4.sif"
+run_dir="/tmp/reg_ss"
 template_dir="/projects/standard/faird/shared/data/templateflow/tpl-MNIInfant"
 
 MRI_IN="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}.nii.gz"
-MRI_SS="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_skullstripped.nii.gz"
-MRI_OUT="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_skullstripped_registered.nii.gz"
-REG="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_ss_to_tpl-MNIInfant_transform"
+MRI_REG="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_registered.nii.gz"
+MRI_REG_SS="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_registered_skullstripped.nii.gz"
+REG="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_to_tpl-MNIInfant_transform"
 
 # Load age information from scans.tsv
 scans_tsv_dir="/scratch.global/lundq163/scan_tsv_outputs_HBCD_10-22-25"
@@ -88,32 +87,32 @@ if [ ! -d ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix
     cp ${REF_DIR}/${REF} ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REF} -v
 fi
 
-if test -f "${singularity_file}" && test -x "${singularity_file}";
-then
-    cd "${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}" || {
+cd "${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}" || {
     echo "Error: Could not change to run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
     exit 1
-    }
+}
 
-    echo "Working in run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
-fi
+echo "Working in run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}"
+
+echo "Registering ${MRI_IN} to ${REF}"
+echo "Output will be saved as ${MRI_REG}, with transformations saved as ${REG}"
+
+${code_dir}/registrations/antsRegistration_Rigid_Affine.sh ${MRI_IN} ${MRI_REG} ${REF} ${REG}
+
+singularity_file="/projects/standard/faird/shared/code/external/utilities/synthstrip_1.4.sif"
 
 if [ ! -f ${singularity_file} ]; then
     echo "${singularity_file} file not found!"
     exit 1
 fi
 
-echo "Skull stripping ${MRI_IN}"
-echo "Output will be saved as ${MRI_SS}"
+echo "Skull stripping ${MRI_REG}"
+echo "Output will be saved as ${MRI_REG_SS}"
 
 module load singularity
 
-sg faird -c "singularity run -B ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix} ${singularity_file} -i ${MRI_IN} -o ${MRI_SS} --no-csf"
+sg faird -c "singularity run -B ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix} ${singularity_file} -i ${MRI_REG} -o ${MRI_REG_SS} --no-csf"
 
-echo "Registering ${MRI_SS} to ${REF}"
-echo "Output will be saved as ${MRI_OUT}, with transformations saved as ${REG}"
-
-${code_dir}/antsRegistration_Rigid_Affine.sh ${MRI_SS} ${MRI_OUT} ${REF} ${REG}
-
-mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${output_data_dir}/${MRI_IN}
+echo "Moving outputs to final destination directories"
+mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_REG_SS} ${output_data_dir}/${MRI_IN}
 mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REG}* ${transforms_dir}

@@ -17,7 +17,7 @@ else
       echo "Submitting the following jobs for preproc now: $array"
       echo ""
 
-      abcd=$(sbatch --parsable -a ${array} resources_preproc.sh)
+      abcd=$(sbatch --parsable -a ${array} resources_preproc_reg_then_ss.sh)
 
       echo "preproc JOB ID: $abcd"
 
