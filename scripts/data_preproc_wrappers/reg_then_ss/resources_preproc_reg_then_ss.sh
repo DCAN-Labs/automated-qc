@@ -9,7 +9,7 @@
 #SBATCH -p msismall
 #SBATCH -o output_logs/hbcd-reg-ss_%A_%a.out
 #SBATCH -e output_logs/hbcd-reg-ss_%A_%a.err
-#SBATCH -A cdni-nih-bdc
+#SBATCH -A faird
 
 cd run_files.preproc_reg+skullstrip
 
