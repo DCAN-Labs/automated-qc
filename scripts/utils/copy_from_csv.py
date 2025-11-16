@@ -72,12 +72,12 @@ def main():
     
     # Determine final scan list (preserve order from main CSV)
     final_scans = [scan for scan in include_scans if scan not in exclude_scans]
-    print(f"\nAfter exclusions: {len(final_scans)} scans to copy")
+    ignored_count = len(include_scans) - len(final_scans)
+    print(f"\nAfter exclusions: {len(final_scans)} scans to copy ({ignored_count} ignored)")
     
-    # Apply limit if specified
-    if args.limit and len(final_scans) > args.limit:
-        final_scans = final_scans[:args.limit]
-        print(f"Applied limit: copying {args.limit} scans")
+    # Note: limit applies to successfully copied files, not the candidate list
+    if args.limit:
+        print(f"Target: copying {args.limit} scans (will continue through candidate list if some files are not found)")
     
     # Setup directories
     src_dir = Path(args.src)
@@ -91,6 +91,10 @@ def main():
     copied_rows = []
     
     for scan in final_scans:
+        # Stop if we've reached the limit
+        if args.limit and copied >= args.limit:
+            break
+        
         src_file = src_dir / scan
         
         if not src_file.exists():

@@ -1,0 +1,57 @@
+2025-11-14 19:25:17,522 DEBUG    pid:346899 matplotlib:342:wrapper CACHEDIR=/users/1/lundq163/.cache/matplotlib
+2025-11-14 19:25:17,536 DEBUG    pid:346899 matplotlib.font_manager:1635:_load_fontmanager Using fontManager instance from /users/1/lundq163/.cache/matplotlib/fontlist-v390.json
+2025-11-14 19:25:27,835 INFO     pid:346899 __main__:187:_init_model Using Regressor model
+2025-11-14 19:25:27,835 INFO     pid:346899 __main__:193:_init_model Moving model to device: cuda
+2025-11-14 19:25:44,310 INFO     pid:346899 __main__:540:main Starting training...
+2025-11-14 19:25:44,310 INFO     pid:346899 __main__:547:main GPU Device: NVIDIA A100-SXM4-40GB
+2025-11-14 19:25:44,310 INFO     pid:346899 __main__:548:main Total GPU Memory: 42.41 GB
+2025-11-14 19:25:44,351 INFO     pid:346899 __main__:685:split_train_validation Train/validation columns not found or empty. Creating runtime stratified split...
+2025-11-14 19:25:44,436 INFO     pid:346899 __main__:759:_stratified_split Used stratified split based on QU_motion score distribution
+2025-11-14 19:25:44,486 INFO     pid:346899 __main__:713:split_train_validation Created stratified split: 956 train, 240 validation subjects
+2025-11-14 19:25:44,486 INFO     pid:346899 __main__:716:split_train_validation Train split ratio: 0.80
+2025-11-14 19:25:44,486 INFO     pid:346899 __main__:717:split_train_validation Train subjects: ['sub-423401', 'sub-254636', 'sub-245741']...
+2025-11-14 19:25:44,486 INFO     pid:346899 __main__:722:split_train_validation Validation subjects: ['sub-423648', 'sub-259310', 'sub-232747']...
+2025-11-14 19:25:44,794 INFO     pid:346899 data_sets.dsets:256:__init__ <data_sets.dsets.AutoQcDataset object at 0x7fb0c3565a90>: 3257 training samples
+2025-11-14 19:25:48,085 INFO     pid:346899 data_sets.dsets:256:__init__ <data_sets.dsets.AutoQcDataset object at 0x7fb0b495fc80>: 839 validation samples
+2025-11-14 19:25:48,731 INFO     pid:346899 __main__:581:main Epoch 1/50
+2025-11-14 19:25:48,732 INFO     pid:346899 __main__:585:main GPU Memory Allocated: 0.08 GB
+2025-11-14 19:25:48,732 INFO     pid:346899 __main__:586:main GPU Memory Reserved: 0.08 GB
+2025-11-14 19:25:48,879 WARNING  pid:346899 util.util:091:enumerateWithEstimate E1 Training ----/815, starting
+2025-11-14 19:29:38,258 INFO     pid:346899 util.util:111:enumerateWithEstimate E1 Training   64/815, done at 2025-11-14 20:18:09, 0:51:57
+2025-11-14 20:03:07,759 INFO     pid:346899 util.util:111:enumerateWithEstimate E1 Training  256/815, done at 2025-11-14 21:27:13, 2:01:00
+2025-11-15 06:56:56,761 WARNING  pid:346899 util.util:126:enumerateWithEstimate E1 Training ----/815, done at 2025-11-15 06:56:56
+2025-11-15 06:56:56,781 WARNING  pid:346899 util.util:091:enumerateWithEstimate E1 Validation ----/210, starting
+2025-11-15 06:57:27,405 INFO     pid:346899 util.util:111:enumerateWithEstimate E1 Validation   64/210, done at 2025-11-15 06:58:27, 0:01:22
+2025-11-15 08:17:49,961 WARNING  pid:346899 util.util:126:enumerateWithEstimate E1 Validation ----/210, done at 2025-11-15 08:17:49
+2025-11-15 08:17:50,260 INFO     pid:346899 __main__:615:main New best validation loss: 5.002830982208252
+2025-11-15 08:17:50,531 INFO     pid:346899 __main__:621:main Current learning rate: 0.001
+2025-11-15 08:17:50,539 INFO     pid:346899 __main__:581:main Epoch 2/50
+2025-11-15 08:17:50,542 INFO     pid:346899 __main__:585:main GPU Memory Allocated: 0.37 GB
+2025-11-15 08:17:50,542 INFO     pid:346899 __main__:586:main GPU Memory Reserved: 4.26 GB
+2025-11-15 08:17:50,542 WARNING  pid:346899 util.util:091:enumerateWithEstimate E2 Training ----/815, starting
+2025-11-15 08:18:54,818 INFO     pid:346899 util.util:111:enumerateWithEstimate E2 Training   64/815, done at 2025-11-15 08:30:12, 0:12:05
+2025-11-15 08:47:57,854 INFO     pid:346899 util.util:111:enumerateWithEstimate E2 Training  256/815, done at 2025-11-15 09:55:56, 1:37:49
+2025-11-15 13:29:19,794 WARNING  pid:346899 util.util:126:enumerateWithEstimate E2 Training ----/815, done at 2025-11-15 13:29:19
+2025-11-15 13:29:19,796 WARNING  pid:346899 util.util:091:enumerateWithEstimate E2 Validation ----/210, starting
+2025-11-15 13:29:39,751 INFO     pid:346899 util.util:111:enumerateWithEstimate E2 Validation   64/210, done at 2025-11-15 13:30:15, 0:00:48
+2025-11-15 13:30:16,915 WARNING  pid:346899 util.util:126:enumerateWithEstimate E2 Validation ----/210, done at 2025-11-15 13:30:16
+2025-11-15 13:30:16,991 INFO     pid:346899 __main__:615:main New best validation loss: 4.455362319946289
+2025-11-15 13:30:17,235 INFO     pid:346899 __main__:621:main Current learning rate: 0.001
+2025-11-15 13:30:17,240 INFO     pid:346899 __main__:581:main Epoch 3/50
+2025-11-15 13:30:17,240 INFO     pid:346899 __main__:585:main GPU Memory Allocated: 0.37 GB
+2025-11-15 13:30:17,240 INFO     pid:346899 __main__:586:main GPU Memory Reserved: 4.26 GB
+2025-11-15 13:30:17,241 WARNING  pid:346899 util.util:091:enumerateWithEstimate E3 Training ----/815, starting
+2025-11-15 13:31:29,836 INFO     pid:346899 util.util:111:enumerateWithEstimate E3 Training   64/815, done at 2025-11-15 13:43:51, 0:13:14
+2025-11-15 13:34:51,983 INFO     pid:346899 util.util:111:enumerateWithEstimate E3 Training  256/815, done at 2025-11-15 13:44:31, 0:13:54
+2025-11-15 16:47:22,746 WARNING  pid:346899 util.util:126:enumerateWithEstimate E3 Training ----/815, done at 2025-11-15 16:47:22
+2025-11-15 16:47:22,749 WARNING  pid:346899 util.util:091:enumerateWithEstimate E3 Validation ----/210, starting
+2025-11-15 16:47:42,458 INFO     pid:346899 util.util:111:enumerateWithEstimate E3 Validation   64/210, done at 2025-11-15 16:48:19, 0:00:50
+2025-11-15 16:48:19,771 WARNING  pid:346899 util.util:126:enumerateWithEstimate E3 Validation ----/210, done at 2025-11-15 16:48:19
+2025-11-15 16:48:19,833 INFO     pid:346899 __main__:621:main Current learning rate: 0.001
+2025-11-15 16:48:19,837 INFO     pid:346899 __main__:581:main Epoch 4/50
+2025-11-15 16:48:19,837 INFO     pid:346899 __main__:585:main GPU Memory Allocated: 0.37 GB
+2025-11-15 16:48:19,837 INFO     pid:346899 __main__:586:main GPU Memory Reserved: 4.26 GB
+2025-11-15 16:48:19,838 WARNING  pid:346899 util.util:091:enumerateWithEstimate E4 Training ----/815, starting
+2025-11-15 16:49:36,980 INFO     pid:346899 util.util:111:enumerateWithEstimate E4 Training   64/815, done at 2025-11-15 17:02:18, 0:13:35
+2025-11-15 16:52:55,266 INFO     pid:346899 util.util:111:enumerateWithEstimate E4 Training  256/815, done at 2025-11-15 17:02:29, 0:13:46
+slurmstepd: error: *** JOB 43525812 ON aga10 CANCELLED AT 2025-11-15T19:22:36 DUE TO TIME LIMIT ***
