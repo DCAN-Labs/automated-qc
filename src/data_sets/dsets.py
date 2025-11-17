@@ -187,7 +187,7 @@ class AutoQcMRIs:
         image_data = np.array(image_data, dtype=np.float32)
         
         # Resize or pad to target shape
-        image_data = resize_or_pad(image_data, target_shape=(260, 320, 320))
+        image_data = resize_or_pad(image_data, target_shape=(194, 232, 158))
 
         # Z-normalization (equivalent to tio.ZNormalization)
         image_data = z_normalize(image_data)
