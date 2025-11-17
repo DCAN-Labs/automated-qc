@@ -14,7 +14,7 @@
 #SBATCH --mail-user=lundq163@umn.edu
 #SBATCH -e logs/automated-qc-Regressor-%j.err
 #SBATCH -o logs/automated-qc-Regressor-%j.out
-#SBATCH -A aopitz
+#SBATCH -A csandova
 
 cd /users/1/lundq163/projects/automated-qc/src/training || exit
 

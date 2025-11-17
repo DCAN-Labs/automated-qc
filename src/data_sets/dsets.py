@@ -118,7 +118,7 @@ def z_normalize(image, mask=None):
         return image - mean
     return (image - mean) / std
 
-def resize_or_pad(image, target_shape=(260, 320, 320)):
+def resize_or_pad(image, target_shape=(194, 232, 158)):
     """Resize or pad image to target shape"""
     current_shape = image.shape
     
