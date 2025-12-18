@@ -14,21 +14,21 @@
 #SBATCH --mail-user=lundq163@umn.edu
 #SBATCH -e logs/automated-qc-Regressor-%j.err
 #SBATCH -o logs/automated-qc-Regressor-%j.out
-#SBATCH -A csandova
+#SBATCH -A feczk001
 
 cd /users/1/lundq163/projects/automated-qc/src/training || exit
 
 export PYTHONPATH=/users/1/lundq163/projects/automated-qc/src:$PYTHONPATH
-export AUTO_QC_CACHE_DIR=/scratch.global/lundq163/auto_qc_model_02_cache/
+export AUTO_QC_CACHE_DIR=/scratch.global/lundq163/auto_qc/auto_qc_model_02_fixed_scores_cache/
 export PYTORCH_ALLOC_CONF=expandable_segments:True
 
 /users/1/lundq163/projects/automated-qc/.venv/bin/python \
 /users/1/lundq163/projects/automated-qc/src/training/training.py \
---model-save-location "/scratch.global/lundq163/auto_qc_model_02/model_02.pt" \
---plot-location "/users/1/lundq163/projects/automated-qc/doc/models/model_02/model_02.png" \
---folder "/scratch.global/lundq163/auto_qc_subset_1024/" \
---csv-input-file "/users/1/lundq163/projects/automated-qc/data/anat_qc_t1w_t2w_subset_1024.csv" \
---csv-output-file "/users/1/lundq163/projects/automated-qc/doc/models/model_02/model_02.csv" \
+--model-save-location "/scratch.global/lundq163/auto_qc/auto_qc_model_02_fixed_scores/model_02fs.pt" \
+--plot-location "/users/1/lundq163/projects/automated-qc/doc/models/model_02/model_02_fixed_scores.png" \
+--folder "/scratch.global/lundq163/auto_qc/auto_qc_subset_1024_fixed_scores/" \
+--csv-input-file "/users/1/lundq163/projects/automated-qc/data/raw/auto_qc_t1w_t2w_subset_1024_curated.csv" \
+--csv-output-file "/users/1/lundq163/projects/automated-qc/doc/models/model_02/model_02_fixed_scores.csv" \
 --tb-run-dir "/users/1/lundq163/projects/automated-qc/src/training/runs/" \
 --split-strategy "stratified" \
 --train-split 0.8 \

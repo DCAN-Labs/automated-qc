@@ -1,0 +1,43 @@
+2025-12-17 12:33:33,870 DEBUG    pid:3050778 matplotlib:342:wrapper CACHEDIR=/users/1/lundq163/.cache/matplotlib
+2025-12-17 12:33:33,871 DEBUG    pid:3050778 matplotlib.font_manager:1635:_load_fontmanager Using fontManager instance from /users/1/lundq163/.cache/matplotlib/fontlist-v390.json
+2025-12-17 12:33:35,078 INFO     pid:3050778 __main__:187:_init_model Using Regressor model
+2025-12-17 12:33:35,078 INFO     pid:3050778 __main__:193:_init_model Moving model to device: cuda
+2025-12-17 12:33:39,778 INFO     pid:3050778 __main__:540:main Starting training...
+2025-12-17 12:33:39,778 INFO     pid:3050778 __main__:547:main GPU Device: NVIDIA A100-SXM4-40GB
+2025-12-17 12:33:39,778 INFO     pid:3050778 __main__:548:main Total GPU Memory: 42.41 GB
+2025-12-17 12:33:39,782 INFO     pid:3050778 __main__:685:split_train_validation Train/validation columns not found or empty. Creating runtime stratified split...
+2025-12-17 12:33:39,798 INFO     pid:3050778 __main__:759:_stratified_split Used stratified split based on QU_motion score distribution
+2025-12-17 12:33:39,800 INFO     pid:3050778 __main__:713:split_train_validation Created stratified split: 290 train, 73 validation subjects
+2025-12-17 12:33:39,800 INFO     pid:3050778 __main__:716:split_train_validation Train split ratio: 0.80
+2025-12-17 12:33:39,800 INFO     pid:3050778 __main__:717:split_train_validation Train subjects: ['sub-102666', 'sub-103199', 'sub-115359']...
+2025-12-17 12:33:39,800 INFO     pid:3050778 __main__:722:split_train_validation Validation subjects: ['sub-102283', 'sub-125472', 'sub-163656']...
+2025-12-17 12:33:39,836 INFO     pid:3050778 data_sets.dsets:256:__init__ <data_sets.dsets.AutoQcDataset object at 0x7fcee4619550>: 825 training samples
+2025-12-17 12:33:40,229 INFO     pid:3050778 data_sets.dsets:256:__init__ <data_sets.dsets.AutoQcDataset object at 0x7fcee0e34980>: 199 validation samples
+2025-12-17 12:33:40,318 INFO     pid:3050778 __main__:581:main Epoch 1/100
+2025-12-17 12:33:40,319 INFO     pid:3050778 __main__:585:main GPU Memory Allocated: 0.08 GB
+2025-12-17 12:33:40,319 INFO     pid:3050778 __main__:586:main GPU Memory Reserved: 0.08 GB
+2025-12-17 12:33:40,338 WARNING  pid:3050778 util.util:091:enumerateWithEstimate E1 Training ----/104, starting
+2025-12-17 12:34:58,650 INFO     pid:3050778 util.util:111:enumerateWithEstimate E1 Training   32/104, done at 2025-12-17 12:37:19, 0:03:02
+2025-12-17 12:35:43,570 INFO     pid:3050778 util.util:111:enumerateWithEstimate E1 Training   64/104, done at 2025-12-17 12:36:47, 0:02:30
+2025-12-17 12:36:50,680 WARNING  pid:3050778 util.util:126:enumerateWithEstimate E1 Training ----/104, done at 2025-12-17 12:36:50
+2025-12-17 12:36:50,681 WARNING  pid:3050778 util.util:091:enumerateWithEstimate E1 Validation ----/25, starting
+2025-12-17 12:37:16,188 WARNING  pid:3050778 util.util:126:enumerateWithEstimate E1 Validation ----/25, done at 2025-12-17 12:37:16
+2025-12-17 12:37:16,284 INFO     pid:3050778 __main__:615:main New best validation loss: 32.31805419921875
+Traceback (most recent call last):
+  File "/users/1/lundq163/projects/automated-qc/src/training/training.py", line 784, in <module>
+    main()
+  File "/users/1/lundq163/projects/automated-qc/src/training/training.py", line 780, in main
+    autoQcTrainingApp.main()
+  File "/users/1/lundq163/projects/automated-qc/src/training/training.py", line 617, in main
+    self.model_handler.save_model(self.config.model_save_location)
+  File "/users/1/lundq163/projects/automated-qc/src/training/training.py", line 206, in save_model
+    torch.save(self.model.state_dict(), save_location)
+  File "/users/1/lundq163/projects/automated-qc/.venv/lib/python3.12/site-packages/torch/serialization.py", line 966, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/1/lundq163/projects/automated-qc/.venv/lib/python3.12/site-packages/torch/serialization.py", line 828, in _open_zipfile_writer
+    return container(name_or_buffer)  # type: ignore[arg-type]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/1/lundq163/projects/automated-qc/.venv/lib/python3.12/site-packages/torch/serialization.py", line 792, in __init__
+    torch._C.PyTorchFileWriter(
+RuntimeError: Parent directory /scratch.global/lundq163/auto_qc/auto_qc_model_02_fixed_scores does not exist.
