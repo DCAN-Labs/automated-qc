@@ -9,6 +9,7 @@ def get_regressor_model():
     # strides=(2, 2, 2, 2, 2, 2)
     
     # model 06+ has been using custom parameters
+    # if using this make sure to change target shape accordingly in dsets.py and make_predictions.py
     # in_shape=[1, 194, 232, 158]
     # channels=(16, 32, 64, 128, 256, 512, 1024)
     # strides=(2, 2, 2, 2, 1, 1, 1)
