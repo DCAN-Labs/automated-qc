@@ -16,11 +16,10 @@ else
       echo ""
       echo "Checking for output_logs folder..."
       if [ -d "$(pwd)/output_logs" ]; then
-	      rm -rf "$(pwd)/output_logs"
+	      echo "output_logs folder found."
+      else
 	      mkdir -p "$(pwd)/output_logs"
-            else
-	mkdir -p "$(pwd)/output_logs"
-            fi
+      fi
       echo ""
       echo "output_logs folder found/created."
       
