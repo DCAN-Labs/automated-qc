@@ -17,7 +17,7 @@ MRI_OUT="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_registered.nii
 REG="sub-${subj_id}_ses-${ses_id}_run-${run_number}_${suffix}_to_tpl-MNIInfant_transform"
 
 # Load age information from scans.tsv
-scans_tsv_dir="/scratch.global/lundq163/scan_tsv_outputs_HBCD_10-22-25"
+scans_tsv_dir="/scratch.global/lundq163/auto_qc/hbcd-scans-tsvs-22-10-2025"
 scans_tsv_file="${scans_tsv_dir}/sub-${subj_id}_ses-${ses_id}_scans.tsv"
 if [ ! -f "${scans_tsv_file}" ]; then
     echo "Error: scans.tsv file not found for subject ${subj_id}, session ${ses_id} at ${scans_tsv_file}"
@@ -96,7 +96,7 @@ echo "Working in run directory: ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${ru
 echo "Registering ${MRI_IN} to ${REF}"
 echo "Output will be saved as ${MRI_OUT}, with transformations saved as ${REG}"
 
-${code_dir}/antsRegistration_Rigid_Affine.sh ${MRI_IN} ${MRI_OUT} ${REF} ${REG}
+${code_dir}/registrations/antsRegistration_Rigid_Affine.sh ${MRI_IN} ${MRI_OUT} ${REF} ${REG}
 
 mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${MRI_OUT} ${registered_data_dir}/${MRI_IN}
 mv -v ${run_dir}/sub-${subj_id}/ses-${ses_id}/run-${run_number}/suf-${suffix}/${REG}* ${transforms_dir}

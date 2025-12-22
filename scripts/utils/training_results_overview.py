@@ -198,6 +198,23 @@ markdown_content = f"""# QU Motion Score Analysis Results
 | Standard Error | {standard_error:.4f} |
 """
 
+if csv_file is not None and png_file is not None:
+    # sensitivity and specicifity analysis at different thresholds
+    thresholds = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
+    markdown_content += "\n## Sensitivity and Specificity Analysis\n\n"
+    markdown_content += "| Threshold | Sensitivity | Specificity |\n"
+    markdown_content += "|-----------|-------------|-------------|\n"
+    for threshold in thresholds:
+        tp = np.sum((predicted >= threshold) & (actual >= threshold))
+        fn = np.sum((predicted < threshold) & (actual >= threshold))
+        tn = np.sum((predicted < threshold) & (actual < threshold))
+        fp = np.sum((predicted >= threshold) & (actual < threshold))
+
+        sensitivity = tp / (tp + fn) if (tp + fn) > 0 else 0
+        specificity = tn / (tn + fp) if (tn + fp) > 0 else 0
+
+        markdown_content += f"| {threshold} | {sensitivity:.4f} | {specificity:.4f} |\n"
+
 if png_file:
     # Resolve PNG path relative to the output markdown file
     png_path = Path(png_file).expanduser()
