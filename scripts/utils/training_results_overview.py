@@ -197,13 +197,17 @@ markdown_content = f"""# QU Motion Score Analysis Results
 | P-value | {p_value:.4e} |
 | Standard Error | {standard_error:.4f} |
 """
-
+        
 if csv_file is not None and png_file is not None:
-    # sensitivity and specicifity analysis at different thresholds
+    # sensitivity and specificity analysis at different thresholds
     thresholds = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
-    markdown_content += "\n## Sensitivity and Specificity Analysis\n\n"
-    markdown_content += "| Threshold | Sensitivity | Specificity |\n"
-    markdown_content += "|-----------|-------------|-------------|\n"
+    markdown_content += "\n## Sensitivity, Specificity, PPV, and NPV Analysis\n\n"
+    markdown_content += "| Threshold | Sensitivity | Specificity | PPV | NPV |\n"
+    markdown_content += "|-----------|-------------|-------------|-----|-----|\n"
+    
+    # Store metrics for interpretation
+    metrics = []
+    
     for threshold in thresholds:
         tp = np.sum((predicted >= threshold) & (actual >= threshold))
         fn = np.sum((predicted < threshold) & (actual >= threshold))
@@ -212,8 +216,92 @@ if csv_file is not None and png_file is not None:
 
         sensitivity = tp / (tp + fn) if (tp + fn) > 0 else 0
         specificity = tn / (tn + fp) if (tn + fp) > 0 else 0
+        ppv = tp / (tp + fp) if (tp + fp) > 0 else 0
+        npv = tn / (tn + fn) if (tn + fn) > 0 else 0
 
-        markdown_content += f"| {threshold} | {sensitivity:.4f} | {specificity:.4f} |\n"
+        markdown_content += f"| {threshold} | {sensitivity:.4f} | {specificity:.4f} | {ppv:.4f} | {npv:.4f} |\n"
+        
+        metrics.append({
+            'threshold': threshold,
+            'sensitivity': sensitivity,
+            'specificity': specificity,
+            'ppv': ppv,
+            'npv': npv
+        })
+    
+    # Add automated interpretation
+    markdown_content += "\n### Interpretation\n\n"
+    markdown_content += "Higher motion scores indicate more motion artifact (worse image quality). "
+    markdown_content += "Thresholds represent the maximum acceptable motion score before flagging an image.\n\n"
+    
+    # Find balanced threshold (best trade-off between sensitivity and specificity)
+    balanced_idx = None
+    best_balance = 0
+    for i, m in enumerate(metrics[1:], 1):  # Skip threshold 0
+        # Use harmonic mean (F1-like) of sensitivity and specificity
+        if m['sensitivity'] > 0 and m['specificity'] > 0:
+            balance = 2 * (m['sensitivity'] * m['specificity']) / (m['sensitivity'] + m['specificity'])
+            if balance > best_balance:
+                best_balance = balance
+                balanced_idx = i
+    
+    # Find high sensitivity threshold (catches most motion)
+    high_sens_idx = None
+    for i, m in enumerate(metrics[1:], 1):
+        if m['sensitivity'] >= 0.75 and m['specificity'] >= 0.50:
+            high_sens_idx = i
+            break
+    
+    # Find high specificity threshold (minimizes false positives)
+    high_spec_idx = None
+    for i in range(len(metrics)-1, 0, -1):
+        m = metrics[i]
+        if m['specificity'] >= 0.90 and m['sensitivity'] >= 0.45:
+            high_spec_idx = i
+            break
+    
+    # Generate recommendations
+    markdown_content += "**Threshold Recommendations**:\n\n"
+    
+    if balanced_idx:
+        m = metrics[balanced_idx]
+        markdown_content += f"- **Balanced (Threshold {m['threshold']})**: "
+        markdown_content += f"Detects {m['sensitivity']*100:.0f}% of motion-corrupted images while maintaining "
+        markdown_content += f"{m['specificity']*100:.0f}% specificity. "
+        markdown_content += f"When flagged, {m['ppv']*100:.0f}% are true positives.\n"
+    
+    if high_sens_idx and high_sens_idx != balanced_idx:
+        m = metrics[high_sens_idx]
+        markdown_content += f"- **High Sensitivity (Threshold {m['threshold']})**: "
+        markdown_content += f"Catches {m['sensitivity']*100:.0f}% of motion artifacts but rejects "
+        markdown_content += f"{(1-m['specificity'])*100:.0f}% of acceptable images.\n"
+    
+    if high_spec_idx and high_spec_idx != balanced_idx:
+        m = metrics[high_spec_idx]
+        markdown_content += f"- **High Specificity (Threshold {m['threshold']})**: "
+        markdown_content += f"Minimizes false positives ({m['specificity']*100:.0f}% specificity) but only catches "
+        markdown_content += f"{m['sensitivity']*100:.0f}% of motion artifacts.\n"
+    
+    # Add performance summary
+    markdown_content += "**Key Observations**:\n\n"
+    
+    # Check for good PPV at recommended thresholds
+    if balanced_idx and metrics[balanced_idx]['ppv'] >= 0.80:
+        markdown_content += f"- High precision: When images are flagged at threshold {metrics[balanced_idx]['threshold']}, "
+        markdown_content += f"they're truly motion-corrupted {metrics[balanced_idx]['ppv']*100:.0f}% of the time.\n"
+    
+    # Check specificity range
+    # low_spec = min(m['specificity'] for m in metrics[1:3])
+    # high_spec = max(m['specificity'] for m in metrics[-2:])
+    # markdown_content += f"- Specificity ranges from {low_spec*100:.0f}% (strict quality control) to "
+    # markdown_content += f"{high_spec*100:.0f}% (lenient), showing clear threshold-dependent behavior.\n"
+    
+    # Note about missed cases
+    if balanced_idx:
+        missed_pct = (1 - metrics[balanced_idx]['sensitivity']) * 100
+        if missed_pct > 20:
+            markdown_content += f"- At the balanced threshold, {missed_pct:.0f}% of motion artifacts go undetected. "
+            markdown_content += "These mild cases may still be diagnostic and will be caught during radiologist review if problematic.\n"
 
 if png_file:
     # Resolve PNG path relative to the output markdown file
@@ -254,6 +342,7 @@ if png_file:  # Only add interpretation if PNG was successfully processed
 - **Correlation**: {correlation:.4f} indicates a {"strong positive" if correlation > 0.7 else "moderate positive" if correlation > 0.4 else "weak positive" if correlation > 0 else "negative"} relationship between actual and predicted scores.
 - **P-value**: {p_value:.4e} {"is statistically significant (p < 0.05)" if p_value < 0.05 else "is not statistically significant (p ≥ 0.05)"}.
 - **Standardized RMSE**: {standardized_rmse:.4f} represents the RMSE as a proportion of the standard deviation of the actual values.
+- **Standard Error**: {standard_error:.4f} provides an estimate of the average distance that the observed values fall from the regression line.
 """
 
 # Write to markdown file

@@ -19,16 +19,16 @@
 cd /users/1/lundq163/projects/automated-qc/src/training || exit
 
 export PYTHONPATH=/users/1/lundq163/projects/automated-qc/src:$PYTHONPATH
-export AUTO_QC_CACHE_DIR=/scratch.global/lundq163/auto_qc/auto_qc_model_02r4_cache/
+export AUTO_QC_CACHE_DIR=/scratch.global/lundq163/auto_qc/auto_qc_model_02r6_cache/
 export PYTORCH_ALLOC_CONF=expandable_segments:True
 
 /users/1/lundq163/projects/automated-qc/.venv/bin/python \
 /users/1/lundq163/projects/automated-qc/src/training/training.py \
---model-save-location "/scratch.global/lundq163/auto_qc/auto_qc_model_02r5/model_02r5.pt" \
---plot-location "/users/1/lundq163/projects/automated-qc/doc/models/model_02r/model_02r5.png" \
+--model-save-location "/scratch.global/lundq163/auto_qc/auto_qc_model_02r6/model_02r6.pt" \
+--plot-location "/users/1/lundq163/projects/automated-qc/doc/models/model_02r/model_02r6.png" \
 --folder "/scratch.global/lundq163/auto_qc/auto_qc_subset_1024r_fixed_scores/" \
---csv-input-file "/users/1/lundq163/projects/automated-qc/data/raw/auto_qc_t1w_t2w_subset_1024r_curated.csv" \
---csv-output-file "/users/1/lundq163/projects/automated-qc/doc/models/model_02r/model_02r5.csv" \
+--csv-input-file "/users/1/lundq163/projects/automated-qc/data/raw/auto_qc_t1w_t2w_subset_1024r_curated_for_02r6.csv" \
+--csv-output-file "/users/1/lundq163/projects/automated-qc/doc/models/model_02r/model_02r6.csv" \
 --tb-run-dir "/users/1/lundq163/projects/automated-qc/src/training/runs/" \
 --split-strategy "stratified" \
 --train-split 0.8 \
