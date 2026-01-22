@@ -11,6 +11,7 @@ import torch.nn as nn
 from torch.amp import autocast, GradScaler
 from torch.optim import Adam, SGD
 from torch.utils.data import DataLoader
+from sklearn.model_selection import KFold, StratifiedKFold
 from torch.utils.tensorboard import SummaryWriter
 from torch.optim.lr_scheduler import (
     ReduceLROnPlateau,
@@ -138,6 +139,12 @@ class Config:
         self.parser.add_argument(
             "--use-amp", action="store_true", help="Use Automatic Mixed Precision (AMP) for training."
         )
+        self.parser.add_argument(
+            "--use-kfold", action="store_true", help="Use k-fold cross-validation for training."
+        )
+        self.parser.add_argument(
+            "--k-folds", default=5, type=int, help="Number of folds for k-fold cross-validation (default: 5)"
+        )
 
     def parse_args(self, sys_argv: list[str]) -> argparse.Namespace:
         return self.parser.parse_args(sys_argv)
@@ -222,7 +229,7 @@ class TrainingLoop:
         self.config = config
         
         device_type = 'cuda' if device.type == 'cuda' else 'cpu'
-        self.scaler = GradScaler(device_type) if self.config.use_amp and device_type == 'cuda' else None
+        self.scaler = GradScaler() if self.config.use_amp and device_type == 'cuda' else None
         self.device_type = device_type
 
         training_df = df[df["training"] == 1]
@@ -241,11 +248,38 @@ class TrainingLoop:
         ):
             self.optimizer.zero_grad()
             
-            if self.config.use_amp:
-                loss_var = self._compute_batch_loss_amp(
-                    batch_ndx, batch_tup, train_dl.batch_size, trn_metrics_g
-                )
+            if self.config.use_amp and self.scaler is not None:
+                # Compute loss with autocast for mixed precision
+                input_t, label_t, _, _ = batch_tup
+                input_g = input_t.to(self.device, non_blocking=True)
+                label_g = label_t.to(self.device, non_blocking=True)
+                
+                with autocast(self.device_type):
+                    outputs_g = self.model_handler.model(input_g)
+                    if isinstance(outputs_g, (list, tuple)):
+                        outputs_g = outputs_g[0]
+                    outputs_g = outputs_g.squeeze(dim=-1)
+                    label_g_view = label_g.view(-1)
+                    
+                    if self.config.use_weighted_loss:
+                        loss_g = self.weighted_mse_loss(outputs_g, label_g_view)
+                        loss_var = loss_g.mean()
+                    else:
+                        loss_func = nn.MSELoss(reduction="none")
+                        loss_g = loss_func(outputs_g, label_g_view)
+                        loss_var = loss_g.mean()
+                
+                # Store metrics
+                start_ndx = batch_ndx * train_dl.batch_size
+                end_ndx = start_ndx + label_t.size(0)
+                trn_metrics_g[METRICS_LABEL_NDX, start_ndx:end_ndx] = label_g_view.detach()
+                trn_metrics_g[METRICS_PRED_NDX, start_ndx:end_ndx] = outputs_g.detach()
+                trn_metrics_g[METRICS_LOSS_NDX, start_ndx:end_ndx] = loss_var.detach()
+                
+                # Backward and optimizer step with scaled gradients
                 self.scaler.scale(loss_var).backward()
+                self.scaler.unscale_(self.optimizer)
+                torch.nn.utils.clip_grad_norm_(self.model_handler.model.parameters(), max_norm=1.0)
                 self.scaler.step(self.optimizer)
                 self.scaler.update()
             else:
@@ -307,11 +341,6 @@ class TrainingLoop:
             for batch_ndx, batch_tup in enumerateWithEstimate(
                 val_dl, f"E{epoch} Validation", start_ndx=val_dl.num_workers
             ):
-                if self.config.use_amp:
-                    with autocast(self.device_type):
-                        self._compute_batch_loss_amp(
-                            batch_ndx, batch_tup, val_dl.batch_size, val_metrics_g
-                        )
                 self._compute_batch_loss(
                     batch_ndx, batch_tup, val_dl.batch_size, val_metrics_g
                 )
@@ -548,6 +577,13 @@ class AutoQcTrainingApp:
             log.info(f"Total GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
         
         self.output_df["prediction"] = np.nan
+        
+        # Check if k-fold cross-validation should be used
+        if self.config.use_kfold:
+            log.info(f"Using k-fold cross-validation with k={self.config.k_folds}")
+            fold_results = self.k_fold_cross_validation()
+            self._log_kfold_results(fold_results)
+            return
 
         if self.config.use_train_validation_cols:
             training_rows = self.input_df.loc[self.input_df["training"] == 1]
@@ -773,6 +809,224 @@ class AutoQcTrainingApp:
         validation_users = sorted_subjects[train_split:]
 
         return training_users, validation_users
+
+    def k_fold_cross_validation(self):
+        """
+        Implement stratified k-fold cross-validation for robust performance estimation.
+        Stratifies folds based on QU_motion score distribution to ensure balanced score
+        representation across all folds.
+        Each fold trains a separate model and evaluates on its validation set.
+        Returns metrics for each fold individually.
+        """
+        all_subjects = list(set(self.input_df["subject_id"].to_list()))
+        k = self.config.k_folds
+        
+        log.info(f"Starting stratified {k}-fold cross-validation with {len(all_subjects)} unique subjects")
+        
+        # Calculate average QU_motion per subject for stratification
+        subject_motion_map = {}
+        for subject in all_subjects:
+            subject_rows = self.input_df[self.input_df["subject_id"] == subject]
+            avg_motion = subject_rows["QU_motion"].mean()
+            subject_motion_map[subject] = avg_motion
+        
+        # Create stratification labels by binning QU_motion scores
+        # Using percentile-based binning to create balanced strata
+        motion_values = np.array([subject_motion_map[s] for s in all_subjects])
+        try:
+            # Create k strata based on percentiles
+            strata = pd.qcut(motion_values, q=k, labels=False, duplicates='drop')
+            log.info(f"Created {len(np.unique(strata))} strata based on QU_motion percentiles")
+        except Exception as e:
+            log.warning(f"Percentile-based stratification failed ({e}), falling back to random k-fold")
+            strata = np.random.randint(0, k, len(all_subjects))
+        
+        skfold = StratifiedKFold(n_splits=k, shuffle=True, random_state=self.config.random_seed)
+        
+        fold_results = []
+        
+        for fold, (train_idx, val_idx) in enumerate(skfold.split(all_subjects, strata)):
+            log.info(f"\n{'='*60}")
+            log.info(f"Training fold {fold + 1}/{k}")
+            log.info(f"{'='*60}")
+            
+            train_subjects = [all_subjects[i] for i in train_idx]
+            val_subjects = [all_subjects[i] for i in val_idx]
+            
+            # Log QU_motion distribution for this fold
+            train_motion_scores = [subject_motion_map[s] for s in train_subjects]
+            val_motion_scores = [subject_motion_map[s] for s in val_subjects]
+            log.info(f"Fold {fold + 1}: {len(train_subjects)} training subjects, {len(val_subjects)} validation subjects")
+            log.info(f"  Training QU_motion - Mean: {np.mean(train_motion_scores):.3f}, Std: {np.std(train_motion_scores):.3f}")
+            log.info(f"  Validation QU_motion - Mean: {np.mean(val_motion_scores):.3f}, Std: {np.std(val_motion_scores):.3f}")
+            
+            # Train model for this fold
+            fold_metrics = self.train_fold(fold, train_subjects, val_subjects)
+            fold_results.append(fold_metrics)
+        
+        return fold_results
+    
+    def train_fold(self, fold_num, train_subjects, val_subjects):
+        """
+        Train a single fold and return metrics.
+        
+        Args:
+            fold_num (int): Fold number (0-indexed)
+            train_subjects (list): List of training subject IDs
+            val_subjects (list): List of validation subject IDs
+            
+        Returns:
+            dict: Dictionary containing fold metrics (validation loss, RMSE, correlation, etc.)
+        """
+        # Create a fold-specific dataframe with 'training' and 'validation' columns
+        # This is required by TrainingLoop for computing weighted loss
+        fold_df = self.input_df.copy()
+        fold_df['training'] = fold_df['subject_id'].apply(lambda x: 1 if x in train_subjects else 0)
+        fold_df['validation'] = fold_df['subject_id'].apply(lambda x: 1 if x in val_subjects else 0)
+        
+        # Create new model handler for this fold
+        fold_model_handler = ModelHandler(self.config.model, self.use_cuda, self.device)
+        fold_optimizer = self._init_optimizer()
+        
+        # Create dataloaders for this fold
+        train_dl = self.data_handler.init_dl(self.folder, train_subjects, is_val_set=False)
+        val_dl = self.data_handler.init_dl(self.folder, val_subjects, is_val_set=True)
+        
+        # Initialize scheduler
+        scheduler = self._init_scheduler(train_dl)
+        
+        # Create training loop for this fold, passing the fold-specific dataframe
+        loop_handler = TrainingLoop(
+            fold_model_handler,
+            fold_optimizer,
+            self.device,
+            fold_df,
+            self.config,
+            scheduler,
+        )
+        
+        best_val_loss = float("inf")
+        fold_metrics = {
+            'fold': fold_num,
+            'best_val_loss': None,
+            'final_standardized_rmse': None,
+            'final_correlation_coefficient': None,
+            'final_pearson_pvalue': None,
+            'final_spearman_pvalue': None,
+            'train_subjects': train_subjects,
+            'val_subjects': val_subjects,
+        }
+        
+        # Training loop for this fold
+        for epoch in range(1, self.config.epochs + 1):
+            log.info(f"Fold {fold_num + 1} - Epoch {epoch}/{self.config.epochs}")
+            
+            trn_metrics = loop_handler.train_epoch(epoch, train_dl)
+            val_metrics = loop_handler.validate_epoch(epoch, val_dl)
+            
+            # Calculate validation loss
+            val_loss = val_metrics[METRICS_LOSS_NDX].mean().item()
+            
+            # Step the scheduler
+            if isinstance(scheduler, ReduceLROnPlateau):
+                scheduler.step(val_loss)
+            elif isinstance(scheduler, OneCycleLR):
+                pass
+            else:
+                scheduler.step()
+            
+            # Track best model
+            if val_loss < best_val_loss:
+                best_val_loss = val_loss
+                log.info(f"Fold {fold_num + 1} - New best validation loss: {best_val_loss}")
+                fold_metrics['best_val_loss'] = best_val_loss
+        
+        # Compute final metrics on validation set
+        subjects, sessions, runs, suffixes, actual_scores, predict_vals = get_validation_info(
+            self.config.model,
+            self.config.model_save_location,
+            self.config.csv_input_file,
+            val_subjects,
+            self.config.folder,
+        )
+        
+        standardized_rmse = compute_standardized_rmse(actual_scores, predict_vals)
+        correlation_coefficient = create_correlation_coefficient(actual_scores, predict_vals)
+        pearson_r, pearson_p = stats.pearsonr(actual_scores, predict_vals)
+        spearman_r, spearman_p = stats.spearmanr(actual_scores, predict_vals)
+        
+        fold_metrics['final_standardized_rmse'] = standardized_rmse
+        fold_metrics['final_correlation_coefficient'] = correlation_coefficient
+        fold_metrics['final_pearson_pvalue'] = pearson_p
+        fold_metrics['final_spearman_pvalue'] = spearman_p
+        
+        log.info(f"Fold {fold_num + 1} - Standardized RMSE: {standardized_rmse}")
+        log.info(f"Fold {fold_num + 1} - Correlation Coefficient: {correlation_coefficient}")
+        log.info(f"Fold {fold_num + 1} - Pearson p-value: {pearson_p}")
+        log.info(f"Fold {fold_num + 1} - Spearman p-value: {spearman_p}")
+        
+        if self.use_cuda:
+            torch.cuda.empty_cache()
+        
+        return fold_metrics
+    
+    def _log_kfold_results(self, fold_results):
+        """
+        Log and summarize k-fold cross-validation results across all folds.
+        
+        Args:
+            fold_results (list): List of dictionaries containing metrics for each fold
+        """
+        log.info(f"\n{'='*60}")
+        log.info("K-FOLD CROSS-VALIDATION SUMMARY")
+        log.info(f"{'='*60}")
+        
+        rmse_values = []
+        corr_values = []
+        pearson_p_values = []
+        spearman_p_values = []
+        
+        for fold_result in fold_results:
+            fold_num = fold_result['fold']
+            rmse = fold_result['final_standardized_rmse']
+            corr = fold_result['final_correlation_coefficient']
+            pearson_p = fold_result['final_pearson_pvalue']
+            spearman_p = fold_result['final_spearman_pvalue']
+            
+            log.info(f"\nFold {fold_num + 1}:")
+            log.info(f"  Standardized RMSE: {rmse:.6f}")
+            log.info(f"  Correlation: {corr:.6f}")
+            log.info(f"  Pearson p-value: {pearson_p:.6e}")
+            log.info(f"  Spearman p-value: {spearman_p:.6e}")
+            
+            if rmse is not None:
+                rmse_values.append(rmse)
+            if corr is not None:
+                corr_values.append(corr)
+            if pearson_p is not None:
+                pearson_p_values.append(pearson_p)
+            if spearman_p is not None:
+                spearman_p_values.append(spearman_p)
+        
+        # Compute statistics across folds
+        log.info(f"\n{'='*60}")
+        log.info("AGGREGATED METRICS ACROSS ALL FOLDS")
+        log.info(f"{'='*60}")
+        
+        if rmse_values:
+            log.info(f"Standardized RMSE - Mean: {np.mean(rmse_values):.6f}, Std: {np.std(rmse_values):.6f}")
+        if corr_values:
+            log.info(f"Correlation - Mean: {np.mean(corr_values):.6f}, Std: {np.std(corr_values):.6f}")
+        if pearson_p_values:
+            log.info(f"Pearson p-value - Mean: {np.mean(pearson_p_values):.6e}, Std: {np.std(pearson_p_values):.6e}")
+        if spearman_p_values:
+            log.info(f"Spearman p-value - Mean: {np.mean(spearman_p_values):.6e}, Std: {np.std(spearman_p_values):.6e}")
+        
+        # Save fold results to CSV for detailed analysis
+        fold_results_df = pd.DataFrame(fold_results)
+        results_file = os.path.join(self.tb_run_dir, f"kfold_results_{self.time_str}.csv")
+        fold_results_df.to_csv(results_file, index=False)
+        log.info(f"\nDetailed fold results saved to: {results_file}")
 
 
 def main():
