@@ -210,7 +210,12 @@ class ModelHandler:
     def save_model(self, save_location):
         if isinstance(self.model, torch.nn.DataParallel):
             self.model = self.model.module
-        torch.save(self.model.state_dict(), save_location)
+        try:
+            torch.save(self.model.state_dict(), save_location)
+            log.info(f"Model saved successfully to {save_location}")
+        except Exception as e:
+            log.error(f"Failed to save model to {save_location}: {e}")
+            raise
 
     def load_model(self, model_path):
         self.model.load_state_dict(torch.load(model_path))
