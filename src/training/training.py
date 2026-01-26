@@ -900,6 +900,13 @@ class AutoQcTrainingApp:
         # Initialize scheduler
         scheduler = self._init_scheduler(train_dl)
         
+        # Create fold-specific model save location
+        base_path = self.config.model_save_location
+        if base_path.endswith('.pt'):
+            fold_model_path = base_path[:-3] + f"_fold_{fold_num}.pt"
+        else:
+            fold_model_path = base_path + f"_fold_{fold_num}.pt"
+        
         # Create training loop for this fold, passing the fold-specific dataframe
         loop_handler = TrainingLoop(
             fold_model_handler,
@@ -945,11 +952,13 @@ class AutoQcTrainingApp:
                 best_val_loss = val_loss
                 log.info(f"Fold {fold_num + 1} - New best validation loss: {best_val_loss}")
                 fold_metrics['best_val_loss'] = best_val_loss
+                # Save the best model for this fold using fold-specific path
+                fold_model_handler.save_model(fold_model_path)
         
-        # Compute final metrics on validation set
+        # Compute final metrics on validation set using fold-specific model
         subjects, sessions, runs, suffixes, actual_scores, predict_vals = get_validation_info(
             self.config.model,
-            self.config.model_save_location,
+            fold_model_path,
             self.config.csv_input_file,
             val_subjects,
             self.config.folder,
