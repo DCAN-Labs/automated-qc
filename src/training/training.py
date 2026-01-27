@@ -145,6 +145,9 @@ class Config:
         self.parser.add_argument(
             "--k-folds", default=5, type=int, help="Number of folds for k-fold cross-validation (default: 5)"
         )
+        self.parser.add_argument(
+            "--fold-index", default=None, type=int, help="If set, train only this specific fold (0-indexed). Used with --use-kfold for parallel fold training."
+        )
 
     def parse_args(self, sys_argv: list[str]) -> argparse.Namespace:
         return self.parser.parse_args(sys_argv)
@@ -496,6 +499,10 @@ def get_folder_name(file_path):
 class AutoQcTrainingApp:
     def __init__(self, sys_argv=None):
         self.config = Config().parse_args(sys_argv)
+        
+        # Set NumPy random seed for reproducible data splitting (StratifiedKFold stratification)
+        np.random.seed(self.config.random_seed)
+        
         self.use_cuda = torch.cuda.is_available() and not self.config.DEBUG
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() and not self.config.DEBUG else "cpu"
@@ -586,8 +593,13 @@ class AutoQcTrainingApp:
         # Check if k-fold cross-validation should be used
         if self.config.use_kfold:
             log.info(f"Using k-fold cross-validation with k={self.config.k_folds}")
-            fold_results = self.k_fold_cross_validation()
-            self._log_kfold_results(fold_results)
+            # If fold_index is specified, train only that fold
+            if self.config.fold_index is not None:
+                log.info(f"Training single fold {self.config.fold_index}")
+                self.k_fold_cross_validation_single_fold(self.config.fold_index)
+            else:
+                fold_results = self.k_fold_cross_validation()
+                self._log_kfold_results(fold_results)
             return
 
         if self.config.use_train_validation_cols:
@@ -726,9 +738,6 @@ class AutoQcTrainingApp:
             log.info(
                 f"Train/validation columns not found or empty. Creating runtime {self.config.split_strategy} split..."
             )
-
-            # Set random seed for reproducibility
-            np.random.seed(self.config.random_seed)
 
             # Get unique subjects
             all_subjects = list(set(self.input_df["subject_id"].to_list()))
@@ -871,6 +880,66 @@ class AutoQcTrainingApp:
         
         return fold_results
     
+    def k_fold_cross_validation_single_fold(self, fold_index):
+        """
+        Train a single fold in k-fold cross-validation. Used for parallel fold training.
+        This method performs the same stratification as the full k-fold method but only
+        trains the specified fold.
+        
+        Args:
+            fold_index (int): 0-indexed fold number to train
+        """
+        all_subjects = list(set(self.input_df["subject_id"].to_list()))
+        k = self.config.k_folds
+        
+        log.info(f"Starting stratified {k}-fold cross-validation (single fold mode)")
+        log.info(f"Total unique subjects: {len(all_subjects)}")
+        
+        # Calculate average QU_motion per subject for stratification
+        subject_motion_map = {}
+        for subject in all_subjects:
+            subject_rows = self.input_df[self.input_df["subject_id"] == subject]
+            avg_motion = subject_rows["QU_motion"].mean()
+            subject_motion_map[subject] = avg_motion
+        
+        # Create stratification labels by binning QU_motion scores
+        # Using percentile-based binning to create balanced strata
+        motion_values = np.array([subject_motion_map[s] for s in all_subjects])
+        try:
+            # Create k strata based on percentiles
+            strata = pd.qcut(motion_values, q=k, labels=False, duplicates='drop')
+            log.info(f"Created {len(np.unique(strata))} strata based on QU_motion percentiles")
+        except Exception as e:
+            log.warning(f"Percentile-based stratification failed ({e}), falling back to random k-fold")
+            strata = np.random.randint(0, k, len(all_subjects))
+        
+        skfold = StratifiedKFold(n_splits=k, shuffle=True, random_state=self.config.random_seed)
+        
+        # Get the fold data by iterating through folds until we reach the target fold
+        fold_count = 0
+        for fold, (train_idx, val_idx) in enumerate(skfold.split(all_subjects, strata)):
+            if fold != fold_index:
+                continue
+            
+            log.info(f"\n{'='*60}")
+            log.info(f"Training fold {fold + 1}/{k}")
+            log.info(f"{'='*60}")
+            
+            train_subjects = [all_subjects[i] for i in train_idx]
+            val_subjects = [all_subjects[i] for i in val_idx]
+            
+            # Log QU_motion distribution for this fold
+            train_motion_scores = [subject_motion_map[s] for s in train_subjects]
+            val_motion_scores = [subject_motion_map[s] for s in val_subjects]
+            log.info(f"Fold {fold + 1}: {len(train_subjects)} training subjects, {len(val_subjects)} validation subjects")
+            log.info(f"  Training QU_motion - Mean: {np.mean(train_motion_scores):.3f}, Std: {np.std(train_motion_scores):.3f}")
+            log.info(f"  Validation QU_motion - Mean: {np.mean(val_motion_scores):.3f}, Std: {np.std(val_motion_scores):.3f}")
+            
+            # Train model for this fold
+            fold_metrics = self.train_fold(fold, train_subjects, val_subjects)
+            log.info(f"Fold {fold + 1} training completed successfully")
+            break
+    
     def train_fold(self, fold_num, train_subjects, val_subjects):
         """
         Train a single fold and return metrics.
@@ -978,6 +1047,41 @@ class AutoQcTrainingApp:
         log.info(f"Fold {fold_num + 1} - Correlation Coefficient: {correlation_coefficient}")
         log.info(f"Fold {fold_num + 1} - Pearson p-value: {pearson_p}")
         log.info(f"Fold {fold_num + 1} - Spearman p-value: {spearman_p}")
+        
+        # Save fold-specific CSV output with predictions
+        if self.config.csv_output_file:
+            output_df = add_predicted_values(
+                subjects, sessions, runs, suffixes, predict_vals, self.config.csv_input_file
+            )
+            # Create fold-specific output filename
+            csv_output_path = self.config.csv_output_file
+            if csv_output_path.endswith('.csv'):
+                fold_csv_path = csv_output_path[:-4] + f"_fold_{fold_num}.csv"
+            else:
+                fold_csv_path = csv_output_path + f"_fold_{fold_num}.csv"
+            
+            output_csv_folder = get_folder_name(fold_csv_path)
+            if not os.path.exists(output_csv_folder):
+                os.makedirs(output_csv_folder)
+            
+            output_df.to_csv(fold_csv_path, index=False)
+            log.info(f"Fold {fold_num + 1} - Predictions saved to: {fold_csv_path}")
+        
+        # Save fold-specific plot output
+        if self.config.plot_location:
+            # Create fold-specific plot filename
+            plot_output_path = self.config.plot_location
+            if plot_output_path.endswith('.png'):
+                fold_plot_path = plot_output_path[:-4] + f"_fold_{fold_num}.png"
+            else:
+                fold_plot_path = plot_output_path + f"_fold_{fold_num}.png"
+            
+            plot_folder = get_folder_name(fold_plot_path)
+            if not os.path.exists(plot_folder):
+                os.makedirs(plot_folder)
+            
+            create_scatter_plot(actual_scores, predict_vals, fold_plot_path)
+            log.info(f"Fold {fold_num + 1} - Plot saved to: {fold_plot_path}")
         
         if self.use_cuda:
             torch.cuda.empty_cache()
