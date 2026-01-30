@@ -16,6 +16,8 @@ runs
 # models
 /models/*.pt
 /doc/models/model*/*.csv
+/doc/models/model*/*.out
+/doc/models/model*/*.err
 /doc/models/model*/fold_assignments*
 
 # Byte-compiled / optimized / DLL files
