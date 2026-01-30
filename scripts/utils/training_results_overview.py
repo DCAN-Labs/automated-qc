@@ -5,12 +5,15 @@ from sklearn.metrics import mean_squared_error
 import os
 import argparse
 import re
+import glob
 from pathlib import Path
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description='Analyze QU motion scores and generate markdown report')
 parser.add_argument('--csv', required=False, help='Path to CSV file with QU_motion and predicted_qu_motion_score columns (optional if executable is provided)')
+parser.add_argument('--csv-pattern', required=False, help='Glob pattern for 5-fold CV CSV files (e.g., "model_02r7_fold_*.csv")')
 parser.add_argument('--png', required=False, help='Path to PNG file to embed in markdown (optional if executable is provided)')
+parser.add_argument('--png-pattern', required=False, help='Glob pattern for 5-fold CV PNG files (e.g., "model_02r7_fold_*.png")')
 parser.add_argument('--executable', required=True, help='Path to the executable bash script that specifies the model hyperparameters used during training')
 parser.add_argument('--output', default='analysis_results.md', help='Output markdown filename (default: analysis_results.md)')
 parser.add_argument('--note', default='', help='Additional notes to include in the markdown report (optional)')
@@ -19,7 +22,9 @@ args = parser.parse_args()
 
 # Configuration from arguments
 csv_file = args.csv
+csv_pattern = args.csv_pattern
 png_file = args.png
+png_pattern = args.png_pattern
 output_md = args.output
 executable_script = args.executable
 
@@ -122,6 +127,45 @@ def format_hyperparameters_markdown(hyperparameters):
     
     return markdown
 
+def load_fold_csvs(csv_pattern):
+    """
+    Load CSV files matching a pattern and combine results from all folds.
+    Filters to only validation rows (where validation=1).
+    
+    Args:
+        csv_pattern (str): Glob pattern to match fold CSVs
+        
+    Returns:
+        pd.DataFrame: Combined validation results from all folds, or None if no files found
+    """
+    csv_files = sorted(glob.glob(csv_pattern))
+    
+    if not csv_files:
+        print(f"Warning: No CSV files found matching pattern: {csv_pattern}")
+        return None
+    
+    print(f"Found {len(csv_files)} fold CSV files:")
+    for csv_file in csv_files:
+        print(f"  - {csv_file}")
+    
+    combined_df = None
+    for fold_idx, csv_file in enumerate(csv_files):
+        df = pd.read_csv(csv_file)
+        
+        # Filter to validation rows only
+        val_df = df[df['validation'] == 1].copy()
+        
+        # Add fold index
+        val_df['fold'] = fold_idx
+        
+        if combined_df is None:
+            combined_df = val_df
+        else:
+            combined_df = pd.concat([combined_df, val_df], ignore_index=True)
+    
+    print(f"Combined {len(combined_df)} validation samples from {len(csv_files)} folds")
+    return combined_df
+
 # Extract and display hyperparameters if executable is provided
 hyperparameters = {}
 if executable_script:
@@ -179,8 +223,66 @@ if csv_file is not None and png_file is not None:
     print(f"Correlation: {correlation:.4f}")
     print(f"P-value: {p_value:.4e}")
     print(f"Standard Error: {standard_error:.4f}")
+elif csv_pattern is not None and png_pattern is not None:
+    # Load fold CSVs and combine validation results
+    df = load_fold_csvs(csv_pattern)
+    
+    if df is not None:
+        # Extract the columns
+        actual = df['QU_motion']
+        predicted = df['predicted_qu_motion_score']
+
+        # Remove any NaN values
+        mask = ~(actual.isna() | predicted.isna())
+        actual = actual[mask]
+        predicted = predicted[mask]
+
+        # Calculate statistics
+        # 1. RMSE
+        rmse = np.sqrt(mean_squared_error(actual, predicted))
+
+        # 2. Standardized RMSE (RMSE / std of actual values)
+        std_actual = np.std(actual, ddof=1)
+        standardized_rmse = rmse / std_actual
+
+        # 3. Correlation and p-value
+        correlation, p_value = stats.pearsonr(actual, predicted)
+
+        # 4. Standard Error of the estimate
+        residuals = actual - predicted
+        n = len(actual)
+        standard_error = np.sqrt(np.sum(residuals**2) / (n - 2))
+
+        # Print results to console
+        print(f"\n5-Fold Cross-Validation Statistics Summary:")
+        print(f"===========================================")
+        print(f"Total validation samples: {n}")
+        print(f"RMSE: {rmse:.4f}")
+        print(f"Standardized RMSE: {standardized_rmse:.4f}")
+        print(f"Correlation: {correlation:.4f}")
+        print(f"P-value: {p_value:.4e}")
+        print(f"Standard Error: {standard_error:.4f}")
+        
+        # Print per-fold statistics
+        print(f"\nPer-Fold Statistics:")
+        print(f"===================")
+        for fold_idx in sorted(df['fold'].unique()):
+            fold_df = df[df['fold'] == fold_idx]
+            fold_actual = fold_df['QU_motion']
+            fold_predicted = fold_df['predicted_qu_motion_score']
+            
+            fold_mask = ~(fold_actual.isna() | fold_predicted.isna())
+            fold_actual = fold_actual[fold_mask]
+            fold_predicted = fold_predicted[fold_mask]
+            
+            if len(fold_actual) > 0:
+                fold_rmse = np.sqrt(mean_squared_error(fold_actual, fold_predicted))
+                fold_corr, fold_p = stats.pearsonr(fold_actual, fold_predicted)
+                print(f"  Fold {fold_idx}: n={len(fold_actual)}, RMSE={fold_rmse:.4f}, corr={fold_corr:.4f}")
+    else:
+        n = rmse = standardized_rmse = correlation = p_value = standard_error = 0
 else:
-    print("CSV file or PNG file not provided; skipping statistical analysis.")
+    print("CSV file(s) and PNG file(s) not provided; skipping statistical analysis.")
     n = rmse = standardized_rmse = correlation = p_value = standard_error = 0
 
 # Create markdown content
@@ -197,6 +299,14 @@ markdown_content = f"""# QU Motion Score Analysis Results
 | P-value | {p_value:.4e} |
 | Standard Error | {standard_error:.4f} |
 """
+
+if csv_pattern is not None:
+    markdown_content += "\n## 5-Fold Cross-Validation Details\n\n"
+    markdown_content += "| Metric | Value |\n"
+    markdown_content += "|--------|-------|\n"
+    markdown_content += f"| Analysis Type | 5-Fold Cross-Validation |\n"
+    markdown_content += f"| CSV Pattern | {csv_pattern} |\n"
+    markdown_content += "\n"
         
 if csv_file is not None and png_file is not None:
     # sensitivity and specificity analysis at different thresholds
@@ -334,7 +444,41 @@ if png_file:
 ![QU Motion Score Analysis]({relative_png_path})
 """
 
-if png_file:  # Only add interpretation if PNG was successfully processed
+elif png_pattern:
+    # Resolve PNG pattern
+    png_files = sorted(glob.glob(png_pattern))
+    if png_files:
+        print(f"Found {len(png_files)} fold PNG files")
+        markdown_content += "\n## Visualizations (Per-Fold)\n\n"
+        
+        for fold_idx, png_file in enumerate(png_files):
+            png_path = Path(png_file).expanduser()
+            output_path = Path(output_md).expanduser()
+            
+            # Make PNG path absolute first
+            if not png_path.is_absolute():
+                png_path = (Path.cwd() / png_path).resolve()
+            
+            # Check if the PNG file exists
+            if not png_path.is_file():
+                print(f"Warning: PNG file not found at {png_path}")
+                continue
+            
+            # Make output path absolute
+            if not output_path.is_absolute():
+                output_path = (Path.cwd() / output_path).resolve()
+            
+            # Calculate relative path from markdown to PNG
+            try:
+                relative_png_path = os.path.relpath(png_path, output_path.parent)
+            except ValueError:
+                # Fallback to absolute if on different drives (Windows)
+                relative_png_path = str(png_path)
+            
+            markdown_content += f"### Fold {fold_idx}\n\n"
+            markdown_content += f"![QU Motion Score Analysis - Fold {fold_idx}]({relative_png_path})\n\n"
+
+if png_file or png_pattern:  # Only add interpretation if PNG was successfully processed
     markdown_content += f"""
 
 ## Interpretation

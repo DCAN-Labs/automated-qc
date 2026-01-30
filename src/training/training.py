@@ -203,7 +203,12 @@ class ModelHandler:
     def save_model(self, save_location):
         if isinstance(self.model, torch.nn.DataParallel):
             self.model = self.model.module
-        torch.save(self.model.state_dict(), save_location)
+        try:
+            torch.save(self.model.state_dict(), save_location)
+            log.info(f"Model saved successfully to {save_location}")
+        except Exception as e:
+            log.error(f"Failed to save model to {save_location}: {e}")
+            raise
 
     def load_model(self, model_path):
         self.model.load_state_dict(torch.load(model_path))
@@ -222,7 +227,7 @@ class TrainingLoop:
         self.config = config
         
         device_type = 'cuda' if device.type == 'cuda' else 'cpu'
-        self.scaler = GradScaler(device_type) if self.config.use_amp and device_type == 'cuda' else None
+        self.scaler = GradScaler() if self.config.use_amp and device_type == 'cuda' else None
         self.device_type = device_type
 
         training_df = df[df["training"] == 1]
@@ -241,11 +246,38 @@ class TrainingLoop:
         ):
             self.optimizer.zero_grad()
             
-            if self.config.use_amp:
-                loss_var = self._compute_batch_loss_amp(
-                    batch_ndx, batch_tup, train_dl.batch_size, trn_metrics_g
-                )
+            if self.config.use_amp and self.scaler is not None:
+                # Compute loss with autocast for mixed precision
+                input_t, label_t, _, _ = batch_tup
+                input_g = input_t.to(self.device, non_blocking=True)
+                label_g = label_t.to(self.device, non_blocking=True)
+                
+                with autocast(self.device_type):
+                    outputs_g = self.model_handler.model(input_g)
+                    if isinstance(outputs_g, (list, tuple)):
+                        outputs_g = outputs_g[0]
+                    outputs_g = outputs_g.squeeze(dim=-1)
+                    label_g_view = label_g.view(-1)
+                    
+                    if self.config.use_weighted_loss:
+                        loss_g = self.weighted_mse_loss(outputs_g, label_g_view)
+                        loss_var = loss_g.mean()
+                    else:
+                        loss_func = nn.MSELoss(reduction="none")
+                        loss_g = loss_func(outputs_g, label_g_view)
+                        loss_var = loss_g.mean()
+                
+                # Store metrics
+                start_ndx = batch_ndx * train_dl.batch_size
+                end_ndx = start_ndx + label_t.size(0)
+                trn_metrics_g[METRICS_LABEL_NDX, start_ndx:end_ndx] = label_g_view.detach()
+                trn_metrics_g[METRICS_PRED_NDX, start_ndx:end_ndx] = outputs_g.detach()
+                trn_metrics_g[METRICS_LOSS_NDX, start_ndx:end_ndx] = loss_var.detach()
+                
+                # Backward and optimizer step with scaled gradients
                 self.scaler.scale(loss_var).backward()
+                self.scaler.unscale_(self.optimizer)
+                torch.nn.utils.clip_grad_norm_(self.model_handler.model.parameters(), max_norm=1.0)
                 self.scaler.step(self.optimizer)
                 self.scaler.update()
             else:
@@ -307,11 +339,6 @@ class TrainingLoop:
             for batch_ndx, batch_tup in enumerateWithEstimate(
                 val_dl, f"E{epoch} Validation", start_ndx=val_dl.num_workers
             ):
-                if self.config.use_amp:
-                    with autocast(self.device_type):
-                        self._compute_batch_loss_amp(
-                            batch_ndx, batch_tup, val_dl.batch_size, val_metrics_g
-                        )
                 self._compute_batch_loss(
                     batch_ndx, batch_tup, val_dl.batch_size, val_metrics_g
                 )
@@ -462,6 +489,10 @@ def get_folder_name(file_path):
 class AutoQcTrainingApp:
     def __init__(self, sys_argv=None):
         self.config = Config().parse_args(sys_argv)
+        
+        # Set NumPy random seed for reproducible data splitting (StratifiedKFold stratification)
+        np.random.seed(self.config.random_seed)
+        
         self.use_cuda = torch.cuda.is_available() and not self.config.DEBUG
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() and not self.config.DEBUG else "cpu"
@@ -548,7 +579,7 @@ class AutoQcTrainingApp:
             log.info(f"Total GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
         
         self.output_df["prediction"] = np.nan
-
+        
         if self.config.use_train_validation_cols:
             training_rows = self.input_df.loc[self.input_df["training"] == 1]
             train_subjects = list(training_rows["subject_id"])
@@ -685,9 +716,6 @@ class AutoQcTrainingApp:
             log.info(
                 f"Train/validation columns not found or empty. Creating runtime {self.config.split_strategy} split..."
             )
-
-            # Set random seed for reproducibility
-            np.random.seed(self.config.random_seed)
 
             # Get unique subjects
             all_subjects = list(set(self.input_df["subject_id"].to_list()))
