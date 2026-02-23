@@ -48,7 +48,7 @@ def main():
     parser = argparse.ArgumentParser(
         description='Copy files based on CSV inclusion/exclusion criteria'
     )
-    parser.add_argument('--csv', required=True, help='Main CSV file with scans to include')
+    parser.add_argument('--csv', required=True, help='Main CSV file with scans to include. Must have a "scan" column with filenames!!')
     parser.add_argument('--src', required=True, help='Source directory')
     parser.add_argument('--dst', required=True, help='Destination directory')
     parser.add_argument('--exclude-csv', help='CSV file with scans to exclude')
