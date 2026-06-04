@@ -1,8 +1,36 @@
-# Automated MRI QC training for HBCD data
+# Automated MRI QC training for HBCD data - Quick Start Guide
 
-# Tensorboard set-up test
+## .venv set up on MSI
 
-## 1. Find your log directory
+### 1. Clone the repository in a user specific `projects` directory (i.e. `~/projects/`):
+Do not clone in a shared shared directory, as you will be setting up a virtual environment and do not want your changes conflicting with others. 
+
+`git clone git@github.com:DCAN-Labs/automated-qc.git`
+
+### 2. If you have already set up your virtual environment, activate it and skip step 3:
+
+example command if you have already done step 3: `source ~/projects/automated-qc/.venv/bin/activate`
+
+### 3. Set up your virtual environment:
+
+Note that this is specific for MSI users.
+
+`cd ~/projects/dcan-nnunet-v2/`
+
+`module load python3/3.12.4_anaconda2024.06-1_libmamba`
+
+`python3.12 -m venv .venv`
+
+`source .venv/bin/activate`
+
+`pip install -r requirements.txt`
+
+From here, create a new branch for your development work separate from main
+
+
+## Tensorboard set-up test (after executing a training job)
+
+### 1. Find your log directory
 
 The logs are being written to:
 
@@ -11,7 +39,7 @@ The logs are being written to:
 /users/1/lundq163/projects/automated-qc/src/training/runs/<tb_prefix>/<time_str>-val_cls-<comment>/
 ```
 
-## 2. Launch TensorBoard on the cluster
+### 2. Launch TensorBoard on the cluster
 
 SSH into your cluster and run:
 
@@ -20,7 +48,7 @@ cd /users/1/lundq163/projects/automated-qc/src/training
 /users/1/lundq163/projects/automated-qc/.venv/bin/tensorboard --logdir=runs --port=6006 --bind_all
 ```
 
-## 3. Create an SSH tunnel from your local machine
+### 3. Create an SSH tunnel from your local machine
 
 On your local machine, open a terminal and run:
 
@@ -30,7 +58,7 @@ ssh -L 6006:localhost:6006 lundq163@<your-cluster-hostname>
 
 Replace `<your-cluster-hostname>` with your actual cluster address (e.g., `login.msi.umn.edu` or similar for UMN systems).
 
-## 4. Open TensorBoard in your browser
+### 4. Open TensorBoard in your browser
 
 Navigate to:
 
