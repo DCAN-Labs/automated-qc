@@ -23,7 +23,7 @@ The process is now split into two steps:
 Create the stratified fold assignments:
 
 ```bash
-sbatch /users/1/lundq163/projects/automated-qc/scripts/config/prepare_stratified_kfolds_model_02r7.sh
+sbatch ~/projects/automated-qc/scripts/config/prepare_stratified_kfolds_model_02r7.sh
 ```
 
 This will:
@@ -31,7 +31,7 @@ This will:
 - Create 5 stratified k-fold splits based on QU_motion distribution
 - Save fold assignments to:
   ```
-  /users/1/lundq163/projects/automated-qc/doc/models/model_02r/fold_assignments_02r7/
+  ~/projects/automated-qc/doc/models/model_02r/fold_assignments_02r7/
     ├── fold_assignments.json    (subject -> fold mapping)
     ├── fold_details.json        (fold statistics)
     ├── fold_assignments.csv     (human-readable table)
@@ -45,7 +45,7 @@ Wait for this job to complete before proceeding to Step 2.
 After Step 1 completes, run the parallel fold training:
 
 ```bash
-FOLD_CSV_DIR=/users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7 /users/1/lundq163/projects/automated-qc/scripts/utils/submit_kfold_parallel.sh
+FOLD_CSV_DIR=~/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7 ~/projects/automated-qc/scripts/utils/submit_kfold_parallel.sh
 ```
 
 This will:
@@ -55,7 +55,7 @@ This will:
 
 Monitor progress:
 ```bash
-squeue -u lundq163 | grep fold
+squeue -u <x500> | grep fold
 ```
 
 ## Output Structure
@@ -63,14 +63,14 @@ squeue -u lundq163 | grep fold
 After both steps complete:
 
 ```
-/scratch.global/lundq163/auto_qc/auto_qc_model_02r7/
+/scratch.global/<x500>/auto_qc/auto_qc_model_02r7/
 ├── model_02r7_fold_0.pt
 ├── model_02r7_fold_1.pt
 ├── model_02r7_fold_2.pt
 ├── model_02r7_fold_3.pt
 └── model_02r7_fold_4.pt
 
-/users/1/lundq163/projects/automated-qc/doc/models/model_02r7/
+~/projects/automated-qc/doc/models/model_02r7/
 ├── model_02r7_fold_0.csv
 ├── model_02r7_fold_1.csv
 ├── model_02r7_fold_2.csv
@@ -82,7 +82,7 @@ After both steps complete:
 ├── model_02r7_fold_3.png
 └── model_02r7_fold_4.png
 
-/users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/
+~/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/
 ├── fold_assignments.json    (used by training script)
 ├── fold_details.json        (fold statistics)
 ├── fold_assignments.csv     (human-readable table)
