@@ -3,7 +3,9 @@
 .venv/*
 
 # data
-data
+data/raw/
+data/known_problems/
+data/validation_errors/
 
 # data preproc wrappers
 scripts/data_preproc_wrappers/*/run_files*

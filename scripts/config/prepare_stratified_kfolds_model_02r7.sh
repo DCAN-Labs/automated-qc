@@ -9,8 +9,8 @@
 
 #SBATCH --mail-type=BEGIN,END,FAIL        
 #SBATCH --mail-user=lundq163@umn.edu
-#SBATCH -e logs/prepare-kfolds-model_02r7-%j.err
-#SBATCH -o logs/prepare-kfolds-model_02r7-%j.out
+#SBATCH -e logs/prepare-kfolds-%j.err
+#SBATCH -o logs/prepare-kfolds-%j.out
 #SBATCH -A feczk001
 
 # This script prepares stratified k-fold splits for cross-validation.
