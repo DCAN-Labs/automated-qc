@@ -29,7 +29,13 @@ From here, create a new branch for your development work separate from main
 
 ## Notes on model naming schema
 
-TODO:
+Current schema is `model_##{r/s}#`
+
+- First set of numbers (`##`) signifies a unique combination of the hyperparameters and size of the dataset. As of June 2026, the stable iteration is `02`.
+
+- The {r/s} signification describes the preprocessing done on the dataset prior to training. `r` stands for "registration," `s` stands for "skull-stripping," `rs` notes that both were completed, and if these are missing from the model name then no preprocessing was completed. As of June 2026, testing as revealed that a rigid+affine registration without skull-stripping performs the best, so `r` is the current stable configuration.
+
+- The last number (`#`) signifies the job testing iteration after ground truth score correcting or codebase changes. As of June 2026, the most recent iteration count is at `7`, the first with cross validation fully built in to the training workflow. 
 
 ## Tensorboard set-up test (after executing a training job)
 
