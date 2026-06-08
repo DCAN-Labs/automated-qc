@@ -1,0 +1,1047 @@
+2026-01-29 16:24:56,815 DEBUG    pid:3832595 matplotlib:342:wrapper CACHEDIR=/users/1/lundq163/.cache/matplotlib
+2026-01-29 16:24:56,819 DEBUG    pid:3832595 matplotlib.font_manager:1635:_load_fontmanager Using fontManager instance from /users/1/lundq163/.cache/matplotlib/fontlist-v390.json
+2026-01-29 16:25:01,121 INFO     pid:3832595 __main__:187:_init_model Using Regressor model
+2026-01-29 16:25:01,121 INFO     pid:3832595 __main__:193:_init_model Moving model to device: cuda
+2026-01-29 16:25:09,710 INFO     pid:3832595 __main__:571:main Starting training...
+2026-01-29 16:25:09,711 INFO     pid:3832595 __main__:578:main GPU Device: NVIDIA A100-SXM4-40GB
+2026-01-29 16:25:09,711 INFO     pid:3832595 __main__:579:main Total GPU Memory: 42.41 GB
+2026-01-29 16:25:09,763 INFO     pid:3832595 data_sets.dsets:256:__init__ <data_sets.dsets.AutoQcDataset object at 0x7fa267db8710>: 829 training samples
+2026-01-29 16:25:10,188 INFO     pid:3832595 data_sets.dsets:256:__init__ <data_sets.dsets.AutoQcDataset object at 0x7fa2763fbef0>: 195 validation samples
+2026-01-29 16:25:10,283 INFO     pid:3832595 __main__:612:main Epoch 1/100
+2026-01-29 16:25:10,283 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.08 GB
+2026-01-29 16:25:10,283 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 0.08 GB
+2026-01-29 16:25:10,306 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E1 Training ----/104, starting
+2026-01-29 16:25:53,967 INFO     pid:3832595 util.util:111:enumerateWithEstimate E1 Training   32/104, done at 2026-01-29 16:26:48, 0:01:10
+2026-01-29 16:26:18,012 INFO     pid:3832595 util.util:111:enumerateWithEstimate E1 Training   64/104, done at 2026-01-29 16:26:47, 0:01:09
+2026-01-29 16:26:47,268 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E1 Training ----/104, done at 2026-01-29 16:26:47
+2026-01-29 16:26:47,268 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E1 Validation ----/25, starting
+2026-01-29 16:27:01,747 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E1 Validation ----/25, done at 2026-01-29 16:27:01
+2026-01-29 16:27:01,776 INFO     pid:3832595 __main__:646:main New best validation loss: 246.57298278808594
+2026-01-29 16:27:01,998 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 16:27:01,998 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:27:02,010 INFO     pid:3832595 __main__:612:main Epoch 2/100
+2026-01-29 16:27:02,010 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:27:02,011 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 1.84 GB
+2026-01-29 16:27:02,011 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E2 Training ----/104, starting
+2026-01-29 16:27:33,259 INFO     pid:3832595 util.util:111:enumerateWithEstimate E2 Training   32/104, done at 2026-01-29 16:28:26, 0:01:09
+2026-01-29 16:27:57,214 INFO     pid:3832595 util.util:111:enumerateWithEstimate E2 Training   64/104, done at 2026-01-29 16:28:26, 0:01:08
+2026-01-29 16:28:26,191 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E2 Training ----/104, done at 2026-01-29 16:28:26
+2026-01-29 16:28:26,192 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E2 Validation ----/25, starting
+2026-01-29 16:28:36,911 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E2 Validation ----/25, done at 2026-01-29 16:28:36
+2026-01-29 16:28:37,675 INFO     pid:3832595 __main__:646:main New best validation loss: 45.9144172668457
+2026-01-29 16:28:37,826 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 16:28:37,826 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:28:37,837 INFO     pid:3832595 __main__:612:main Epoch 3/100
+2026-01-29 16:28:37,838 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:28:37,838 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:28:37,838 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E3 Training ----/104, starting
+2026-01-29 16:29:06,826 INFO     pid:3832595 util.util:111:enumerateWithEstimate E3 Training   32/104, done at 2026-01-29 16:29:59, 0:01:08
+2026-01-29 16:29:30,815 INFO     pid:3832595 util.util:111:enumerateWithEstimate E3 Training   64/104, done at 2026-01-29 16:30:00, 0:01:08
+2026-01-29 16:29:59,702 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E3 Training ----/104, done at 2026-01-29 16:29:59
+2026-01-29 16:29:59,703 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E3 Validation ----/25, starting
+2026-01-29 16:30:11,178 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E3 Validation ----/25, done at 2026-01-29 16:30:11
+2026-01-29 16:30:11,977 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:30:11,988 INFO     pid:3832595 __main__:612:main Epoch 4/100
+2026-01-29 16:30:11,988 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:30:11,988 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:30:11,989 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E4 Training ----/104, starting
+2026-01-29 16:30:43,428 INFO     pid:3832595 util.util:111:enumerateWithEstimate E4 Training   32/104, done at 2026-01-29 16:31:36, 0:01:09
+2026-01-29 16:31:07,366 INFO     pid:3832595 util.util:111:enumerateWithEstimate E4 Training   64/104, done at 2026-01-29 16:31:36, 0:01:08
+2026-01-29 16:31:36,238 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E4 Training ----/104, done at 2026-01-29 16:31:36
+2026-01-29 16:31:36,240 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E4 Validation ----/25, starting
+2026-01-29 16:31:47,278 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E4 Validation ----/25, done at 2026-01-29 16:31:47
+2026-01-29 16:31:48,196 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:31:48,207 INFO     pid:3832595 __main__:612:main Epoch 5/100
+2026-01-29 16:31:48,207 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:31:48,207 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:31:48,208 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E5 Training ----/104, starting
+2026-01-29 16:32:16,901 INFO     pid:3832595 util.util:111:enumerateWithEstimate E5 Training   32/104, done at 2026-01-29 16:33:09, 0:01:08
+2026-01-29 16:32:40,813 INFO     pid:3832595 util.util:111:enumerateWithEstimate E5 Training   64/104, done at 2026-01-29 16:33:09, 0:01:08
+2026-01-29 16:33:09,634 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E5 Training ----/104, done at 2026-01-29 16:33:09
+2026-01-29 16:33:09,635 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E5 Validation ----/25, starting
+2026-01-29 16:33:20,115 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E5 Validation ----/25, done at 2026-01-29 16:33:20
+2026-01-29 16:33:20,965 INFO     pid:3832595 __main__:646:main New best validation loss: 14.50967788696289
+2026-01-29 16:33:21,134 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 16:33:21,134 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:33:21,145 INFO     pid:3832595 __main__:612:main Epoch 6/100
+2026-01-29 16:33:21,146 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:33:21,146 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:33:21,146 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E6 Training ----/104, starting
+2026-01-29 16:33:51,269 INFO     pid:3832595 util.util:111:enumerateWithEstimate E6 Training   32/104, done at 2026-01-29 16:34:44, 0:01:08
+2026-01-29 16:34:15,343 INFO     pid:3832595 util.util:111:enumerateWithEstimate E6 Training   64/104, done at 2026-01-29 16:34:44, 0:01:09
+2026-01-29 16:34:44,219 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E6 Training ----/104, done at 2026-01-29 16:34:44
+2026-01-29 16:34:44,220 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E6 Validation ----/25, starting
+2026-01-29 16:34:54,512 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E6 Validation ----/25, done at 2026-01-29 16:34:54
+2026-01-29 16:34:55,349 INFO     pid:3832595 __main__:646:main New best validation loss: 13.918065071105957
+2026-01-29 16:34:55,499 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 16:34:55,499 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:34:55,510 INFO     pid:3832595 __main__:612:main Epoch 7/100
+2026-01-29 16:34:55,510 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:34:55,510 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:34:55,511 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E7 Training ----/104, starting
+2026-01-29 16:35:25,133 INFO     pid:3832595 util.util:111:enumerateWithEstimate E7 Training   32/104, done at 2026-01-29 16:36:18, 0:01:08
+2026-01-29 16:35:49,086 INFO     pid:3832595 util.util:111:enumerateWithEstimate E7 Training   64/104, done at 2026-01-29 16:36:18, 0:01:08
+2026-01-29 16:36:17,921 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E7 Training ----/104, done at 2026-01-29 16:36:17
+2026-01-29 16:36:17,922 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E7 Validation ----/25, starting
+2026-01-29 16:36:28,088 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E7 Validation ----/25, done at 2026-01-29 16:36:28
+2026-01-29 16:36:28,817 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:36:28,828 INFO     pid:3832595 __main__:612:main Epoch 8/100
+2026-01-29 16:36:28,828 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:36:28,828 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:36:28,829 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E8 Training ----/104, starting
+2026-01-29 16:36:59,602 INFO     pid:3832595 util.util:111:enumerateWithEstimate E8 Training   32/104, done at 2026-01-29 16:37:52, 0:01:08
+2026-01-29 16:37:23,646 INFO     pid:3832595 util.util:111:enumerateWithEstimate E8 Training   64/104, done at 2026-01-29 16:37:52, 0:01:09
+2026-01-29 16:37:52,832 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E8 Training ----/104, done at 2026-01-29 16:37:52
+2026-01-29 16:37:52,833 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E8 Validation ----/25, starting
+2026-01-29 16:38:03,523 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E8 Validation ----/25, done at 2026-01-29 16:38:03
+2026-01-29 16:38:04,356 INFO     pid:3832595 __main__:646:main New best validation loss: 0.773872971534729
+2026-01-29 16:38:04,523 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 16:38:04,523 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:38:04,536 INFO     pid:3832595 __main__:612:main Epoch 9/100
+2026-01-29 16:38:04,536 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:38:04,536 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:38:04,537 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E9 Training ----/104, starting
+2026-01-29 16:38:33,444 INFO     pid:3832595 util.util:111:enumerateWithEstimate E9 Training   32/104, done at 2026-01-29 16:39:26, 0:01:09
+2026-01-29 16:38:57,478 INFO     pid:3832595 util.util:111:enumerateWithEstimate E9 Training   64/104, done at 2026-01-29 16:39:26, 0:01:09
+2026-01-29 16:39:26,417 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E9 Training ----/104, done at 2026-01-29 16:39:26
+2026-01-29 16:39:26,418 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E9 Validation ----/25, starting
+2026-01-29 16:39:37,355 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E9 Validation ----/25, done at 2026-01-29 16:39:37
+2026-01-29 16:39:38,233 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:39:38,244 INFO     pid:3832595 __main__:612:main Epoch 10/100
+2026-01-29 16:39:38,245 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:39:38,245 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:39:38,245 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E10 Training ----/104, starting
+2026-01-29 16:40:07,067 INFO     pid:3832595 util.util:111:enumerateWithEstimate E10 Training   32/104, done at 2026-01-29 16:41:00, 0:01:08
+2026-01-29 16:40:30,984 INFO     pid:3832595 util.util:111:enumerateWithEstimate E10 Training   64/104, done at 2026-01-29 16:41:00, 0:01:08
+2026-01-29 16:40:59,872 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E10 Training ----/104, done at 2026-01-29 16:40:59
+2026-01-29 16:40:59,873 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E10 Validation ----/25, starting
+2026-01-29 16:41:10,525 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E10 Validation ----/25, done at 2026-01-29 16:41:10
+2026-01-29 16:41:11,383 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:41:11,394 INFO     pid:3832595 __main__:612:main Epoch 11/100
+2026-01-29 16:41:11,394 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:41:11,394 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:41:11,395 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E11 Training ----/104, starting
+2026-01-29 16:41:42,065 INFO     pid:3832595 util.util:111:enumerateWithEstimate E11 Training   32/104, done at 2026-01-29 16:42:35, 0:01:08
+2026-01-29 16:42:05,973 INFO     pid:3832595 util.util:111:enumerateWithEstimate E11 Training   64/104, done at 2026-01-29 16:42:35, 0:01:08
+2026-01-29 16:42:34,865 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E11 Training ----/104, done at 2026-01-29 16:42:34
+2026-01-29 16:42:34,866 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E11 Validation ----/25, starting
+2026-01-29 16:42:45,258 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E11 Validation ----/25, done at 2026-01-29 16:42:45
+2026-01-29 16:42:46,042 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:42:46,053 INFO     pid:3832595 __main__:612:main Epoch 12/100
+2026-01-29 16:42:46,053 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:42:46,053 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:42:46,054 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E12 Training ----/104, starting
+2026-01-29 16:43:14,774 INFO     pid:3832595 util.util:111:enumerateWithEstimate E12 Training   32/104, done at 2026-01-29 16:44:07, 0:01:08
+2026-01-29 16:43:38,691 INFO     pid:3832595 util.util:111:enumerateWithEstimate E12 Training   64/104, done at 2026-01-29 16:44:07, 0:01:08
+2026-01-29 16:44:07,641 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E12 Training ----/104, done at 2026-01-29 16:44:07
+2026-01-29 16:44:07,642 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E12 Validation ----/25, starting
+2026-01-29 16:44:18,344 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E12 Validation ----/25, done at 2026-01-29 16:44:18
+2026-01-29 16:44:19,185 INFO     pid:3832595 __main__:646:main New best validation loss: 0.6792294383049011
+2026-01-29 16:44:19,349 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 16:44:19,350 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:44:19,364 INFO     pid:3832595 __main__:612:main Epoch 13/100
+2026-01-29 16:44:19,365 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:44:19,365 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:44:19,366 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E13 Training ----/104, starting
+2026-01-29 16:44:48,000 INFO     pid:3832595 util.util:111:enumerateWithEstimate E13 Training   32/104, done at 2026-01-29 16:45:41, 0:01:08
+2026-01-29 16:45:11,871 INFO     pid:3832595 util.util:111:enumerateWithEstimate E13 Training   64/104, done at 2026-01-29 16:45:40, 0:01:08
+2026-01-29 16:45:40,713 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E13 Training ----/104, done at 2026-01-29 16:45:40
+2026-01-29 16:45:40,714 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E13 Validation ----/25, starting
+2026-01-29 16:45:50,875 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E13 Validation ----/25, done at 2026-01-29 16:45:50
+2026-01-29 16:45:51,698 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:45:51,709 INFO     pid:3832595 __main__:612:main Epoch 14/100
+2026-01-29 16:45:51,710 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:45:51,710 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:45:51,710 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E14 Training ----/104, starting
+2026-01-29 16:46:21,939 INFO     pid:3832595 util.util:111:enumerateWithEstimate E14 Training   32/104, done at 2026-01-29 16:47:15, 0:01:08
+2026-01-29 16:46:45,882 INFO     pid:3832595 util.util:111:enumerateWithEstimate E14 Training   64/104, done at 2026-01-29 16:47:15, 0:01:08
+2026-01-29 16:47:14,732 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E14 Training ----/104, done at 2026-01-29 16:47:14
+2026-01-29 16:47:14,733 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E14 Validation ----/25, starting
+2026-01-29 16:47:24,868 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E14 Validation ----/25, done at 2026-01-29 16:47:24
+2026-01-29 16:47:25,138 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:47:25,149 INFO     pid:3832595 __main__:612:main Epoch 15/100
+2026-01-29 16:47:25,150 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:47:25,150 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:47:25,150 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E15 Training ----/104, starting
+2026-01-29 16:47:54,735 INFO     pid:3832595 util.util:111:enumerateWithEstimate E15 Training   32/104, done at 2026-01-29 16:48:47, 0:01:08
+2026-01-29 16:48:18,672 INFO     pid:3832595 util.util:111:enumerateWithEstimate E15 Training   64/104, done at 2026-01-29 16:48:47, 0:01:08
+2026-01-29 16:48:47,527 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E15 Training ----/104, done at 2026-01-29 16:48:47
+2026-01-29 16:48:47,528 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E15 Validation ----/25, starting
+2026-01-29 16:48:58,642 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E15 Validation ----/25, done at 2026-01-29 16:48:58
+2026-01-29 16:48:59,440 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:48:59,451 INFO     pid:3832595 __main__:612:main Epoch 16/100
+2026-01-29 16:48:59,452 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:48:59,452 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:48:59,452 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E16 Training ----/104, starting
+2026-01-29 16:49:29,309 INFO     pid:3832595 util.util:111:enumerateWithEstimate E16 Training   32/104, done at 2026-01-29 16:50:22, 0:01:08
+2026-01-29 16:49:53,253 INFO     pid:3832595 util.util:111:enumerateWithEstimate E16 Training   64/104, done at 2026-01-29 16:50:22, 0:01:08
+2026-01-29 16:50:22,143 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E16 Training ----/104, done at 2026-01-29 16:50:22
+2026-01-29 16:50:22,144 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E16 Validation ----/25, starting
+2026-01-29 16:50:33,390 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E16 Validation ----/25, done at 2026-01-29 16:50:33
+2026-01-29 16:50:34,171 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:50:34,183 INFO     pid:3832595 __main__:612:main Epoch 17/100
+2026-01-29 16:50:34,183 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:50:34,183 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:50:34,184 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E17 Training ----/104, starting
+2026-01-29 16:51:03,797 INFO     pid:3832595 util.util:111:enumerateWithEstimate E17 Training   32/104, done at 2026-01-29 16:51:56, 0:01:08
+2026-01-29 16:51:27,729 INFO     pid:3832595 util.util:111:enumerateWithEstimate E17 Training   64/104, done at 2026-01-29 16:51:56, 0:01:08
+2026-01-29 16:51:56,622 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E17 Training ----/104, done at 2026-01-29 16:51:56
+2026-01-29 16:51:56,623 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E17 Validation ----/25, starting
+2026-01-29 16:52:07,416 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E17 Validation ----/25, done at 2026-01-29 16:52:07
+2026-01-29 16:52:08,208 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:52:08,219 INFO     pid:3832595 __main__:612:main Epoch 18/100
+2026-01-29 16:52:08,219 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:52:08,219 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:52:08,220 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E18 Training ----/104, starting
+2026-01-29 16:52:37,798 INFO     pid:3832595 util.util:111:enumerateWithEstimate E18 Training   32/104, done at 2026-01-29 16:53:30, 0:01:08
+2026-01-29 16:53:01,729 INFO     pid:3832595 util.util:111:enumerateWithEstimate E18 Training   64/104, done at 2026-01-29 16:53:30, 0:01:08
+2026-01-29 16:53:30,603 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E18 Training ----/104, done at 2026-01-29 16:53:30
+2026-01-29 16:53:30,603 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E18 Validation ----/25, starting
+2026-01-29 16:53:41,236 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E18 Validation ----/25, done at 2026-01-29 16:53:41
+2026-01-29 16:53:42,096 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:53:42,107 INFO     pid:3832595 __main__:612:main Epoch 19/100
+2026-01-29 16:53:42,107 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:53:42,107 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:53:42,108 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E19 Training ----/104, starting
+2026-01-29 16:54:13,412 INFO     pid:3832595 util.util:111:enumerateWithEstimate E19 Training   32/104, done at 2026-01-29 16:55:06, 0:01:09
+2026-01-29 16:54:37,419 INFO     pid:3832595 util.util:111:enumerateWithEstimate E19 Training   64/104, done at 2026-01-29 16:55:06, 0:01:09
+2026-01-29 16:55:06,341 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E19 Training ----/104, done at 2026-01-29 16:55:06
+2026-01-29 16:55:06,342 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E19 Validation ----/25, starting
+2026-01-29 16:55:16,901 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E19 Validation ----/25, done at 2026-01-29 16:55:16
+2026-01-29 16:55:17,708 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:55:17,720 INFO     pid:3832595 __main__:612:main Epoch 20/100
+2026-01-29 16:55:17,720 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:55:17,720 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:55:17,721 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E20 Training ----/104, starting
+2026-01-29 16:55:47,457 INFO     pid:3832595 util.util:111:enumerateWithEstimate E20 Training   32/104, done at 2026-01-29 16:56:40, 0:01:09
+2026-01-29 16:56:11,384 INFO     pid:3832595 util.util:111:enumerateWithEstimate E20 Training   64/104, done at 2026-01-29 16:56:40, 0:01:08
+2026-01-29 16:56:40,281 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E20 Training ----/104, done at 2026-01-29 16:56:40
+2026-01-29 16:56:40,282 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E20 Validation ----/25, starting
+2026-01-29 16:56:50,165 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E20 Validation ----/25, done at 2026-01-29 16:56:50
+2026-01-29 16:56:50,962 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:56:50,974 INFO     pid:3832595 __main__:612:main Epoch 21/100
+2026-01-29 16:56:50,974 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:56:50,974 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:56:50,975 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E21 Training ----/104, starting
+2026-01-29 16:57:20,566 INFO     pid:3832595 util.util:111:enumerateWithEstimate E21 Training   32/104, done at 2026-01-29 16:58:13, 0:01:08
+2026-01-29 16:57:44,508 INFO     pid:3832595 util.util:111:enumerateWithEstimate E21 Training   64/104, done at 2026-01-29 16:58:13, 0:01:08
+2026-01-29 16:58:13,537 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E21 Training ----/104, done at 2026-01-29 16:58:13
+2026-01-29 16:58:13,539 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E21 Validation ----/25, starting
+2026-01-29 16:58:24,643 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E21 Validation ----/25, done at 2026-01-29 16:58:24
+2026-01-29 16:58:25,509 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 16:58:25,520 INFO     pid:3832595 __main__:612:main Epoch 22/100
+2026-01-29 16:58:25,520 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 16:58:25,520 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 16:58:25,521 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E22 Training ----/104, starting
+2026-01-29 16:58:55,801 INFO     pid:3832595 util.util:111:enumerateWithEstimate E22 Training   32/104, done at 2026-01-29 16:59:48, 0:01:08
+2026-01-29 16:59:20,608 INFO     pid:3832595 util.util:111:enumerateWithEstimate E22 Training   64/104, done at 2026-01-29 16:59:50, 0:01:10
+2026-01-29 16:59:49,640 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E22 Training ----/104, done at 2026-01-29 16:59:49
+2026-01-29 16:59:49,640 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E22 Validation ----/25, starting
+2026-01-29 17:00:00,836 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E22 Validation ----/25, done at 2026-01-29 17:00:00
+2026-01-29 17:00:01,630 INFO     pid:3832595 __main__:652:main Current learning rate: 0.001
+2026-01-29 17:00:01,642 INFO     pid:3832595 __main__:612:main Epoch 23/100
+2026-01-29 17:00:01,643 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:00:01,643 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:00:01,644 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E23 Training ----/104, starting
+2026-01-29 17:00:32,198 INFO     pid:3832595 util.util:111:enumerateWithEstimate E23 Training   32/104, done at 2026-01-29 17:01:25, 0:01:08
+2026-01-29 17:00:56,103 INFO     pid:3832595 util.util:111:enumerateWithEstimate E23 Training   64/104, done at 2026-01-29 17:01:25, 0:01:08
+2026-01-29 17:01:25,036 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E23 Training ----/104, done at 2026-01-29 17:01:25
+2026-01-29 17:01:25,037 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E23 Validation ----/25, starting
+2026-01-29 17:01:36,183 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E23 Validation ----/25, done at 2026-01-29 17:01:36
+2026-01-29 17:01:36,995 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:01:37,008 INFO     pid:3832595 __main__:612:main Epoch 24/100
+2026-01-29 17:01:37,008 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:01:37,008 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:01:37,009 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E24 Training ----/104, starting
+2026-01-29 17:02:06,495 INFO     pid:3832595 util.util:111:enumerateWithEstimate E24 Training   32/104, done at 2026-01-29 17:02:59, 0:01:09
+2026-01-29 17:02:30,445 INFO     pid:3832595 util.util:111:enumerateWithEstimate E24 Training   64/104, done at 2026-01-29 17:02:59, 0:01:08
+2026-01-29 17:02:59,410 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E24 Training ----/104, done at 2026-01-29 17:02:59
+2026-01-29 17:02:59,411 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E24 Validation ----/25, starting
+2026-01-29 17:03:09,870 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E24 Validation ----/25, done at 2026-01-29 17:03:09
+2026-01-29 17:03:10,664 INFO     pid:3832595 __main__:646:main New best validation loss: 0.45685797929763794
+2026-01-29 17:03:10,869 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 17:03:10,869 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:03:10,880 INFO     pid:3832595 __main__:612:main Epoch 25/100
+2026-01-29 17:03:10,880 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:03:10,880 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:03:10,881 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E25 Training ----/104, starting
+2026-01-29 17:03:41,906 INFO     pid:3832595 util.util:111:enumerateWithEstimate E25 Training   32/104, done at 2026-01-29 17:04:34, 0:01:08
+2026-01-29 17:04:05,795 INFO     pid:3832595 util.util:111:enumerateWithEstimate E25 Training   64/104, done at 2026-01-29 17:04:34, 0:01:08
+2026-01-29 17:04:34,709 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E25 Training ----/104, done at 2026-01-29 17:04:34
+2026-01-29 17:04:34,711 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E25 Validation ----/25, starting
+2026-01-29 17:04:44,969 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E25 Validation ----/25, done at 2026-01-29 17:04:44
+2026-01-29 17:04:45,749 INFO     pid:3832595 __main__:646:main New best validation loss: 0.42087891697883606
+2026-01-29 17:04:45,923 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 17:04:45,923 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:04:45,935 INFO     pid:3832595 __main__:612:main Epoch 26/100
+2026-01-29 17:04:45,936 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:04:45,936 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:04:45,936 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E26 Training ----/104, starting
+2026-01-29 17:05:15,618 INFO     pid:3832595 util.util:111:enumerateWithEstimate E26 Training   32/104, done at 2026-01-29 17:06:08, 0:01:08
+2026-01-29 17:05:39,536 INFO     pid:3832595 util.util:111:enumerateWithEstimate E26 Training   64/104, done at 2026-01-29 17:06:08, 0:01:08
+2026-01-29 17:06:08,456 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E26 Training ----/104, done at 2026-01-29 17:06:08
+2026-01-29 17:06:08,457 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E26 Validation ----/25, starting
+2026-01-29 17:06:18,708 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E26 Validation ----/25, done at 2026-01-29 17:06:18
+2026-01-29 17:06:19,496 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:06:19,508 INFO     pid:3832595 __main__:612:main Epoch 27/100
+2026-01-29 17:06:19,508 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:06:19,508 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:06:19,509 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E27 Training ----/104, starting
+2026-01-29 17:06:48,883 INFO     pid:3832595 util.util:111:enumerateWithEstimate E27 Training   32/104, done at 2026-01-29 17:07:42, 0:01:08
+2026-01-29 17:07:12,859 INFO     pid:3832595 util.util:111:enumerateWithEstimate E27 Training   64/104, done at 2026-01-29 17:07:42, 0:01:08
+2026-01-29 17:07:41,702 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E27 Training ----/104, done at 2026-01-29 17:07:41
+2026-01-29 17:07:41,703 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E27 Validation ----/25, starting
+2026-01-29 17:07:52,675 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E27 Validation ----/25, done at 2026-01-29 17:07:52
+2026-01-29 17:07:53,469 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:07:53,480 INFO     pid:3832595 __main__:612:main Epoch 28/100
+2026-01-29 17:07:53,481 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:07:53,481 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:07:53,482 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E28 Training ----/104, starting
+2026-01-29 17:08:23,650 INFO     pid:3832595 util.util:111:enumerateWithEstimate E28 Training   32/104, done at 2026-01-29 17:09:16, 0:01:08
+2026-01-29 17:08:47,609 INFO     pid:3832595 util.util:111:enumerateWithEstimate E28 Training   64/104, done at 2026-01-29 17:09:16, 0:01:08
+2026-01-29 17:09:16,537 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E28 Training ----/104, done at 2026-01-29 17:09:16
+2026-01-29 17:09:16,538 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E28 Validation ----/25, starting
+2026-01-29 17:09:27,810 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E28 Validation ----/25, done at 2026-01-29 17:09:27
+2026-01-29 17:09:28,599 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:09:28,610 INFO     pid:3832595 __main__:612:main Epoch 29/100
+2026-01-29 17:09:28,611 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:09:28,611 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:09:28,611 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E29 Training ----/104, starting
+2026-01-29 17:09:58,756 INFO     pid:3832595 util.util:111:enumerateWithEstimate E29 Training   32/104, done at 2026-01-29 17:10:51, 0:01:08
+2026-01-29 17:10:22,747 INFO     pid:3832595 util.util:111:enumerateWithEstimate E29 Training   64/104, done at 2026-01-29 17:10:51, 0:01:08
+2026-01-29 17:10:51,622 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E29 Training ----/104, done at 2026-01-29 17:10:51
+2026-01-29 17:10:51,623 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E29 Validation ----/25, starting
+2026-01-29 17:11:02,236 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E29 Validation ----/25, done at 2026-01-29 17:11:02
+2026-01-29 17:11:03,094 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:11:03,106 INFO     pid:3832595 __main__:612:main Epoch 30/100
+2026-01-29 17:11:03,106 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:11:03,106 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:11:03,107 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E30 Training ----/104, starting
+2026-01-29 17:11:30,927 INFO     pid:3832595 util.util:111:enumerateWithEstimate E30 Training   32/104, done at 2026-01-29 17:12:23, 0:01:08
+2026-01-29 17:11:54,826 INFO     pid:3832595 util.util:111:enumerateWithEstimate E30 Training   64/104, done at 2026-01-29 17:12:23, 0:01:08
+2026-01-29 17:12:23,658 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E30 Training ----/104, done at 2026-01-29 17:12:23
+2026-01-29 17:12:23,659 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E30 Validation ----/25, starting
+2026-01-29 17:12:34,939 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E30 Validation ----/25, done at 2026-01-29 17:12:34
+2026-01-29 17:12:35,627 INFO     pid:3832595 __main__:646:main New best validation loss: 0.3938869833946228
+2026-01-29 17:12:35,786 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 17:12:35,786 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:12:35,797 INFO     pid:3832595 __main__:612:main Epoch 31/100
+2026-01-29 17:12:35,797 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:12:35,797 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:12:35,798 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E31 Training ----/104, starting
+2026-01-29 17:13:04,663 INFO     pid:3832595 util.util:111:enumerateWithEstimate E31 Training   32/104, done at 2026-01-29 17:13:57, 0:01:09
+2026-01-29 17:13:28,625 INFO     pid:3832595 util.util:111:enumerateWithEstimate E31 Training   64/104, done at 2026-01-29 17:13:57, 0:01:08
+2026-01-29 17:13:57,716 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E31 Training ----/104, done at 2026-01-29 17:13:57
+2026-01-29 17:13:57,717 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E31 Validation ----/25, starting
+2026-01-29 17:14:08,830 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E31 Validation ----/25, done at 2026-01-29 17:14:08
+2026-01-29 17:14:09,630 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:14:09,641 INFO     pid:3832595 __main__:612:main Epoch 32/100
+2026-01-29 17:14:09,641 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:14:09,641 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:14:09,642 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E32 Training ----/104, starting
+2026-01-29 17:14:38,980 INFO     pid:3832595 util.util:111:enumerateWithEstimate E32 Training   32/104, done at 2026-01-29 17:15:32, 0:01:08
+2026-01-29 17:15:02,910 INFO     pid:3832595 util.util:111:enumerateWithEstimate E32 Training   64/104, done at 2026-01-29 17:15:32, 0:01:08
+2026-01-29 17:15:31,822 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E32 Training ----/104, done at 2026-01-29 17:15:31
+2026-01-29 17:15:31,823 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E32 Validation ----/25, starting
+2026-01-29 17:15:43,133 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E32 Validation ----/25, done at 2026-01-29 17:15:43
+2026-01-29 17:15:43,938 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:15:43,949 INFO     pid:3832595 __main__:612:main Epoch 33/100
+2026-01-29 17:15:43,949 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:15:43,949 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:15:43,950 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E33 Training ----/104, starting
+2026-01-29 17:16:15,348 INFO     pid:3832595 util.util:111:enumerateWithEstimate E33 Training   32/104, done at 2026-01-29 17:17:08, 0:01:08
+2026-01-29 17:16:39,283 INFO     pid:3832595 util.util:111:enumerateWithEstimate E33 Training   64/104, done at 2026-01-29 17:17:08, 0:01:08
+2026-01-29 17:17:08,196 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E33 Training ----/104, done at 2026-01-29 17:17:08
+2026-01-29 17:17:08,197 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E33 Validation ----/25, starting
+2026-01-29 17:17:19,398 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E33 Validation ----/25, done at 2026-01-29 17:17:19
+2026-01-29 17:17:20,180 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:17:20,191 INFO     pid:3832595 __main__:612:main Epoch 34/100
+2026-01-29 17:17:20,191 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:17:20,191 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:17:20,192 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E34 Training ----/104, starting
+2026-01-29 17:17:49,290 INFO     pid:3832595 util.util:111:enumerateWithEstimate E34 Training   32/104, done at 2026-01-29 17:18:42, 0:01:08
+2026-01-29 17:18:13,187 INFO     pid:3832595 util.util:111:enumerateWithEstimate E34 Training   64/104, done at 2026-01-29 17:18:42, 0:01:08
+2026-01-29 17:18:42,021 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E34 Training ----/104, done at 2026-01-29 17:18:42
+2026-01-29 17:18:42,022 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E34 Validation ----/25, starting
+2026-01-29 17:18:52,846 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E34 Validation ----/25, done at 2026-01-29 17:18:52
+2026-01-29 17:18:53,671 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:18:53,682 INFO     pid:3832595 __main__:612:main Epoch 35/100
+2026-01-29 17:18:53,682 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:18:53,683 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:18:53,683 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E35 Training ----/104, starting
+2026-01-29 17:19:24,093 INFO     pid:3832595 util.util:111:enumerateWithEstimate E35 Training   32/104, done at 2026-01-29 17:20:17, 0:01:08
+2026-01-29 17:19:47,988 INFO     pid:3832595 util.util:111:enumerateWithEstimate E35 Training   64/104, done at 2026-01-29 17:20:17, 0:01:08
+2026-01-29 17:20:16,908 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E35 Training ----/104, done at 2026-01-29 17:20:16
+2026-01-29 17:20:16,909 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E35 Validation ----/25, starting
+2026-01-29 17:20:27,538 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E35 Validation ----/25, done at 2026-01-29 17:20:27
+2026-01-29 17:20:28,317 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:20:28,330 INFO     pid:3832595 __main__:612:main Epoch 36/100
+2026-01-29 17:20:28,331 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:20:28,331 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:20:28,331 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E36 Training ----/104, starting
+2026-01-29 17:20:58,487 INFO     pid:3832595 util.util:111:enumerateWithEstimate E36 Training   32/104, done at 2026-01-29 17:21:51, 0:01:08
+2026-01-29 17:21:22,422 INFO     pid:3832595 util.util:111:enumerateWithEstimate E36 Training   64/104, done at 2026-01-29 17:21:51, 0:01:08
+2026-01-29 17:21:51,322 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E36 Training ----/104, done at 2026-01-29 17:21:51
+2026-01-29 17:21:51,323 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E36 Validation ----/25, starting
+2026-01-29 17:22:01,821 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E36 Validation ----/25, done at 2026-01-29 17:22:01
+2026-01-29 17:22:02,625 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:22:02,637 INFO     pid:3832595 __main__:612:main Epoch 37/100
+2026-01-29 17:22:02,637 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:22:02,638 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:22:02,638 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E37 Training ----/104, starting
+2026-01-29 17:22:30,667 INFO     pid:3832595 util.util:111:enumerateWithEstimate E37 Training   32/104, done at 2026-01-29 17:23:23, 0:01:08
+2026-01-29 17:22:54,655 INFO     pid:3832595 util.util:111:enumerateWithEstimate E37 Training   64/104, done at 2026-01-29 17:23:23, 0:01:08
+2026-01-29 17:23:23,471 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E37 Training ----/104, done at 2026-01-29 17:23:23
+2026-01-29 17:23:23,472 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E37 Validation ----/25, starting
+2026-01-29 17:23:34,855 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E37 Validation ----/25, done at 2026-01-29 17:23:34
+2026-01-29 17:23:35,647 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:23:35,658 INFO     pid:3832595 __main__:612:main Epoch 38/100
+2026-01-29 17:23:35,659 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:23:35,659 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:23:35,659 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E38 Training ----/104, starting
+2026-01-29 17:24:05,000 INFO     pid:3832595 util.util:111:enumerateWithEstimate E38 Training   32/104, done at 2026-01-29 17:24:58, 0:01:08
+2026-01-29 17:24:28,928 INFO     pid:3832595 util.util:111:enumerateWithEstimate E38 Training   64/104, done at 2026-01-29 17:24:58, 0:01:08
+2026-01-29 17:24:57,892 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E38 Training ----/104, done at 2026-01-29 17:24:57
+2026-01-29 17:24:57,893 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E38 Validation ----/25, starting
+2026-01-29 17:25:09,890 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E38 Validation ----/25, done at 2026-01-29 17:25:09
+2026-01-29 17:25:10,838 INFO     pid:3832595 __main__:646:main New best validation loss: 0.3816359341144562
+2026-01-29 17:25:11,077 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 17:25:11,077 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:25:11,088 INFO     pid:3832595 __main__:612:main Epoch 39/100
+2026-01-29 17:25:11,088 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:25:11,088 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:25:11,089 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E39 Training ----/104, starting
+2026-01-29 17:25:39,557 INFO     pid:3832595 util.util:111:enumerateWithEstimate E39 Training   32/104, done at 2026-01-29 17:26:32, 0:01:08
+2026-01-29 17:26:03,560 INFO     pid:3832595 util.util:111:enumerateWithEstimate E39 Training   64/104, done at 2026-01-29 17:26:32, 0:01:08
+2026-01-29 17:26:32,469 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E39 Training ----/104, done at 2026-01-29 17:26:32
+2026-01-29 17:26:32,471 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E39 Validation ----/25, starting
+2026-01-29 17:26:44,346 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E39 Validation ----/25, done at 2026-01-29 17:26:44
+2026-01-29 17:26:45,099 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:26:45,110 INFO     pid:3832595 __main__:612:main Epoch 40/100
+2026-01-29 17:26:45,110 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:26:45,110 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:26:45,111 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E40 Training ----/104, starting
+2026-01-29 17:27:15,058 INFO     pid:3832595 util.util:111:enumerateWithEstimate E40 Training   32/104, done at 2026-01-29 17:28:08, 0:01:08
+2026-01-29 17:27:38,972 INFO     pid:3832595 util.util:111:enumerateWithEstimate E40 Training   64/104, done at 2026-01-29 17:28:08, 0:01:08
+2026-01-29 17:28:07,829 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E40 Training ----/104, done at 2026-01-29 17:28:07
+2026-01-29 17:28:07,831 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E40 Validation ----/25, starting
+2026-01-29 17:28:17,702 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E40 Validation ----/25, done at 2026-01-29 17:28:17
+2026-01-29 17:28:18,495 INFO     pid:3832595 __main__:646:main New best validation loss: 0.3797283470630646
+2026-01-29 17:28:18,687 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 17:28:18,687 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:28:18,699 INFO     pid:3832595 __main__:612:main Epoch 41/100
+2026-01-29 17:28:18,699 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:28:18,699 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:28:18,700 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E41 Training ----/104, starting
+2026-01-29 17:28:48,800 INFO     pid:3832595 util.util:111:enumerateWithEstimate E41 Training   32/104, done at 2026-01-29 17:29:41, 0:01:08
+2026-01-29 17:29:12,748 INFO     pid:3832595 util.util:111:enumerateWithEstimate E41 Training   64/104, done at 2026-01-29 17:29:41, 0:01:08
+2026-01-29 17:29:41,742 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E41 Training ----/104, done at 2026-01-29 17:29:41
+2026-01-29 17:29:41,743 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E41 Validation ----/25, starting
+2026-01-29 17:29:52,912 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E41 Validation ----/25, done at 2026-01-29 17:29:52
+2026-01-29 17:29:53,687 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:29:53,700 INFO     pid:3832595 __main__:612:main Epoch 42/100
+2026-01-29 17:29:53,700 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:29:53,700 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:29:53,701 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E42 Training ----/104, starting
+2026-01-29 17:30:22,464 INFO     pid:3832595 util.util:111:enumerateWithEstimate E42 Training   32/104, done at 2026-01-29 17:31:15, 0:01:08
+2026-01-29 17:30:46,362 INFO     pid:3832595 util.util:111:enumerateWithEstimate E42 Training   64/104, done at 2026-01-29 17:31:15, 0:01:08
+2026-01-29 17:31:15,282 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E42 Training ----/104, done at 2026-01-29 17:31:15
+2026-01-29 17:31:15,283 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E42 Validation ----/25, starting
+2026-01-29 17:31:26,332 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E42 Validation ----/25, done at 2026-01-29 17:31:26
+2026-01-29 17:31:27,146 INFO     pid:3832595 __main__:646:main New best validation loss: 0.36953258514404297
+2026-01-29 17:31:27,305 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 17:31:27,306 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:31:27,318 INFO     pid:3832595 __main__:612:main Epoch 43/100
+2026-01-29 17:31:27,318 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:31:27,319 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:31:27,319 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E43 Training ----/104, starting
+2026-01-29 17:31:57,469 INFO     pid:3832595 util.util:111:enumerateWithEstimate E43 Training   32/104, done at 2026-01-29 17:32:50, 0:01:08
+2026-01-29 17:32:21,365 INFO     pid:3832595 util.util:111:enumerateWithEstimate E43 Training   64/104, done at 2026-01-29 17:32:50, 0:01:08
+2026-01-29 17:32:50,379 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E43 Training ----/104, done at 2026-01-29 17:32:50
+2026-01-29 17:32:50,380 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E43 Validation ----/25, starting
+2026-01-29 17:33:00,758 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E43 Validation ----/25, done at 2026-01-29 17:33:00
+2026-01-29 17:33:01,635 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:33:01,646 INFO     pid:3832595 __main__:612:main Epoch 44/100
+2026-01-29 17:33:01,647 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:33:01,647 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:33:01,648 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E44 Training ----/104, starting
+2026-01-29 17:33:32,604 INFO     pid:3832595 util.util:111:enumerateWithEstimate E44 Training   32/104, done at 2026-01-29 17:34:25, 0:01:08
+2026-01-29 17:33:56,566 INFO     pid:3832595 util.util:111:enumerateWithEstimate E44 Training   64/104, done at 2026-01-29 17:34:25, 0:01:08
+2026-01-29 17:34:25,463 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E44 Training ----/104, done at 2026-01-29 17:34:25
+2026-01-29 17:34:25,464 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E44 Validation ----/25, starting
+2026-01-29 17:34:35,668 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E44 Validation ----/25, done at 2026-01-29 17:34:35
+2026-01-29 17:34:36,444 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:34:36,456 INFO     pid:3832595 __main__:612:main Epoch 45/100
+2026-01-29 17:34:36,456 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:34:36,456 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:34:36,457 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E45 Training ----/104, starting
+2026-01-29 17:35:05,303 INFO     pid:3832595 util.util:111:enumerateWithEstimate E45 Training   32/104, done at 2026-01-29 17:35:58, 0:01:08
+2026-01-29 17:35:29,166 INFO     pid:3832595 util.util:111:enumerateWithEstimate E45 Training   64/104, done at 2026-01-29 17:35:58, 0:01:08
+2026-01-29 17:35:58,012 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E45 Training ----/104, done at 2026-01-29 17:35:58
+2026-01-29 17:35:58,014 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E45 Validation ----/25, starting
+2026-01-29 17:36:09,234 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E45 Validation ----/25, done at 2026-01-29 17:36:09
+2026-01-29 17:36:10,022 INFO     pid:3832595 __main__:646:main New best validation loss: 0.369055837392807
+2026-01-29 17:36:10,161 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 17:36:10,162 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:36:10,173 INFO     pid:3832595 __main__:612:main Epoch 46/100
+2026-01-29 17:36:10,173 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:36:10,173 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:36:10,174 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E46 Training ----/104, starting
+2026-01-29 17:36:40,898 INFO     pid:3832595 util.util:111:enumerateWithEstimate E46 Training   32/104, done at 2026-01-29 17:37:33, 0:01:08
+2026-01-29 17:37:04,795 INFO     pid:3832595 util.util:111:enumerateWithEstimate E46 Training   64/104, done at 2026-01-29 17:37:33, 0:01:08
+2026-01-29 17:37:33,685 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E46 Training ----/104, done at 2026-01-29 17:37:33
+2026-01-29 17:37:33,686 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E46 Validation ----/25, starting
+2026-01-29 17:37:44,171 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E46 Validation ----/25, done at 2026-01-29 17:37:44
+2026-01-29 17:37:44,829 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:37:44,841 INFO     pid:3832595 __main__:612:main Epoch 47/100
+2026-01-29 17:37:44,842 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:37:44,842 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:37:44,843 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E47 Training ----/104, starting
+2026-01-29 17:38:14,574 INFO     pid:3832595 util.util:111:enumerateWithEstimate E47 Training   32/104, done at 2026-01-29 17:39:07, 0:01:08
+2026-01-29 17:38:38,517 INFO     pid:3832595 util.util:111:enumerateWithEstimate E47 Training   64/104, done at 2026-01-29 17:39:07, 0:01:08
+2026-01-29 17:39:07,393 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E47 Training ----/104, done at 2026-01-29 17:39:07
+2026-01-29 17:39:07,394 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E47 Validation ----/25, starting
+2026-01-29 17:39:18,767 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E47 Validation ----/25, done at 2026-01-29 17:39:18
+2026-01-29 17:39:19,628 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:39:19,639 INFO     pid:3832595 __main__:612:main Epoch 48/100
+2026-01-29 17:39:19,639 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:39:19,639 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:39:19,640 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E48 Training ----/104, starting
+2026-01-29 17:39:50,037 INFO     pid:3832595 util.util:111:enumerateWithEstimate E48 Training   32/104, done at 2026-01-29 17:40:43, 0:01:08
+2026-01-29 17:40:13,982 INFO     pid:3832595 util.util:111:enumerateWithEstimate E48 Training   64/104, done at 2026-01-29 17:40:43, 0:01:08
+2026-01-29 17:40:42,818 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E48 Training ----/104, done at 2026-01-29 17:40:42
+2026-01-29 17:40:42,818 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E48 Validation ----/25, starting
+2026-01-29 17:40:52,988 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E48 Validation ----/25, done at 2026-01-29 17:40:52
+2026-01-29 17:40:53,307 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:40:53,318 INFO     pid:3832595 __main__:612:main Epoch 49/100
+2026-01-29 17:40:53,318 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:40:53,318 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:40:53,319 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E49 Training ----/104, starting
+2026-01-29 17:41:23,546 INFO     pid:3832595 util.util:111:enumerateWithEstimate E49 Training   32/104, done at 2026-01-29 17:42:16, 0:01:08
+2026-01-29 17:41:47,464 INFO     pid:3832595 util.util:111:enumerateWithEstimate E49 Training   64/104, done at 2026-01-29 17:42:16, 0:01:08
+2026-01-29 17:42:16,301 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E49 Training ----/104, done at 2026-01-29 17:42:16
+2026-01-29 17:42:16,302 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E49 Validation ----/25, starting
+2026-01-29 17:42:27,343 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E49 Validation ----/25, done at 2026-01-29 17:42:27
+2026-01-29 17:42:28,129 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:42:28,141 INFO     pid:3832595 __main__:612:main Epoch 50/100
+2026-01-29 17:42:28,141 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:42:28,141 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:42:28,142 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E50 Training ----/104, starting
+2026-01-29 17:42:59,044 INFO     pid:3832595 util.util:111:enumerateWithEstimate E50 Training   32/104, done at 2026-01-29 17:43:52, 0:01:08
+2026-01-29 17:43:22,960 INFO     pid:3832595 util.util:111:enumerateWithEstimate E50 Training   64/104, done at 2026-01-29 17:43:52, 0:01:08
+2026-01-29 17:43:51,863 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E50 Training ----/104, done at 2026-01-29 17:43:51
+2026-01-29 17:43:51,865 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E50 Validation ----/25, starting
+2026-01-29 17:44:01,754 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E50 Validation ----/25, done at 2026-01-29 17:44:01
+2026-01-29 17:44:02,177 INFO     pid:3832595 __main__:646:main New best validation loss: 0.36361807584762573
+2026-01-29 17:44:02,361 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 17:44:02,361 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:44:02,373 INFO     pid:3832595 __main__:612:main Epoch 51/100
+2026-01-29 17:44:02,373 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:44:02,373 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:44:02,374 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E51 Training ----/104, starting
+2026-01-29 17:44:30,206 INFO     pid:3832595 util.util:111:enumerateWithEstimate E51 Training   32/104, done at 2026-01-29 17:45:23, 0:01:08
+2026-01-29 17:44:54,137 INFO     pid:3832595 util.util:111:enumerateWithEstimate E51 Training   64/104, done at 2026-01-29 17:45:23, 0:01:08
+2026-01-29 17:45:23,029 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E51 Training ----/104, done at 2026-01-29 17:45:23
+2026-01-29 17:45:23,029 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E51 Validation ----/25, starting
+2026-01-29 17:45:34,044 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E51 Validation ----/25, done at 2026-01-29 17:45:34
+2026-01-29 17:45:34,831 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:45:34,842 INFO     pid:3832595 __main__:612:main Epoch 52/100
+2026-01-29 17:45:34,842 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:45:34,842 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:45:34,843 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E52 Training ----/104, starting
+2026-01-29 17:46:04,897 INFO     pid:3832595 util.util:111:enumerateWithEstimate E52 Training   32/104, done at 2026-01-29 17:46:58, 0:01:08
+2026-01-29 17:46:28,844 INFO     pid:3832595 util.util:111:enumerateWithEstimate E52 Training   64/104, done at 2026-01-29 17:46:58, 0:01:08
+2026-01-29 17:46:57,792 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E52 Training ----/104, done at 2026-01-29 17:46:57
+2026-01-29 17:46:57,793 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E52 Validation ----/25, starting
+2026-01-29 17:47:08,877 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E52 Validation ----/25, done at 2026-01-29 17:47:08
+2026-01-29 17:47:09,671 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:47:09,682 INFO     pid:3832595 __main__:612:main Epoch 53/100
+2026-01-29 17:47:09,683 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:47:09,683 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:47:09,684 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E53 Training ----/104, starting
+2026-01-29 17:47:38,500 INFO     pid:3832595 util.util:111:enumerateWithEstimate E53 Training   32/104, done at 2026-01-29 17:48:31, 0:01:08
+2026-01-29 17:48:02,436 INFO     pid:3832595 util.util:111:enumerateWithEstimate E53 Training   64/104, done at 2026-01-29 17:48:31, 0:01:08
+2026-01-29 17:48:31,332 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E53 Training ----/104, done at 2026-01-29 17:48:31
+2026-01-29 17:48:31,333 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E53 Validation ----/25, starting
+2026-01-29 17:48:41,936 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E53 Validation ----/25, done at 2026-01-29 17:48:41
+2026-01-29 17:48:42,715 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:48:42,726 INFO     pid:3832595 __main__:612:main Epoch 54/100
+2026-01-29 17:48:42,726 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:48:42,726 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:48:42,727 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E54 Training ----/104, starting
+2026-01-29 17:49:13,491 INFO     pid:3832595 util.util:111:enumerateWithEstimate E54 Training   32/104, done at 2026-01-29 17:50:06, 0:01:08
+2026-01-29 17:49:37,454 INFO     pid:3832595 util.util:111:enumerateWithEstimate E54 Training   64/104, done at 2026-01-29 17:50:06, 0:01:08
+2026-01-29 17:50:06,363 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E54 Training ----/104, done at 2026-01-29 17:50:06
+2026-01-29 17:50:06,363 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E54 Validation ----/25, starting
+2026-01-29 17:50:17,196 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E54 Validation ----/25, done at 2026-01-29 17:50:17
+2026-01-29 17:50:17,969 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:50:17,980 INFO     pid:3832595 __main__:612:main Epoch 55/100
+2026-01-29 17:50:17,981 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:50:17,981 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:50:17,981 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E55 Training ----/104, starting
+2026-01-29 17:50:48,997 INFO     pid:3832595 util.util:111:enumerateWithEstimate E55 Training   32/104, done at 2026-01-29 17:51:42, 0:01:08
+2026-01-29 17:51:12,868 INFO     pid:3832595 util.util:111:enumerateWithEstimate E55 Training   64/104, done at 2026-01-29 17:51:41, 0:01:08
+2026-01-29 17:51:41,754 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E55 Training ----/104, done at 2026-01-29 17:51:41
+2026-01-29 17:51:41,755 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E55 Validation ----/25, starting
+2026-01-29 17:51:52,678 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E55 Validation ----/25, done at 2026-01-29 17:51:52
+2026-01-29 17:51:53,473 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:51:53,485 INFO     pid:3832595 __main__:612:main Epoch 56/100
+2026-01-29 17:51:53,485 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:51:53,485 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:51:53,486 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E56 Training ----/104, starting
+2026-01-29 17:52:22,749 INFO     pid:3832595 util.util:111:enumerateWithEstimate E56 Training   32/104, done at 2026-01-29 17:53:15, 0:01:08
+2026-01-29 17:52:46,638 INFO     pid:3832595 util.util:111:enumerateWithEstimate E56 Training   64/104, done at 2026-01-29 17:53:15, 0:01:08
+2026-01-29 17:53:15,665 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E56 Training ----/104, done at 2026-01-29 17:53:15
+2026-01-29 17:53:15,666 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E56 Validation ----/25, starting
+2026-01-29 17:53:27,027 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E56 Validation ----/25, done at 2026-01-29 17:53:27
+2026-01-29 17:53:27,828 INFO     pid:3832595 __main__:646:main New best validation loss: 0.35728877782821655
+2026-01-29 17:53:28,083 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 17:53:28,083 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:53:28,094 INFO     pid:3832595 __main__:612:main Epoch 57/100
+2026-01-29 17:53:28,094 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:53:28,095 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:53:28,095 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E57 Training ----/104, starting
+2026-01-29 17:53:58,970 INFO     pid:3832595 util.util:111:enumerateWithEstimate E57 Training   32/104, done at 2026-01-29 17:54:51, 0:01:08
+2026-01-29 17:54:23,025 INFO     pid:3832595 util.util:111:enumerateWithEstimate E57 Training   64/104, done at 2026-01-29 17:54:52, 0:01:08
+2026-01-29 17:54:52,219 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E57 Training ----/104, done at 2026-01-29 17:54:52
+2026-01-29 17:54:52,220 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E57 Validation ----/25, starting
+2026-01-29 17:55:02,789 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E57 Validation ----/25, done at 2026-01-29 17:55:02
+2026-01-29 17:55:03,554 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:55:03,566 INFO     pid:3832595 __main__:612:main Epoch 58/100
+2026-01-29 17:55:03,566 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:55:03,566 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:55:03,566 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E58 Training ----/104, starting
+2026-01-29 17:55:33,199 INFO     pid:3832595 util.util:111:enumerateWithEstimate E58 Training   32/104, done at 2026-01-29 17:56:26, 0:01:08
+2026-01-29 17:55:57,183 INFO     pid:3832595 util.util:111:enumerateWithEstimate E58 Training   64/104, done at 2026-01-29 17:56:26, 0:01:08
+2026-01-29 17:56:26,147 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E58 Training ----/104, done at 2026-01-29 17:56:26
+2026-01-29 17:56:26,148 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E58 Validation ----/25, starting
+2026-01-29 17:56:36,953 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E58 Validation ----/25, done at 2026-01-29 17:56:36
+2026-01-29 17:56:37,721 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:56:37,733 INFO     pid:3832595 __main__:612:main Epoch 59/100
+2026-01-29 17:56:37,734 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:56:37,734 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:56:37,735 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E59 Training ----/104, starting
+2026-01-29 17:57:06,378 INFO     pid:3832595 util.util:111:enumerateWithEstimate E59 Training   32/104, done at 2026-01-29 17:57:59, 0:01:08
+2026-01-29 17:57:30,288 INFO     pid:3832595 util.util:111:enumerateWithEstimate E59 Training   64/104, done at 2026-01-29 17:57:59, 0:01:08
+2026-01-29 17:57:59,117 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E59 Training ----/104, done at 2026-01-29 17:57:59
+2026-01-29 17:57:59,118 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E59 Validation ----/25, starting
+2026-01-29 17:58:09,741 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E59 Validation ----/25, done at 2026-01-29 17:58:09
+2026-01-29 17:58:10,577 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:58:10,588 INFO     pid:3832595 __main__:612:main Epoch 60/100
+2026-01-29 17:58:10,589 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:58:10,589 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:58:10,589 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E60 Training ----/104, starting
+2026-01-29 17:58:41,562 INFO     pid:3832595 util.util:111:enumerateWithEstimate E60 Training   32/104, done at 2026-01-29 17:59:34, 0:01:08
+2026-01-29 17:59:05,530 INFO     pid:3832595 util.util:111:enumerateWithEstimate E60 Training   64/104, done at 2026-01-29 17:59:34, 0:01:08
+2026-01-29 17:59:34,421 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E60 Training ----/104, done at 2026-01-29 17:59:34
+2026-01-29 17:59:34,422 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E60 Validation ----/25, starting
+2026-01-29 17:59:45,267 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E60 Validation ----/25, done at 2026-01-29 17:59:45
+2026-01-29 17:59:46,231 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 17:59:46,242 INFO     pid:3832595 __main__:612:main Epoch 61/100
+2026-01-29 17:59:46,243 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 17:59:46,243 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 17:59:46,243 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E61 Training ----/104, starting
+2026-01-29 18:00:17,034 INFO     pid:3832595 util.util:111:enumerateWithEstimate E61 Training   32/104, done at 2026-01-29 18:01:10, 0:01:08
+2026-01-29 18:00:40,975 INFO     pid:3832595 util.util:111:enumerateWithEstimate E61 Training   64/104, done at 2026-01-29 18:01:10, 0:01:08
+2026-01-29 18:01:10,753 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E61 Training ----/104, done at 2026-01-29 18:01:10
+2026-01-29 18:01:10,754 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E61 Validation ----/25, starting
+2026-01-29 18:01:21,834 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E61 Validation ----/25, done at 2026-01-29 18:01:21
+2026-01-29 18:01:22,525 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:01:22,539 INFO     pid:3832595 __main__:612:main Epoch 62/100
+2026-01-29 18:01:22,540 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:01:22,540 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:01:22,541 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E62 Training ----/104, starting
+2026-01-29 18:01:51,451 INFO     pid:3832595 util.util:111:enumerateWithEstimate E62 Training   32/104, done at 2026-01-29 18:02:44, 0:01:08
+2026-01-29 18:02:15,342 INFO     pid:3832595 util.util:111:enumerateWithEstimate E62 Training   64/104, done at 2026-01-29 18:02:44, 0:01:08
+2026-01-29 18:02:44,259 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E62 Training ----/104, done at 2026-01-29 18:02:44
+2026-01-29 18:02:44,260 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E62 Validation ----/25, starting
+2026-01-29 18:02:55,321 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E62 Validation ----/25, done at 2026-01-29 18:02:55
+2026-01-29 18:02:56,214 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:02:56,226 INFO     pid:3832595 __main__:612:main Epoch 63/100
+2026-01-29 18:02:56,226 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:02:56,226 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:02:56,227 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E63 Training ----/104, starting
+2026-01-29 18:03:25,375 INFO     pid:3832595 util.util:111:enumerateWithEstimate E63 Training   32/104, done at 2026-01-29 18:04:18, 0:01:08
+2026-01-29 18:03:49,858 INFO     pid:3832595 util.util:111:enumerateWithEstimate E63 Training   64/104, done at 2026-01-29 18:04:19, 0:01:09
+2026-01-29 18:04:18,772 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E63 Training ----/104, done at 2026-01-29 18:04:18
+2026-01-29 18:04:18,772 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E63 Validation ----/25, starting
+2026-01-29 18:04:29,947 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E63 Validation ----/25, done at 2026-01-29 18:04:29
+2026-01-29 18:04:30,746 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:04:30,757 INFO     pid:3832595 __main__:612:main Epoch 64/100
+2026-01-29 18:04:30,757 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:04:30,757 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:04:30,758 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E64 Training ----/104, starting
+2026-01-29 18:05:00,676 INFO     pid:3832595 util.util:111:enumerateWithEstimate E64 Training   32/104, done at 2026-01-29 18:05:53, 0:01:08
+2026-01-29 18:05:24,607 INFO     pid:3832595 util.util:111:enumerateWithEstimate E64 Training   64/104, done at 2026-01-29 18:05:53, 0:01:08
+2026-01-29 18:05:53,503 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E64 Training ----/104, done at 2026-01-29 18:05:53
+2026-01-29 18:05:53,504 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E64 Validation ----/25, starting
+2026-01-29 18:06:05,053 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E64 Validation ----/25, done at 2026-01-29 18:06:05
+2026-01-29 18:06:05,997 INFO     pid:3832595 __main__:646:main New best validation loss: 0.343590646982193
+2026-01-29 18:06:06,160 INFO     pid:3832595 __main__:208:save_model Model saved successfully to /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 18:06:06,161 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:06:06,172 INFO     pid:3832595 __main__:612:main Epoch 65/100
+2026-01-29 18:06:06,172 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:06:06,172 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:06:06,173 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E65 Training ----/104, starting
+2026-01-29 18:06:35,347 INFO     pid:3832595 util.util:111:enumerateWithEstimate E65 Training   32/104, done at 2026-01-29 18:07:28, 0:01:08
+2026-01-29 18:06:59,278 INFO     pid:3832595 util.util:111:enumerateWithEstimate E65 Training   64/104, done at 2026-01-29 18:07:28, 0:01:08
+2026-01-29 18:07:28,176 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E65 Training ----/104, done at 2026-01-29 18:07:28
+2026-01-29 18:07:28,177 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E65 Validation ----/25, starting
+2026-01-29 18:07:38,752 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E65 Validation ----/25, done at 2026-01-29 18:07:38
+2026-01-29 18:07:39,450 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:07:39,462 INFO     pid:3832595 __main__:612:main Epoch 66/100
+2026-01-29 18:07:39,462 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:07:39,462 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:07:39,463 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E66 Training ----/104, starting
+2026-01-29 18:08:08,881 INFO     pid:3832595 util.util:111:enumerateWithEstimate E66 Training   32/104, done at 2026-01-29 18:09:01, 0:01:08
+2026-01-29 18:08:32,732 INFO     pid:3832595 util.util:111:enumerateWithEstimate E66 Training   64/104, done at 2026-01-29 18:09:01, 0:01:08
+2026-01-29 18:09:01,601 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E66 Training ----/104, done at 2026-01-29 18:09:01
+2026-01-29 18:09:01,602 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E66 Validation ----/25, starting
+2026-01-29 18:09:12,426 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E66 Validation ----/25, done at 2026-01-29 18:09:12
+2026-01-29 18:09:13,205 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:09:13,216 INFO     pid:3832595 __main__:612:main Epoch 67/100
+2026-01-29 18:09:13,217 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:09:13,217 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:09:13,217 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E67 Training ----/104, starting
+2026-01-29 18:09:40,529 INFO     pid:3832595 util.util:111:enumerateWithEstimate E67 Training   32/104, done at 2026-01-29 18:10:33, 0:01:09
+2026-01-29 18:10:04,645 INFO     pid:3832595 util.util:111:enumerateWithEstimate E67 Training   64/104, done at 2026-01-29 18:10:33, 0:01:09
+2026-01-29 18:10:33,870 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E67 Training ----/104, done at 2026-01-29 18:10:33
+2026-01-29 18:10:33,871 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E67 Validation ----/25, starting
+2026-01-29 18:10:45,580 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E67 Validation ----/25, done at 2026-01-29 18:10:45
+2026-01-29 18:10:46,382 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:10:46,393 INFO     pid:3832595 __main__:612:main Epoch 68/100
+2026-01-29 18:10:46,393 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:10:46,393 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:10:46,394 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E68 Training ----/104, starting
+2026-01-29 18:11:16,814 INFO     pid:3832595 util.util:111:enumerateWithEstimate E68 Training   32/104, done at 2026-01-29 18:12:09, 0:01:08
+2026-01-29 18:11:40,776 INFO     pid:3832595 util.util:111:enumerateWithEstimate E68 Training   64/104, done at 2026-01-29 18:12:09, 0:01:08
+2026-01-29 18:12:09,664 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E68 Training ----/104, done at 2026-01-29 18:12:09
+2026-01-29 18:12:09,665 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E68 Validation ----/25, starting
+2026-01-29 18:12:20,787 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E68 Validation ----/25, done at 2026-01-29 18:12:20
+2026-01-29 18:12:21,680 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:12:21,693 INFO     pid:3832595 __main__:612:main Epoch 69/100
+2026-01-29 18:12:21,693 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:12:21,694 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:12:21,695 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E69 Training ----/104, starting
+2026-01-29 18:12:51,898 INFO     pid:3832595 util.util:111:enumerateWithEstimate E69 Training   32/104, done at 2026-01-29 18:13:45, 0:01:08
+2026-01-29 18:13:15,759 INFO     pid:3832595 util.util:111:enumerateWithEstimate E69 Training   64/104, done at 2026-01-29 18:13:44, 0:01:08
+2026-01-29 18:13:44,546 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E69 Training ----/104, done at 2026-01-29 18:13:44
+2026-01-29 18:13:44,547 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E69 Validation ----/25, starting
+2026-01-29 18:13:54,750 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E69 Validation ----/25, done at 2026-01-29 18:13:54
+2026-01-29 18:13:55,507 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:13:55,519 INFO     pid:3832595 __main__:612:main Epoch 70/100
+2026-01-29 18:13:55,520 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:13:55,520 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:13:55,521 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E70 Training ----/104, starting
+2026-01-29 18:14:25,075 INFO     pid:3832595 util.util:111:enumerateWithEstimate E70 Training   32/104, done at 2026-01-29 18:15:17, 0:01:08
+2026-01-29 18:14:48,963 INFO     pid:3832595 util.util:111:enumerateWithEstimate E70 Training   64/104, done at 2026-01-29 18:15:18, 0:01:08
+2026-01-29 18:15:17,822 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E70 Training ----/104, done at 2026-01-29 18:15:17
+2026-01-29 18:15:17,823 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E70 Validation ----/25, starting
+2026-01-29 18:15:28,383 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E70 Validation ----/25, done at 2026-01-29 18:15:28
+2026-01-29 18:15:29,143 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:15:29,154 INFO     pid:3832595 __main__:612:main Epoch 71/100
+2026-01-29 18:15:29,155 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:15:29,155 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:15:29,155 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E71 Training ----/104, starting
+2026-01-29 18:15:58,246 INFO     pid:3832595 util.util:111:enumerateWithEstimate E71 Training   32/104, done at 2026-01-29 18:16:51, 0:01:08
+2026-01-29 18:16:22,190 INFO     pid:3832595 util.util:111:enumerateWithEstimate E71 Training   64/104, done at 2026-01-29 18:16:51, 0:01:08
+2026-01-29 18:16:51,144 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E71 Training ----/104, done at 2026-01-29 18:16:51
+2026-01-29 18:16:51,145 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E71 Validation ----/25, starting
+2026-01-29 18:17:01,719 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E71 Validation ----/25, done at 2026-01-29 18:17:01
+2026-01-29 18:17:02,496 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:17:02,508 INFO     pid:3832595 __main__:612:main Epoch 72/100
+2026-01-29 18:17:02,508 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:17:02,508 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:17:02,509 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E72 Training ----/104, starting
+2026-01-29 18:17:30,963 INFO     pid:3832595 util.util:111:enumerateWithEstimate E72 Training   32/104, done at 2026-01-29 18:18:23, 0:01:08
+2026-01-29 18:17:54,840 INFO     pid:3832595 util.util:111:enumerateWithEstimate E72 Training   64/104, done at 2026-01-29 18:18:23, 0:01:08
+2026-01-29 18:18:23,771 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E72 Training ----/104, done at 2026-01-29 18:18:23
+2026-01-29 18:18:23,772 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E72 Validation ----/25, starting
+2026-01-29 18:18:34,320 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E72 Validation ----/25, done at 2026-01-29 18:18:34
+2026-01-29 18:18:35,006 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:18:35,017 INFO     pid:3832595 __main__:612:main Epoch 73/100
+2026-01-29 18:18:35,018 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:18:35,018 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:18:35,019 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E73 Training ----/104, starting
+2026-01-29 18:19:03,779 INFO     pid:3832595 util.util:111:enumerateWithEstimate E73 Training   32/104, done at 2026-01-29 18:19:56, 0:01:08
+2026-01-29 18:19:27,698 INFO     pid:3832595 util.util:111:enumerateWithEstimate E73 Training   64/104, done at 2026-01-29 18:19:56, 0:01:08
+2026-01-29 18:19:56,622 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E73 Training ----/104, done at 2026-01-29 18:19:56
+2026-01-29 18:19:56,623 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E73 Validation ----/25, starting
+2026-01-29 18:20:07,512 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E73 Validation ----/25, done at 2026-01-29 18:20:07
+2026-01-29 18:20:08,335 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:20:08,346 INFO     pid:3832595 __main__:612:main Epoch 74/100
+2026-01-29 18:20:08,347 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:20:08,347 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:20:08,347 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E74 Training ----/104, starting
+2026-01-29 18:20:39,429 INFO     pid:3832595 util.util:111:enumerateWithEstimate E74 Training   32/104, done at 2026-01-29 18:21:32, 0:01:08
+2026-01-29 18:21:03,394 INFO     pid:3832595 util.util:111:enumerateWithEstimate E74 Training   64/104, done at 2026-01-29 18:21:32, 0:01:08
+2026-01-29 18:21:32,375 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E74 Training ----/104, done at 2026-01-29 18:21:32
+2026-01-29 18:21:32,376 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E74 Validation ----/25, starting
+2026-01-29 18:21:43,230 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E74 Validation ----/25, done at 2026-01-29 18:21:43
+2026-01-29 18:21:44,052 INFO     pid:3832595 __main__:652:main Current learning rate: 0.0001
+2026-01-29 18:21:44,064 INFO     pid:3832595 __main__:612:main Epoch 75/100
+2026-01-29 18:21:44,064 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:21:44,065 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:21:44,065 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E75 Training ----/104, starting
+2026-01-29 18:22:15,138 INFO     pid:3832595 util.util:111:enumerateWithEstimate E75 Training   32/104, done at 2026-01-29 18:23:08, 0:01:08
+2026-01-29 18:22:38,992 INFO     pid:3832595 util.util:111:enumerateWithEstimate E75 Training   64/104, done at 2026-01-29 18:23:08, 0:01:08
+2026-01-29 18:23:07,863 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E75 Training ----/104, done at 2026-01-29 18:23:07
+2026-01-29 18:23:07,864 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E75 Validation ----/25, starting
+2026-01-29 18:23:17,816 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E75 Validation ----/25, done at 2026-01-29 18:23:17
+2026-01-29 18:23:18,602 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:23:18,614 INFO     pid:3832595 __main__:612:main Epoch 76/100
+2026-01-29 18:23:18,614 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:23:18,615 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:23:18,615 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E76 Training ----/104, starting
+2026-01-29 18:23:49,641 INFO     pid:3832595 util.util:111:enumerateWithEstimate E76 Training   32/104, done at 2026-01-29 18:24:42, 0:01:08
+2026-01-29 18:24:13,526 INFO     pid:3832595 util.util:111:enumerateWithEstimate E76 Training   64/104, done at 2026-01-29 18:24:42, 0:01:08
+2026-01-29 18:24:42,473 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E76 Training ----/104, done at 2026-01-29 18:24:42
+2026-01-29 18:24:42,475 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E76 Validation ----/25, starting
+2026-01-29 18:24:53,248 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E76 Validation ----/25, done at 2026-01-29 18:24:53
+2026-01-29 18:24:53,962 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:24:53,974 INFO     pid:3832595 __main__:612:main Epoch 77/100
+2026-01-29 18:24:53,974 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:24:53,974 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:24:53,975 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E77 Training ----/104, starting
+2026-01-29 18:25:23,894 INFO     pid:3832595 util.util:111:enumerateWithEstimate E77 Training   32/104, done at 2026-01-29 18:26:17, 0:01:08
+2026-01-29 18:25:47,902 INFO     pid:3832595 util.util:111:enumerateWithEstimate E77 Training   64/104, done at 2026-01-29 18:26:17, 0:01:08
+2026-01-29 18:26:16,768 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E77 Training ----/104, done at 2026-01-29 18:26:16
+2026-01-29 18:26:16,769 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E77 Validation ----/25, starting
+2026-01-29 18:26:26,692 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E77 Validation ----/25, done at 2026-01-29 18:26:26
+2026-01-29 18:26:27,394 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:26:27,407 INFO     pid:3832595 __main__:612:main Epoch 78/100
+2026-01-29 18:26:27,407 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:26:27,407 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:26:27,408 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E78 Training ----/104, starting
+2026-01-29 18:26:58,248 INFO     pid:3832595 util.util:111:enumerateWithEstimate E78 Training   32/104, done at 2026-01-29 18:27:51, 0:01:08
+2026-01-29 18:27:22,160 INFO     pid:3832595 util.util:111:enumerateWithEstimate E78 Training   64/104, done at 2026-01-29 18:27:51, 0:01:08
+2026-01-29 18:27:51,220 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E78 Training ----/104, done at 2026-01-29 18:27:51
+2026-01-29 18:27:51,222 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E78 Validation ----/25, starting
+2026-01-29 18:28:01,408 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E78 Validation ----/25, done at 2026-01-29 18:28:01
+2026-01-29 18:28:02,206 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:28:02,219 INFO     pid:3832595 __main__:612:main Epoch 79/100
+2026-01-29 18:28:02,219 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:28:02,219 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:28:02,220 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E79 Training ----/104, starting
+2026-01-29 18:28:30,475 INFO     pid:3832595 util.util:111:enumerateWithEstimate E79 Training   32/104, done at 2026-01-29 18:29:23, 0:01:09
+2026-01-29 18:28:54,803 INFO     pid:3832595 util.util:111:enumerateWithEstimate E79 Training   64/104, done at 2026-01-29 18:29:24, 0:01:09
+2026-01-29 18:29:23,814 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E79 Training ----/104, done at 2026-01-29 18:29:23
+2026-01-29 18:29:23,816 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E79 Validation ----/25, starting
+2026-01-29 18:29:35,434 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E79 Validation ----/25, done at 2026-01-29 18:29:35
+2026-01-29 18:29:36,203 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:29:36,215 INFO     pid:3832595 __main__:612:main Epoch 80/100
+2026-01-29 18:29:36,215 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:29:36,216 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:29:36,216 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E80 Training ----/104, starting
+2026-01-29 18:30:06,117 INFO     pid:3832595 util.util:111:enumerateWithEstimate E80 Training   32/104, done at 2026-01-29 18:30:59, 0:01:08
+2026-01-29 18:30:29,996 INFO     pid:3832595 util.util:111:enumerateWithEstimate E80 Training   64/104, done at 2026-01-29 18:30:59, 0:01:08
+2026-01-29 18:30:58,902 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E80 Training ----/104, done at 2026-01-29 18:30:58
+2026-01-29 18:30:58,903 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E80 Validation ----/25, starting
+2026-01-29 18:31:10,038 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E80 Validation ----/25, done at 2026-01-29 18:31:10
+2026-01-29 18:31:10,801 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:31:10,812 INFO     pid:3832595 __main__:612:main Epoch 81/100
+2026-01-29 18:31:10,813 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:31:10,813 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:31:10,813 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E81 Training ----/104, starting
+2026-01-29 18:31:39,361 INFO     pid:3832595 util.util:111:enumerateWithEstimate E81 Training   32/104, done at 2026-01-29 18:32:32, 0:01:08
+2026-01-29 18:32:03,247 INFO     pid:3832595 util.util:111:enumerateWithEstimate E81 Training   64/104, done at 2026-01-29 18:32:32, 0:01:08
+2026-01-29 18:32:32,268 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E81 Training ----/104, done at 2026-01-29 18:32:32
+2026-01-29 18:32:32,269 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E81 Validation ----/25, starting
+2026-01-29 18:32:43,406 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E81 Validation ----/25, done at 2026-01-29 18:32:43
+2026-01-29 18:32:44,105 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:32:44,118 INFO     pid:3832595 __main__:612:main Epoch 82/100
+2026-01-29 18:32:44,118 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:32:44,118 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:32:44,119 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E82 Training ----/104, starting
+2026-01-29 18:33:13,294 INFO     pid:3832595 util.util:111:enumerateWithEstimate E82 Training   32/104, done at 2026-01-29 18:34:06, 0:01:08
+2026-01-29 18:33:37,255 INFO     pid:3832595 util.util:111:enumerateWithEstimate E82 Training   64/104, done at 2026-01-29 18:34:06, 0:01:08
+2026-01-29 18:34:06,191 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E82 Training ----/104, done at 2026-01-29 18:34:06
+2026-01-29 18:34:06,192 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E82 Validation ----/25, starting
+2026-01-29 18:34:16,583 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E82 Validation ----/25, done at 2026-01-29 18:34:16
+2026-01-29 18:34:17,323 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:34:17,334 INFO     pid:3832595 __main__:612:main Epoch 83/100
+2026-01-29 18:34:17,334 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:34:17,335 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:34:17,335 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E83 Training ----/104, starting
+2026-01-29 18:34:48,084 INFO     pid:3832595 util.util:111:enumerateWithEstimate E83 Training   32/104, done at 2026-01-29 18:35:41, 0:01:09
+2026-01-29 18:35:12,020 INFO     pid:3832595 util.util:111:enumerateWithEstimate E83 Training   64/104, done at 2026-01-29 18:35:41, 0:01:08
+2026-01-29 18:35:40,906 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E83 Training ----/104, done at 2026-01-29 18:35:40
+2026-01-29 18:35:40,907 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E83 Validation ----/25, starting
+2026-01-29 18:35:52,188 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E83 Validation ----/25, done at 2026-01-29 18:35:52
+2026-01-29 18:35:52,951 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:35:52,962 INFO     pid:3832595 __main__:612:main Epoch 84/100
+2026-01-29 18:35:52,963 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:35:52,963 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:35:52,963 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E84 Training ----/104, starting
+2026-01-29 18:36:23,689 INFO     pid:3832595 util.util:111:enumerateWithEstimate E84 Training   32/104, done at 2026-01-29 18:37:16, 0:01:08
+2026-01-29 18:36:47,660 INFO     pid:3832595 util.util:111:enumerateWithEstimate E84 Training   64/104, done at 2026-01-29 18:37:16, 0:01:08
+2026-01-29 18:37:16,591 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E84 Training ----/104, done at 2026-01-29 18:37:16
+2026-01-29 18:37:16,592 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E84 Validation ----/25, starting
+2026-01-29 18:37:26,875 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E84 Validation ----/25, done at 2026-01-29 18:37:26
+2026-01-29 18:37:27,566 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:37:27,577 INFO     pid:3832595 __main__:612:main Epoch 85/100
+2026-01-29 18:37:27,577 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:37:27,578 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:37:27,578 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E85 Training ----/104, starting
+2026-01-29 18:37:57,231 INFO     pid:3832595 util.util:111:enumerateWithEstimate E85 Training   32/104, done at 2026-01-29 18:38:50, 0:01:08
+2026-01-29 18:38:21,181 INFO     pid:3832595 util.util:111:enumerateWithEstimate E85 Training   64/104, done at 2026-01-29 18:38:50, 0:01:08
+2026-01-29 18:38:50,095 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E85 Training ----/104, done at 2026-01-29 18:38:50
+2026-01-29 18:38:50,097 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E85 Validation ----/25, starting
+2026-01-29 18:39:00,811 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E85 Validation ----/25, done at 2026-01-29 18:39:00
+2026-01-29 18:39:01,667 INFO     pid:3832595 __main__:652:main Current learning rate: 1e-05
+2026-01-29 18:39:01,678 INFO     pid:3832595 __main__:612:main Epoch 86/100
+2026-01-29 18:39:01,678 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:39:01,679 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:39:01,679 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E86 Training ----/104, starting
+2026-01-29 18:39:32,204 INFO     pid:3832595 util.util:111:enumerateWithEstimate E86 Training   32/104, done at 2026-01-29 18:40:25, 0:01:08
+2026-01-29 18:39:56,159 INFO     pid:3832595 util.util:111:enumerateWithEstimate E86 Training   64/104, done at 2026-01-29 18:40:25, 0:01:08
+2026-01-29 18:40:25,066 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E86 Training ----/104, done at 2026-01-29 18:40:25
+2026-01-29 18:40:25,067 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E86 Validation ----/25, starting
+2026-01-29 18:40:36,799 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E86 Validation ----/25, done at 2026-01-29 18:40:36
+2026-01-29 18:40:37,578 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:40:37,590 INFO     pid:3832595 __main__:612:main Epoch 87/100
+2026-01-29 18:40:37,591 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:40:37,591 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:40:37,591 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E87 Training ----/104, starting
+2026-01-29 18:41:06,210 INFO     pid:3832595 util.util:111:enumerateWithEstimate E87 Training   32/104, done at 2026-01-29 18:41:59, 0:01:08
+2026-01-29 18:41:30,108 INFO     pid:3832595 util.util:111:enumerateWithEstimate E87 Training   64/104, done at 2026-01-29 18:41:59, 0:01:08
+2026-01-29 18:41:58,966 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E87 Training ----/104, done at 2026-01-29 18:41:58
+2026-01-29 18:41:58,967 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E87 Validation ----/25, starting
+2026-01-29 18:42:10,122 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E87 Validation ----/25, done at 2026-01-29 18:42:10
+2026-01-29 18:42:10,907 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:42:10,918 INFO     pid:3832595 __main__:612:main Epoch 88/100
+2026-01-29 18:42:10,918 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:42:10,918 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:42:10,918 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E88 Training ----/104, starting
+2026-01-29 18:42:42,485 INFO     pid:3832595 util.util:111:enumerateWithEstimate E88 Training   32/104, done at 2026-01-29 18:43:35, 0:01:08
+2026-01-29 18:43:06,420 INFO     pid:3832595 util.util:111:enumerateWithEstimate E88 Training   64/104, done at 2026-01-29 18:43:35, 0:01:08
+2026-01-29 18:43:35,299 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E88 Training ----/104, done at 2026-01-29 18:43:35
+2026-01-29 18:43:35,300 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E88 Validation ----/25, starting
+2026-01-29 18:43:46,155 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E88 Validation ----/25, done at 2026-01-29 18:43:46
+2026-01-29 18:43:46,949 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:43:46,961 INFO     pid:3832595 __main__:612:main Epoch 89/100
+2026-01-29 18:43:46,962 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:43:46,962 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:43:46,963 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E89 Training ----/104, starting
+2026-01-29 18:44:15,643 INFO     pid:3832595 util.util:111:enumerateWithEstimate E89 Training   32/104, done at 2026-01-29 18:45:09, 0:01:09
+2026-01-29 18:44:39,557 INFO     pid:3832595 util.util:111:enumerateWithEstimate E89 Training   64/104, done at 2026-01-29 18:45:08, 0:01:09
+2026-01-29 18:45:08,423 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E89 Training ----/104, done at 2026-01-29 18:45:08
+2026-01-29 18:45:08,424 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E89 Validation ----/25, starting
+2026-01-29 18:45:19,740 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E89 Validation ----/25, done at 2026-01-29 18:45:19
+2026-01-29 18:45:20,555 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:45:20,568 INFO     pid:3832595 __main__:612:main Epoch 90/100
+2026-01-29 18:45:20,568 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:45:20,568 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:45:20,569 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E90 Training ----/104, starting
+2026-01-29 18:45:50,708 INFO     pid:3832595 util.util:111:enumerateWithEstimate E90 Training   32/104, done at 2026-01-29 18:46:43, 0:01:08
+2026-01-29 18:46:15,114 INFO     pid:3832595 util.util:111:enumerateWithEstimate E90 Training   64/104, done at 2026-01-29 18:46:44, 0:01:09
+2026-01-29 18:46:44,644 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E90 Training ----/104, done at 2026-01-29 18:46:44
+2026-01-29 18:46:44,645 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E90 Validation ----/25, starting
+2026-01-29 18:46:58,187 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E90 Validation ----/25, done at 2026-01-29 18:46:58
+2026-01-29 18:46:58,988 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:46:59,000 INFO     pid:3832595 __main__:612:main Epoch 91/100
+2026-01-29 18:46:59,000 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:46:59,000 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:46:59,001 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E91 Training ----/104, starting
+2026-01-29 18:47:29,527 INFO     pid:3832595 util.util:111:enumerateWithEstimate E91 Training   32/104, done at 2026-01-29 18:48:23, 0:01:10
+2026-01-29 18:47:53,684 INFO     pid:3832595 util.util:111:enumerateWithEstimate E91 Training   64/104, done at 2026-01-29 18:48:23, 0:01:09
+2026-01-29 18:48:23,262 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E91 Training ----/104, done at 2026-01-29 18:48:23
+2026-01-29 18:48:23,263 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E91 Validation ----/25, starting
+2026-01-29 18:48:33,482 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E91 Validation ----/25, done at 2026-01-29 18:48:33
+2026-01-29 18:48:33,820 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:48:33,831 INFO     pid:3832595 __main__:612:main Epoch 92/100
+2026-01-29 18:48:33,831 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:48:33,831 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:48:33,832 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E92 Training ----/104, starting
+2026-01-29 18:49:04,559 INFO     pid:3832595 util.util:111:enumerateWithEstimate E92 Training   32/104, done at 2026-01-29 18:49:57, 0:01:08
+2026-01-29 18:49:28,673 INFO     pid:3832595 util.util:111:enumerateWithEstimate E92 Training   64/104, done at 2026-01-29 18:49:57, 0:01:09
+2026-01-29 18:49:57,511 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E92 Training ----/104, done at 2026-01-29 18:49:57
+2026-01-29 18:49:57,512 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E92 Validation ----/25, starting
+2026-01-29 18:50:08,396 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E92 Validation ----/25, done at 2026-01-29 18:50:08
+2026-01-29 18:50:09,174 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:50:09,186 INFO     pid:3832595 __main__:612:main Epoch 93/100
+2026-01-29 18:50:09,186 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:50:09,187 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:50:09,187 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E93 Training ----/104, starting
+2026-01-29 18:50:37,659 INFO     pid:3832595 util.util:111:enumerateWithEstimate E93 Training   32/104, done at 2026-01-29 18:51:30, 0:01:08
+2026-01-29 18:51:01,631 INFO     pid:3832595 util.util:111:enumerateWithEstimate E93 Training   64/104, done at 2026-01-29 18:51:30, 0:01:08
+2026-01-29 18:51:30,490 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E93 Training ----/104, done at 2026-01-29 18:51:30
+2026-01-29 18:51:30,491 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E93 Validation ----/25, starting
+2026-01-29 18:51:41,483 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E93 Validation ----/25, done at 2026-01-29 18:51:41
+2026-01-29 18:51:42,458 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:51:42,469 INFO     pid:3832595 __main__:612:main Epoch 94/100
+2026-01-29 18:51:42,470 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:51:42,470 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:51:42,471 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E94 Training ----/104, starting
+2026-01-29 18:52:13,210 INFO     pid:3832595 util.util:111:enumerateWithEstimate E94 Training   32/104, done at 2026-01-29 18:53:06, 0:01:08
+2026-01-29 18:52:37,136 INFO     pid:3832595 util.util:111:enumerateWithEstimate E94 Training   64/104, done at 2026-01-29 18:53:06, 0:01:08
+2026-01-29 18:53:05,983 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E94 Training ----/104, done at 2026-01-29 18:53:05
+2026-01-29 18:53:05,984 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E94 Validation ----/25, starting
+2026-01-29 18:53:16,715 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E94 Validation ----/25, done at 2026-01-29 18:53:16
+2026-01-29 18:53:17,466 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:53:17,477 INFO     pid:3832595 __main__:612:main Epoch 95/100
+2026-01-29 18:53:17,477 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:53:17,477 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:53:17,478 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E95 Training ----/104, starting
+2026-01-29 18:53:47,358 INFO     pid:3832595 util.util:111:enumerateWithEstimate E95 Training   32/104, done at 2026-01-29 18:54:40, 0:01:08
+2026-01-29 18:54:11,318 INFO     pid:3832595 util.util:111:enumerateWithEstimate E95 Training   64/104, done at 2026-01-29 18:54:40, 0:01:08
+2026-01-29 18:54:40,201 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E95 Training ----/104, done at 2026-01-29 18:54:40
+2026-01-29 18:54:40,202 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E95 Validation ----/25, starting
+2026-01-29 18:54:50,644 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E95 Validation ----/25, done at 2026-01-29 18:54:50
+2026-01-29 18:54:51,201 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:54:51,212 INFO     pid:3832595 __main__:612:main Epoch 96/100
+2026-01-29 18:54:51,212 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:54:51,212 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:54:51,213 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E96 Training ----/104, starting
+2026-01-29 18:55:22,095 INFO     pid:3832595 util.util:111:enumerateWithEstimate E96 Training   32/104, done at 2026-01-29 18:56:15, 0:01:08
+2026-01-29 18:55:46,018 INFO     pid:3832595 util.util:111:enumerateWithEstimate E96 Training   64/104, done at 2026-01-29 18:56:15, 0:01:08
+2026-01-29 18:56:14,955 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E96 Training ----/104, done at 2026-01-29 18:56:14
+2026-01-29 18:56:14,956 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E96 Validation ----/25, starting
+2026-01-29 18:56:25,566 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E96 Validation ----/25, done at 2026-01-29 18:56:25
+2026-01-29 18:56:26,359 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-06
+2026-01-29 18:56:26,370 INFO     pid:3832595 __main__:612:main Epoch 97/100
+2026-01-29 18:56:26,370 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:56:26,370 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:56:26,371 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E97 Training ----/104, starting
+2026-01-29 18:56:55,423 INFO     pid:3832595 util.util:111:enumerateWithEstimate E97 Training   32/104, done at 2026-01-29 18:57:48, 0:01:08
+2026-01-29 18:57:19,287 INFO     pid:3832595 util.util:111:enumerateWithEstimate E97 Training   64/104, done at 2026-01-29 18:57:48, 0:01:08
+2026-01-29 18:57:48,279 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E97 Training ----/104, done at 2026-01-29 18:57:48
+2026-01-29 18:57:48,280 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E97 Validation ----/25, starting
+2026-01-29 18:57:59,322 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E97 Validation ----/25, done at 2026-01-29 18:57:59
+2026-01-29 18:58:00,113 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-07
+2026-01-29 18:58:00,125 INFO     pid:3832595 __main__:612:main Epoch 98/100
+2026-01-29 18:58:00,125 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:58:00,126 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:58:00,126 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E98 Training ----/104, starting
+2026-01-29 18:58:30,433 INFO     pid:3832595 util.util:111:enumerateWithEstimate E98 Training   32/104, done at 2026-01-29 18:59:23, 0:01:08
+2026-01-29 18:58:54,384 INFO     pid:3832595 util.util:111:enumerateWithEstimate E98 Training   64/104, done at 2026-01-29 18:59:23, 0:01:08
+2026-01-29 18:59:23,328 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E98 Training ----/104, done at 2026-01-29 18:59:23
+2026-01-29 18:59:23,329 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E98 Validation ----/25, starting
+2026-01-29 18:59:35,077 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E98 Validation ----/25, done at 2026-01-29 18:59:35
+2026-01-29 18:59:35,875 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-07
+2026-01-29 18:59:35,886 INFO     pid:3832595 __main__:612:main Epoch 99/100
+2026-01-29 18:59:35,886 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 18:59:35,886 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 18:59:35,887 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E99 Training ----/104, starting
+2026-01-29 19:00:06,130 INFO     pid:3832595 util.util:111:enumerateWithEstimate E99 Training   32/104, done at 2026-01-29 19:00:59, 0:01:08
+2026-01-29 19:00:30,061 INFO     pid:3832595 util.util:111:enumerateWithEstimate E99 Training   64/104, done at 2026-01-29 19:00:59, 0:01:08
+2026-01-29 19:00:58,955 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E99 Training ----/104, done at 2026-01-29 19:00:58
+2026-01-29 19:00:58,956 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E99 Validation ----/25, starting
+2026-01-29 19:01:10,203 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E99 Validation ----/25, done at 2026-01-29 19:01:10
+2026-01-29 19:01:10,943 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-07
+2026-01-29 19:01:10,954 INFO     pid:3832595 __main__:612:main Epoch 100/100
+2026-01-29 19:01:10,954 INFO     pid:3832595 __main__:616:main GPU Memory Allocated: 0.37 GB
+2026-01-29 19:01:10,955 INFO     pid:3832595 __main__:617:main GPU Memory Reserved: 2.69 GB
+2026-01-29 19:01:10,955 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E100 Training ----/104, starting
+2026-01-29 19:01:40,143 INFO     pid:3832595 util.util:111:enumerateWithEstimate E100 Training   32/104, done at 2026-01-29 19:02:33, 0:01:08
+2026-01-29 19:02:04,025 INFO     pid:3832595 util.util:111:enumerateWithEstimate E100 Training   64/104, done at 2026-01-29 19:02:33, 0:01:08
+2026-01-29 19:02:32,857 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E100 Training ----/104, done at 2026-01-29 19:02:32
+2026-01-29 19:02:32,858 WARNING  pid:3832595 util.util:091:enumerateWithEstimate E100 Validation ----/25, starting
+2026-01-29 19:02:44,234 WARNING  pid:3832595 util.util:126:enumerateWithEstimate E100 Validation ----/25, done at 2026-01-29 19:02:44
+2026-01-29 19:02:45,019 INFO     pid:3832595 __main__:652:main Current learning rate: 1.0000000000000002e-07
+2026-01-29 19:02:45,138 INFO     pid:3832595 inference.make_predictions:075:load_model Using Regressor
+2026-01-29 19:02:45,270 INFO     pid:3832595 inference.make_predictions:088:load_model Successfully loaded model from /scratch.global/lundq163/auto_qc/auto_qc_model_02r7/model_02r7_fold_4.pt
+2026-01-29 19:16:01,589 INFO     pid:3832595 __main__:675:main standardized_rmse: 0.5672377912410806
+2026-01-29 19:16:02,002 INFO     pid:3832595 __main__:680:main correlation_coefficient: 0.8284440033533021
+2026-01-29 19:16:02,003 INFO     pid:3832595 __main__:683:main Pearson correlation p-value: 1.7798109953573187e-50
+2026-01-29 19:16:02,004 INFO     pid:3832595 __main__:686:main Spearman correlation p-value: 9.075996981706054e-44

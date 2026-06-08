@@ -1,0 +1,5 @@
+K-fold preparation complete!
+Fold assignments saved to: /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/
+
+Now run the training script with the fold assignment file:
+  sbatch --export=FOLD_ASSIGNMENTS=/users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_assignments.json /users/1/lundq163/projects/automated-qc/scripts/config/submit_kfold_parallel.sh

@@ -1,0 +1,49 @@
+2026-01-28 12:02:18,768 - __main__ - INFO - Loading CSV file: /users/1/lundq163/projects/automated-qc/data/raw/auto_qc_t1w_t2w_subset_1024r_curated.csv
+2026-01-28 12:02:18,773 - __main__ - INFO - Found 363 unique subjects
+2026-01-28 12:02:18,887 - __main__ - INFO - Created 5 strata based on QU_motion percentiles
+2026-01-28 12:02:18,889 - __main__ - INFO - 
+Fold 0:
+2026-01-28 12:02:18,889 - __main__ - INFO -   Training: 290 subjects, QU_motion mean=1.353, std=0.786
+2026-01-28 12:02:18,889 - __main__ - INFO -   Validation: 73 subjects, QU_motion mean=1.386, std=0.792
+2026-01-28 12:02:18,931 - __main__ - INFO -   Saved fold subset CSV to: /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_0_subset.csv
+2026-01-28 12:02:18,931 - __main__ - INFO - 
+Fold 1:
+2026-01-28 12:02:18,931 - __main__ - INFO -   Training: 290 subjects, QU_motion mean=1.362, std=0.783
+2026-01-28 12:02:18,931 - __main__ - INFO -   Validation: 73 subjects, QU_motion mean=1.350, std=0.804
+2026-01-28 12:02:18,993 - __main__ - INFO -   Saved fold subset CSV to: /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_1_subset.csv
+2026-01-28 12:02:18,993 - __main__ - INFO - 
+Fold 2:
+2026-01-28 12:02:18,993 - __main__ - INFO -   Training: 290 subjects, QU_motion mean=1.365, std=0.793
+2026-01-28 12:02:18,993 - __main__ - INFO -   Validation: 73 subjects, QU_motion mean=1.336, std=0.763
+2026-01-28 12:02:19,039 - __main__ - INFO -   Saved fold subset CSV to: /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_2_subset.csv
+2026-01-28 12:02:19,039 - __main__ - INFO - 
+Fold 3:
+2026-01-28 12:02:19,039 - __main__ - INFO -   Training: 291 subjects, QU_motion mean=1.361, std=0.792
+2026-01-28 12:02:19,039 - __main__ - INFO -   Validation: 72 subjects, QU_motion mean=1.354, std=0.768
+2026-01-28 12:02:19,079 - __main__ - INFO -   Saved fold subset CSV to: /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_3_subset.csv
+2026-01-28 12:02:19,079 - __main__ - INFO - 
+Fold 4:
+2026-01-28 12:02:19,079 - __main__ - INFO -   Training: 291 subjects, QU_motion mean=1.356, std=0.782
+2026-01-28 12:02:19,080 - __main__ - INFO -   Validation: 72 subjects, QU_motion mean=1.372, std=0.806
+2026-01-28 12:02:19,130 - __main__ - INFO -   Saved fold subset CSV to: /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_4_subset.csv
+2026-01-28 12:02:19,175 - __main__ - INFO - 
+Saved fold assignments to: /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_assignments.json
+2026-01-28 12:02:19,223 - __main__ - INFO - Saved fold details to: /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_details.json
+2026-01-28 12:02:19,262 - __main__ - INFO - Saved fold assignments CSV to: /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_assignments.csv
+2026-01-28 12:02:19,262 - __main__ - INFO - 
+============================================================
+2026-01-28 12:02:19,262 - __main__ - INFO - K-FOLD PREPARATION COMPLETE
+2026-01-28 12:02:19,262 - __main__ - INFO - ============================================================
+2026-01-28 12:02:19,262 - __main__ - INFO - Total subjects: 363
+2026-01-28 12:02:19,262 - __main__ - INFO - Number of folds: 5
+2026-01-28 12:02:19,262 - __main__ - INFO - Random seed: 42
+2026-01-28 12:02:19,262 - __main__ - INFO - 
+Output files:
+2026-01-28 12:02:19,262 - __main__ - INFO -   - /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_assignments.json
+2026-01-28 12:02:19,262 - __main__ - INFO -   - /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_details.json
+2026-01-28 12:02:19,262 - __main__ - INFO -   - /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_assignments.csv
+2026-01-28 12:02:19,262 - __main__ - INFO -   - /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_0_subset.csv
+2026-01-28 12:02:19,262 - __main__ - INFO -   - /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_1_subset.csv
+2026-01-28 12:02:19,262 - __main__ - INFO -   - /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_2_subset.csv
+2026-01-28 12:02:19,262 - __main__ - INFO -   - /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_3_subset.csv
+2026-01-28 12:02:19,262 - __main__ - INFO -   - /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_4_subset.csv
