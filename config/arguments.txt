@@ -1,0 +1,119 @@
+# =============================================================================
+# automated-qc run configuration
+# =============================================================================
+#
+# Read by BOTH the shell scripts (scripts/utils/load_arguments.sh) and the
+# Python entry points (src/util/arguments.py), so the paths only live here.
+#
+# Format:  KEY=VALUE, one per line. '#' starts a comment.
+#          ${NAME} interpolates an earlier key or an environment variable.
+#
+# Keys map to command line options by lowercasing and swapping underscores for
+# dashes: FOLDER -> --folder, CSV_INPUT_FILE -> --csv-input-file. Keys with no
+# matching option are used only by the shell scripts.
+#
+# Precedence: command line > this file > built-in default. So a one-off run can
+# override any single value without editing shared config:
+#
+#     python src/training/training.py --arguments-file config/arguments.txt \
+#         --epochs 5 --batch-size 1
+#
+# Copy this to config/arguments.local.txt (gitignored) for personal paths.
+# =============================================================================
+
+
+# --- Environment ------------------------------------------------------------
+# The one path that cannot come from this file is the path to this file. Point
+# scripts at it with ARGUMENTS_FILE=... or accept the default in each script.
+
+PROJECT_DIR=/users/1/and02709/projects/automated-qc
+VENV_PYTHON=${PROJECT_DIR}/.venv/bin/python
+SCRATCH_DIR=/scratch.global/and02709/auto_qc
+LOG_DIR=${PROJECT_DIR}/scripts/utils/logs
+
+
+# --- SLURM ------------------------------------------------------------------
+# sbatch parses #SBATCH directives before the script body runs, so these cannot
+# be sourced from inside a job script. scripts/utils/submit_4d_kfold.sh passes
+# them as sbatch command line flags instead, which override the in-file
+# directives.
+
+SLURM_ACCOUNT=feczk001
+SLURM_EMAIL=and02709@umn.edu
+SLURM_GPU_PARTITION=a100-4,a100-8
+SLURM_GPU_GRES=gpu:a100:1
+SLURM_CPU_PARTITION=msismall,msilarge
+SLURM_MEM=128g
+SLURM_TIME=24:00:00
+SLURM_CPUS_PER_TASK=16
+
+
+# --- Model identity ---------------------------------------------------------
+# Schema is model_##{r/s}#. See README. 04d0 = first 4D field map iteration.
+
+MODEL_NAME=model_04d0
+MODEL_DIR=${PROJECT_DIR}/doc/models/${MODEL_NAME}
+
+
+# --- Input data -------------------------------------------------------------
+
+FOLDER=${SCRATCH_DIR}/fmaps/
+FILE_PATTERN=*_epi.nii.gz
+RAW_CSV=${PROJECT_DIR}/data/${MODEL_NAME}/auto_qc_fmap_curated.csv
+FOLD_ASSIGNMENTS_DIR=${MODEL_DIR}/fold_assignments
+K_FOLDS=5
+RANDOM_SEED=42
+
+# FOLD_IDX is exported per job by the submission script, not set here.
+CSV_INPUT_FILE=${FOLD_ASSIGNMENTS_DIR}/fold_${FOLD_IDX}_subset.csv
+
+
+# --- Outputs ----------------------------------------------------------------
+
+MODEL_SAVE_LOCATION=${SCRATCH_DIR}/${MODEL_NAME}/${MODEL_NAME}_fold_${FOLD_IDX}.pt
+PLOT_LOCATION=${MODEL_DIR}/${MODEL_NAME}_fold_${FOLD_IDX}.png
+CSV_OUTPUT_FILE=${MODEL_DIR}/${MODEL_NAME}_fold_${FOLD_IDX}.csv
+TB_RUN_DIR=${PROJECT_DIR}/src/training/runs/
+CACHE_DIR=${SCRATCH_DIR}/${MODEL_NAME}_cache/fold_${FOLD_IDX}/
+
+
+# --- Input dimensionality ---------------------------------------------------
+# Set TARGET_SHAPE and NUM_FRAMES from the actual cohort before training:
+#     python scripts/utils/inspect_4d_dims.py "${FOLDER}" --pattern "${FILE_PATTERN}"
+# The values below are placeholders based on typical spin-echo EPI geometry.
+
+INPUT_MODE=4d
+TARGET_SHAPE=96,96,64
+NUM_FRAMES=4
+FRAME_MODE=pool
+TEMPORAL_POOL=mean
+FRAME_SELECTION=center
+FRAME_PADDING=edge
+NORMALIZE=global
+
+
+# --- Network ----------------------------------------------------------------
+# The 260x320x320 anatomical default was 7 stages / 6 stride-2 downsamples.
+# At 96x96x64 the Z axis only supports about 5 before collapsing to one voxel.
+
+NET_CHANNELS=16,32,64,128,256,512
+NET_STRIDES=2,2,2,2,2
+
+
+# --- Training ---------------------------------------------------------------
+# BATCH_SIZE note: with FRAME_MODE=pool the effective forward batch is
+# BATCH_SIZE x NUM_FRAMES, so this is deliberately lower than the 3D config.
+
+MODEL=Regressor
+OPTIMIZER=Adam
+LR=0.001
+SCHEDULER=plateau
+BATCH_SIZE=2
+EPOCHS=100
+NUM_WORKERS=12
+USE_AMP=true
+USE_TRAIN_VALIDATION_COLS=true
+USE_WEIGHTED_LOSS=false
+
+# Warm-start from a 3D checkpoint. Leave empty to train from scratch.
+PRETRAINED_WEIGHTS=
