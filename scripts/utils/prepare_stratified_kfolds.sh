@@ -1,35 +1,48 @@
 #!/bin/sh
 
 #SBATCH --job-name=prep-kfolds
-#SBATCH --mem=8g        
-#SBATCH --time=00:10:00          
+#SBATCH --mem=8g
+#SBATCH --time=00:10:00
 #SBATCH -p msismall,msilarge
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4    
+#SBATCH --cpus-per-task=4
+#SBATCH --mail-type=BEGIN,END,FAIL
 
-#SBATCH --mail-type=BEGIN,END,FAIL        
-#SBATCH --mail-user=lundq163@umn.edu
-#SBATCH -e logs/prepare-kfolds-%j.err
-#SBATCH -o logs/prepare-kfolds-%j.out
-#SBATCH -A feczk001
-
-# This script prepares stratified k-fold splits for cross-validation.
+# Prepares stratified k-fold splits for cross-validation.
 # Run this ONCE before submitting parallel fold training jobs.
-# It generates fold assignment files that are used by the training script.
+#
+# All paths come from the arguments file; see config/arguments.txt.
 
-cd /users/1/lundq163/projects/automated-qc/src/data_sets || exit
+AUTO_QC_HOME=${AUTO_QC_HOME:-$HOME/projects/automated-qc}
+ARGUMENTS_FILE=${ARGUMENTS_FILE:-$AUTO_QC_HOME/config/arguments.txt}
 
-export PYTHONPATH=/users/1/lundq163/projects/automated-qc/src:$PYTHONPATH
+if [ ! -f "$ARGUMENTS_FILE" ]; then
+    echo "ERROR: arguments file not found: $ARGUMENTS_FILE" >&2
+    echo "Create one from the tracked template:" >&2
+    echo "  cp $AUTO_QC_HOME/config/arguments.example.txt $AUTO_QC_HOME/config/arguments.txt" >&2
+    exit 1
+fi
 
-/users/1/lundq163/projects/automated-qc/.venv/bin/python \
-/users/1/lundq163/projects/automated-qc/src/data_sets/prepare_stratified_kfolds.py \
---csv-input-file "/users/1/lundq163/projects/automated-qc/data/raw/auto_qc_t1w_t2w_subset_1024r_curated.csv" \
---output-dir "/users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7" \
---k-folds 5 \
---random-seed 42
+. "$AUTO_QC_HOME/scripts/utils/load_arguments.sh" "$ARGUMENTS_FILE"
+
+if [ ! -f "$RAW_CSV" ]; then
+    echo "ERROR: input CSV not found: $RAW_CSV" >&2
+    exit 1
+fi
+
+cd "$PROJECT_DIR/src/data_sets" || exit 1
+export PYTHONPATH="$PROJECT_DIR/src:$PYTHONPATH"
+
+mkdir -p "$FOLD_ASSIGNMENTS_DIR"
+
+"$VENV_PYTHON" "$PROJECT_DIR/src/data_sets/prepare_stratified_kfolds.py" \
+--csv-input-file "$RAW_CSV" \
+--output-dir "$FOLD_ASSIGNMENTS_DIR" \
+--k-folds "$K_FOLDS" \
+--random-seed "$RANDOM_SEED"
 
 echo "K-fold preparation complete!"
-echo "Fold assignments saved to: /users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/"
+echo "Fold assignments saved to: $FOLD_ASSIGNMENTS_DIR"
 echo ""
-echo "Now run the training script with the fold assignment file:"
-echo "  sbatch --export=FOLD_ASSIGNMENTS=/users/1/lundq163/projects/automated-qc/doc/models/model_02r7/fold_assignments_02r7/fold_assignments.json /users/1/lundq163/projects/automated-qc/scripts/config/submit_kfold_parallel.sh"
+echo "Now submit the training jobs:"
+echo "  $PROJECT_DIR/scripts/utils/submit_4d_kfold.sh"

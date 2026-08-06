@@ -34,9 +34,20 @@ import os
 import nibabel as nib
 import argparse
 
-from data_sets.dsets import resize_or_pad, z_normalize
-from models.torchmodels import AlexNet3D
+from data_sets.dsets import (
+    ScanSpec,
+    load_scan_array,
+    resize_or_pad,
+    to_model_tensor,
+    z_normalize,
+    DEFAULT_3D_TARGET_SHAPE,
+    DEFAULT_4D_TARGET_SHAPE,
+    DEFAULT_NUM_FRAMES,
+)
+from models.torchmodels import get_alexnet_model
 from models.regressor import get_regressor_model
+from models.temporal import load_backbone_state_dict
+from util.arguments import add_arguments_file_option, resolve_arguments_file
 
 log = logging.getLogger(__name__)
 # log.setLevel(logging.WARN)
@@ -44,7 +55,17 @@ log.setLevel(logging.INFO)
 # log.setLevel(logging.DEBUG)
 
 
-def load_model(model_name, model_save_location, device="cpu"):
+def load_model(
+    model_name,
+    model_save_location,
+    device="cpu",
+    spatial_shape=DEFAULT_3D_TARGET_SHAPE,
+    in_channels=1,
+    frame_mode=None,
+    temporal_pool="mean",
+    net_channels=None,
+    net_strides=None,
+):
     """Load a pre-trained QU_motion model.
 
     Args:
@@ -69,12 +90,28 @@ def load_model(model_name, model_save_location, device="cpu"):
     if not os.access(model_save_location, os.R_OK):
         raise PermissionError(f"Cannot read model file at: {model_save_location}")
 
-    # Initialize model based on type
+    # Initialize model based on type. The architecture arguments must match the
+    # ones used at training time or the state dict will not load.
     if model_name.lower() == "regressor":
-        model = get_regressor_model()
+        kwargs = {
+            "spatial_shape": spatial_shape,
+            "in_channels": in_channels,
+            "frame_mode": frame_mode,
+            "temporal_pool": temporal_pool,
+        }
+        if net_channels:
+            kwargs["channels"] = net_channels
+        if net_strides:
+            kwargs["strides"] = net_strides
+        model = get_regressor_model(**kwargs)
         log.info("Using Regressor")
     else:
-        model = AlexNet3D(4608)
+        model = get_alexnet_model(
+            4608,
+            in_channels=in_channels,
+            frame_mode=frame_mode,
+            temporal_pool=temporal_pool,
+        )
         log.info("Using AlexNet3D")
 
     model.to(device)
@@ -84,7 +121,7 @@ def load_model(model_name, model_save_location, device="cpu"):
         state_dict = torch.load(
             model_save_location, map_location=device, weights_only=True
         )
-        model.load_state_dict(state_dict)
+        load_backbone_state_dict(model, state_dict)
         log.info(f"Successfully loaded model from {model_save_location}")
     except torch.serialization.pickle.UnpicklingError as e:
         raise ValueError(f"Invalid model file format at {model_save_location}: {e}")
@@ -99,7 +136,7 @@ def load_model(model_name, model_save_location, device="cpu"):
     return model
 
 
-def predict(row, data_folder):
+def predict(row, data_folder, spec=None):
     """Generate input tensor for a single subject/session from CSV row.
 
     Args:
@@ -109,43 +146,44 @@ def predict(row, data_folder):
     Returns:
         torch.Tensor: Preprocessed image tensor ready for model input
     """
-    subject = row["subject_id"]
-    session = row["session_id"]
-    run = row["run_id"]
-    suffix = row["suffix"]
-    scan_path = (
-        f"{data_folder}/{subject}_{session}_run-{run}_{suffix}.nii.gz"
-    )
-    scan_image_tensor = get_image_tensor(scan_path)
+    if "scan" in row.index and isinstance(row["scan"], str) and row["scan"].strip():
+        # Field map filenames carry BIDS entities (dir-AP, acq-) the old template
+        # could not express, so prefer the literal name when the CSV has it.
+        scan_path = os.path.join(data_folder, row["scan"].strip())
+    else:
+        subject = row["subject_id"]
+        session = row["session_id"]
+        run = row["run_id"]
+        suffix = row["suffix"]
+        scan_path = (
+            f"{data_folder}/{subject}_{session}_run-{run}_{suffix}.nii.gz"
+        )
+
+    scan_image_tensor = get_image_tensor(scan_path, spec=spec)
     value = scan_image_tensor.unsqueeze(0)
 
     return value
 
 
-def get_image_tensor(mri_path):
-    """Load and preprocess a NIfTI MRI scan for model input.
+def get_image_tensor(mri_path, spec=None):
+    """Load and preprocess a NIfTI scan for model input.
+
+    Delegates to the shared loader in data_sets.dsets so training and inference
+    preprocessing cannot drift apart.
 
     Args:
         mri_path (str): Path to NIfTI file (.nii.gz format)
+        spec (ScanSpec): Preprocessing configuration. Defaults to the legacy 3D
+            260x320x320 setup.
 
     Returns:
-        torch.Tensor: Preprocessed 4D tensor (1, C, H, W, D) with z-normalization applied
+        torch.Tensor: Preprocessed (T, X, Y, Z) tensor, T=1 for 3D input.
     """
-    # Load NIfTI file using nibabel
-    nii_img = nib.load(mri_path)
-    image_data = nii_img.get_fdata()
+    spec = spec or ScanSpec()
 
-    # Convert to float32 and ensure it's a numpy array
-    image_data = np.array(image_data, dtype=np.float32)
-    
-    # Resize or pad to target shape
-    image_data = resize_or_pad(image_data, target_shape=(260, 320, 320))
-
-    # Z-normalization (equivalent to tio.ZNormalization with mean masking)
-    image_data = z_normalize(image_data)
-
-    # Convert to torch tensor and add channel dimension
-    mri_image_tensor = torch.from_numpy(image_data).unsqueeze(0)  # Add channel dim
+    # is_val_set_bool=True disables augmentation at inference time.
+    image_data = load_scan_array(mri_path, spec, is_val_set_bool=True)
+    mri_image_tensor = to_model_tensor(image_data, spec)
 
     # Move to CPU (though it's already on CPU)
     input_g = mri_image_tensor.to("cpu", non_blocking=True)
@@ -170,7 +208,17 @@ def compute_rmse(predictions, actuals):
 
 
 def get_validation_info(
-    model_type, model_save_location, input_csv_location, val_subjects, data_folder
+    model_type,
+    model_save_location,
+    input_csv_location,
+    val_subjects,
+    data_folder,
+    spec=None,
+    in_channels=1,
+    frame_mode=None,
+    temporal_pool="mean",
+    net_channels=None,
+    net_strides=None,
 ):
     """Generate predictions for validation subjects.
 
@@ -184,7 +232,18 @@ def get_validation_info(
     Returns:
         tuple: (subjects, sessions, actual_scores, predicted_scores)
     """
-    model = load_model(model_type, model_save_location, device="cpu")
+    spec = spec or ScanSpec()
+    model = load_model(
+        model_type,
+        model_save_location,
+        device="cpu",
+        spatial_shape=spec.target_shape,
+        in_channels=in_channels,
+        frame_mode=frame_mode,
+        temporal_pool=temporal_pool,
+        net_channels=net_channels,
+        net_strides=net_strides,
+    )
 
     df = pd.read_csv(input_csv_location)
     validation_rows = df[df["subject_id"].isin(val_subjects)]
@@ -195,7 +254,7 @@ def get_validation_info(
     suffixes = list(output_df["suffix"])
     actual_scores = list(output_df["QU_motion"])
     with torch.no_grad():
-        inputs = list(output_df.apply(predict, axis=1, args=(data_folder,)))
+        inputs = list(output_df.apply(predict, axis=1, args=(data_folder, spec)))
 
         predictions = [model(input) for input in inputs]
         predict_vals = [p[0].item() for p in predictions]
@@ -370,7 +429,7 @@ def get_filename_from_path(file_path):
     return os.path.basename(file_path)
 
 
-def make_predictions_on_folder(directory_path, file_pattern, model):
+def make_predictions_on_folder(directory_path, file_pattern, model, spec=None):
     """Generate QU_motion predictions for all matching MRI files in a directory.
 
     
@@ -385,6 +444,7 @@ def make_predictions_on_folder(directory_path, file_pattern, model):
     Returns:
         pd.DataFrame: DataFrame with columns: subject_id, session_id, run_id, suffix, predicted_score
     """
+    spec = spec or ScanSpec()
     matching_files = get_files_by_pattern(directory_path, file_pattern)
 
     df = pd.DataFrame(
@@ -398,7 +458,7 @@ def make_predictions_on_folder(directory_path, file_pattern, model):
     )
     if matching_files:
         for file_path in matching_files:
-            image_tensor = get_image_tensor(file_path)
+            image_tensor = get_image_tensor(file_path, spec=spec)
             file_name = get_filename_from_path(file_path)
             parts = file_name.split("_")
             subject_id = parts[0]
@@ -408,6 +468,8 @@ def make_predictions_on_folder(directory_path, file_pattern, model):
             with torch.no_grad():
                 unsqueezed_image_tensor = image_tensor.unsqueeze(0)
                 prediction = model(unsqueezed_image_tensor)
+                if isinstance(prediction, (list, tuple)):
+                    prediction = prediction[0]
                 prediction_p = prediction.item()
                 new_row = pd.DataFrame(
                     {
@@ -427,10 +489,17 @@ def make_predictions_on_folder(directory_path, file_pattern, model):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Make predictions on input files.")
-    parser.add_argument("model_file_path", help="Path to the model file")
-    parser.add_argument("input_csv_file_path", help="Path to the CSV file")
+    add_arguments_file_option(parser)
+    # nargs="?" so these can come from the arguments file instead. Still accepted
+    # positionally exactly as before; validated after parsing.
     parser.add_argument(
-        "nifti_directory_path", help="Path to folder containing NIFTI files"
+        "model_file_path", nargs="?", help="Path to the model file"
+    )
+    parser.add_argument(
+        "input_csv_file_path", nargs="?", help="Path to the CSV file"
+    )
+    parser.add_argument(
+        "nifti_directory_path", nargs="?", help="Path to folder containing NIFTI files"
     )
     parser.add_argument(
         "--file_pattern",
@@ -456,17 +525,120 @@ if __name__ == "__main__":
     parser.add_argument(
         "--scatter_plot_file_path", help="File path to output scatter plot"
     )
+    parser.add_argument(
+        "--input_mode",
+        default="3d",
+        choices=["3d", "4d"],
+        help="3d for anatomical volumes; 4d for field maps.",
+    )
+    parser.add_argument(
+        "--target_shape",
+        default=None,
+        help="Comma-separated spatial target, e.g. 96,96,64. Must match training.",
+    )
+    parser.add_argument(
+        "--num_frames",
+        default=None,
+        type=int,
+        help="Frames retained from a 4D scan. Must match training.",
+    )
+    parser.add_argument(
+        "--frame_mode",
+        default="pool",
+        choices=["channels", "pool"],
+        help="Must match the value used at training time.",
+    )
+    parser.add_argument(
+        "--temporal_pool",
+        default="mean",
+        choices=["mean", "max", "median", "first"],
+        help="Must match the value used at training time.",
+    )
+    parser.add_argument(
+        "--frame_selection", default="center", choices=["center", "first", "uniform"]
+    )
+    parser.add_argument("--frame_padding", default="edge", choices=["edge", "zero"])
+    parser.add_argument("--normalize", default="global", choices=["global", "per_frame"])
+
+    # Apply the arguments file before the real parse so the command line wins.
+    _, _mapping = resolve_arguments_file(parser, sys.argv[1:])
+
+    # The arguments file names outputs from the training run's point of view, so
+    # map those onto the positional destinations here.
+    _aliases = {
+        "model_file_path": "MODEL_SAVE_LOCATION",
+        "input_csv_file_path": "CSV_OUTPUT_FILE",
+        "nifti_directory_path": "FOLDER",
+    }
+    parser.set_defaults(
+        **{
+            dest: _mapping[key]
+            for dest, key in _aliases.items()
+            if key in _mapping and _mapping[key]
+        }
+    )
+
     args = parser.parse_args()
-    model_save_location = sys.argv[1]
-    csv_file_name = sys.argv[2]
-    directory_path = sys.argv[3]
+
+    required = {
+        "model_file_path": "MODEL_SAVE_LOCATION",
+        "input_csv_file_path": "CSV_OUTPUT_FILE",
+        "nifti_directory_path": "FOLDER",
+    }
+    missing = [
+        f"{dest} (positional, or {key} in the arguments file)"
+        for dest, key in required.items()
+        if not getattr(args, dest)
+    ]
+    if missing:
+        parser.error("missing required value(s): " + "; ".join(missing))
+    # Read from the parsed namespace rather than sys.argv positions, so the
+    # arguments file can supply these too.
+    model_save_location = args.model_file_path
+    csv_file_name = args.input_csv_file_path
+    directory_path = args.nifti_directory_path
     file_pattern = args.file_pattern
-    model = load_model(args.model_type, model_save_location, device=args.device)
-    df = make_predictions_on_folder(directory_path, file_pattern, model)
+
+    is_4d = args.input_mode == "4d"
+    default_shape = DEFAULT_4D_TARGET_SHAPE if is_4d else DEFAULT_3D_TARGET_SHAPE
+    target_shape = (
+        tuple(int(x) for x in args.target_shape.split(","))
+        if args.target_shape
+        else default_shape
+    )
+    num_frames = args.num_frames
+    if is_4d and num_frames is None:
+        num_frames = DEFAULT_NUM_FRAMES
+
+    spec = ScanSpec(
+        input_mode=args.input_mode,
+        target_shape=target_shape,
+        num_frames=num_frames,
+        frame_padding=args.frame_padding,
+        frame_selection=args.frame_selection,
+        normalize=args.normalize,
+    )
+
+    if is_4d and args.frame_mode == "channels":
+        in_channels, frame_mode = num_frames, "channels"
+    elif is_4d:
+        in_channels, frame_mode = 1, "pool"
+    else:
+        in_channels, frame_mode = 1, None
+
+    model = load_model(
+        args.model_type,
+        model_save_location,
+        device=args.device,
+        spatial_shape=target_shape,
+        in_channels=in_channels,
+        frame_mode=frame_mode,
+        temporal_pool=args.temporal_pool,
+    )
+    df = make_predictions_on_folder(directory_path, file_pattern, model, spec=spec)
     df.to_csv(csv_file_name, index=False)
     if args.validation_csv_file_path:
         expected_df = pd.read_csv(args.validation_csv_file_path)
-        expected_df = pd.read_csv()
         expected_validation_df = expected_df[expected_df["validation"] == 1]
         merged_df = pd.merge(
             df,

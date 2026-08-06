@@ -22,7 +22,13 @@ import matplotlib
 
 matplotlib.use("Agg")  # Use non-interactive backend
 
-from data_sets.dsets import AutoQcDataset
+from data_sets.dsets import (
+    AutoQcDataset,
+    ScanSpec,
+    DEFAULT_3D_TARGET_SHAPE,
+    DEFAULT_4D_TARGET_SHAPE,
+    DEFAULT_NUM_FRAMES,
+)
 from inference.make_predictions import (
     add_predicted_values,
     compute_standardized_rmse,
@@ -30,8 +36,10 @@ from inference.make_predictions import (
     create_scatter_plot,
     get_validation_info,
 )
-from models.torchmodels import AlexNet3D
+from models.torchmodels import get_alexnet_model
 from models.regressor import get_regressor_model
+from models.temporal import load_backbone_state_dict
+from util.arguments import add_arguments_file_option, resolve_arguments_file
 from util.logconf import logging
 from util.util import enumerateWithEstimate
 
@@ -62,6 +70,10 @@ def count_items(input_list):
 class Config:
     def __init__(self):
         self.parser = argparse.ArgumentParser()
+
+        # Registered first so it shows at the top of --help. Everything below can
+        # be supplied by the arguments file instead of on the command line.
+        add_arguments_file_option(self.parser)
 
         self.parser.add_argument(
             "--tb-prefix", default="qu_motion", help="Tensorboard data prefix."
@@ -139,24 +151,171 @@ class Config:
             "--use-amp", action="store_true", help="Use Automatic Mixed Precision (AMP) for training."
         )
 
+        # ---- Input dimensionality (3D anatomical vs 4D field map) ----
+        self.parser.add_argument(
+            "--input-mode",
+            default="3d",
+            choices=["3d", "4d"],
+            help="3d for anatomical volumes; 4d for field maps / other 4D series.",
+        )
+        self.parser.add_argument(
+            "--target-shape",
+            default=None,
+            help="Comma-separated spatial target, e.g. 96,96,64. Defaults to "
+            f"{','.join(map(str, DEFAULT_3D_TARGET_SHAPE))} for 3d and "
+            f"{','.join(map(str, DEFAULT_4D_TARGET_SHAPE))} for 4d.",
+        )
+        self.parser.add_argument(
+            "--num-frames",
+            default=None,
+            type=int,
+            help="Frames retained from a 4D scan. Required to be fixed when "
+            "--frame-mode=channels. Omit with --frame-mode=pool to keep all frames "
+            f"(default when 4d: {DEFAULT_NUM_FRAMES}).",
+        )
+        self.parser.add_argument(
+            "--frame-mode",
+            default="pool",
+            choices=["channels", "pool"],
+            help="How the network consumes the frame axis. 'pool' encodes each "
+            "frame with a shared 3D backbone and pools predictions (variable "
+            "frame count OK, 3D checkpoints loadable). 'channels' feeds frames "
+            "as conv input channels (fixed frame count required).",
+        )
+        self.parser.add_argument(
+            "--temporal-pool",
+            default="mean",
+            choices=["mean", "max", "median", "first"],
+            help="Reduction across frames when --frame-mode=pool.",
+        )
+        self.parser.add_argument(
+            "--frame-selection",
+            default="center",
+            choices=["center", "first", "uniform"],
+            help="Which frames to keep when a scan has more than --num-frames.",
+        )
+        self.parser.add_argument(
+            "--frame-padding",
+            default="edge",
+            choices=["edge", "zero"],
+            help="How to pad when a scan has fewer than --num-frames.",
+        )
+        self.parser.add_argument(
+            "--normalize",
+            default="global",
+            choices=["global", "per_frame"],
+            help="Z-normalize over the whole array (preserves inter-frame "
+            "intensity differences) or each frame independently.",
+        )
+        self.parser.add_argument(
+            "--net-channels",
+            default=None,
+            help="Comma-separated MONAI Regressor channel widths.",
+        )
+        self.parser.add_argument(
+            "--net-strides",
+            default=None,
+            help="Comma-separated MONAI Regressor strides.",
+        )
+        self.parser.add_argument(
+            "--pretrained-weights",
+            default=None,
+            help="Optional checkpoint to warm-start from (e.g. a model_02r7 fold).",
+        )
+
     def parse_args(self, sys_argv: list[str]) -> argparse.Namespace:
+        # Two passes: locate and apply the arguments file first, then parse for
+        # real so anything given on the command line still wins over the file.
+        path, _ = resolve_arguments_file(self.parser, sys_argv)
+        if path:
+            log.info(f"Using arguments file: {path}")
+
         return self.parser.parse_args(sys_argv)
+
+
+def parse_int_tuple(text, default):
+    """Parse a comma-separated integer list, falling back to a default."""
+    if text is None:
+        return tuple(default)
+    return tuple(int(part) for part in str(text).split(",") if part.strip())
+
+
+def build_scan_spec(config):
+    """Resolve CLI arguments into a ScanSpec plus the model input channel count."""
+    is_4d = config.input_mode == "4d"
+
+    default_shape = DEFAULT_4D_TARGET_SHAPE if is_4d else DEFAULT_3D_TARGET_SHAPE
+    target_shape = parse_int_tuple(config.target_shape, default_shape)
+
+    if len(target_shape) != 3:
+        raise ValueError(
+            f"--target-shape must give 3 spatial dimensions, got {target_shape}. "
+            "The frame count is set separately with --num-frames."
+        )
+
+    num_frames = None
+    if is_4d:
+        num_frames = config.num_frames
+        if config.frame_mode == "channels":
+            # A single conv stack has a fixed in_channels, so the frame count
+            # cannot vary between scans.
+            if num_frames is None:
+                num_frames = DEFAULT_NUM_FRAMES
+                log.warning(
+                    f"--frame-mode=channels requires a fixed frame count; "
+                    f"defaulting --num-frames to {num_frames}."
+                )
+        elif num_frames is None:
+            num_frames = DEFAULT_NUM_FRAMES
+            log.info(
+                f"--num-frames not set; padding/cropping field maps to "
+                f"{num_frames} frames so samples collate into a batch."
+            )
+    elif config.num_frames is not None:
+        log.warning("--num-frames is ignored when --input-mode=3d.")
+
+    spec = ScanSpec(
+        input_mode=config.input_mode,
+        target_shape=target_shape,
+        num_frames=num_frames,
+        frame_padding=config.frame_padding,
+        frame_selection=config.frame_selection,
+        normalize=config.normalize,
+    )
+
+    if is_4d and config.frame_mode == "channels":
+        in_channels = num_frames
+        frame_mode = "channels"
+    elif is_4d:
+        in_channels = 1
+        frame_mode = "pool"
+    else:
+        in_channels = 1
+        frame_mode = None
+
+    return spec, in_channels, frame_mode
     
 
 
 
 # Data Handler Class to manage dataset operations
 class DataHandler:
-    def __init__(self, df, output_df, use_cuda, batch_size, num_workers):
+    def __init__(self, df, output_df, use_cuda, batch_size, num_workers, spec=None):
         self.df = df
         self.output_df = output_df
         self.use_cuda = use_cuda
         self.batch_size = batch_size
         self.num_workers = num_workers
+        self.spec = spec or ScanSpec()
 
     def init_dl(self, folder, subjects, is_val_set: bool = False):
         dataset = AutoQcDataset(
-            folder, subjects, self.df, self.output_df, is_val_set_bool=is_val_set
+            folder,
+            subjects,
+            self.df,
+            self.output_df,
+            is_val_set_bool=is_val_set,
+            spec=self.spec,
         )
         batch_size = self.batch_size
         if self.use_cuda:
@@ -175,18 +334,50 @@ class DataHandler:
 
 # Model Handler Class to manage model operations
 class ModelHandler:
-    def __init__(self, model_name, use_cuda, device):
+    def __init__(
+        self,
+        model_name,
+        use_cuda,
+        device,
+        spatial_shape=DEFAULT_3D_TARGET_SHAPE,
+        in_channels=1,
+        frame_mode=None,
+        temporal_pool="mean",
+        net_channels=None,
+        net_strides=None,
+    ):
         self.model_name = model_name
         self.use_cuda = use_cuda
         self.device = device
+        self.spatial_shape = spatial_shape
+        self.in_channels = in_channels
+        self.frame_mode = frame_mode
+        self.temporal_pool = temporal_pool
+        self.net_channels = net_channels
+        self.net_strides = net_strides
         self.model = self._init_model()
 
     def _init_model(self):
         if self.model_name == "Regressor":
-            model = get_regressor_model()
+            kwargs = {
+                "spatial_shape": self.spatial_shape,
+                "in_channels": self.in_channels,
+                "frame_mode": self.frame_mode,
+                "temporal_pool": self.temporal_pool,
+            }
+            if self.net_channels:
+                kwargs["channels"] = self.net_channels
+            if self.net_strides:
+                kwargs["strides"] = self.net_strides
+            model = get_regressor_model(**kwargs)
             log.info("Using Regressor model")
         else:
-            model = AlexNet3D(4608)
+            model = get_alexnet_model(
+                4608,
+                in_channels=self.in_channels,
+                frame_mode=self.frame_mode,
+                temporal_pool=self.temporal_pool,
+            )
             log.info("Using AlexNet3D")
 
         # Always move to the specified device consistently
@@ -210,8 +401,10 @@ class ModelHandler:
             log.error(f"Failed to save model to {save_location}: {e}")
             raise
 
-    def load_model(self, model_path):
-        self.model.load_state_dict(torch.load(model_path))
+    def load_model(self, model_path, strict=True):
+        state_dict = torch.load(model_path, map_location=self.device, weights_only=True)
+        load_backbone_state_dict(self.model, state_dict, strict=strict)
+        log.info(f"Loaded weights from {model_path}")
 
 
 
@@ -468,18 +661,21 @@ class TensorBoardLogger:
 
 def get_folder_name(file_path):
     """
-    Extracts the folder name from a given file path.
+    Extracts the containing directory from a given file path.
+
+    Previously returned os.path.basename(dirname), i.e. the bare folder name
+    with its path stripped. Callers pass the result straight to os.makedirs, so
+    that created a stray directory relative to the current working directory
+    while the real output path went unchecked.
 
     Args:
       file_path: The path to the file.
 
     Returns:
-      The name of the folder containing the file, or None if an error occurs.
+      The directory containing the file, or None if an error occurs.
     """
     try:
-        folder_path = os.path.dirname(file_path)
-        folder_name = os.path.basename(folder_path)
-        return folder_name
+        return os.path.dirname(file_path)
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
@@ -497,7 +693,34 @@ class AutoQcTrainingApp:
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() and not self.config.DEBUG else "cpu"
         )
-        self.model_handler = ModelHandler(self.config.model, self.use_cuda, self.device)
+        self.scan_spec, in_channels, frame_mode = build_scan_spec(self.config)
+        log.info(f"Input configuration: {self.scan_spec.describe()}")
+        if frame_mode == "pool":
+            log.info(
+                "frame_mode=pool: each frame is encoded separately, so the "
+                f"effective forward batch is batch_size x {self.scan_spec.num_frames}. "
+                "Lower --batch-size if you hit OOM."
+            )
+
+        self.model_handler = ModelHandler(
+            self.config.model,
+            self.use_cuda,
+            self.device,
+            spatial_shape=self.scan_spec.target_shape,
+            in_channels=in_channels,
+            frame_mode=frame_mode,
+            temporal_pool=self.config.temporal_pool,
+            net_channels=parse_int_tuple(self.config.net_channels, None)
+            if self.config.net_channels
+            else None,
+            net_strides=parse_int_tuple(self.config.net_strides, None)
+            if self.config.net_strides
+            else None,
+        )
+
+        if self.config.pretrained_weights:
+            self.model_handler.load_model(self.config.pretrained_weights)
+
         self.optimizer = self._init_optimizer()
         self.tb_run_dir = self.config.tb_run_dir
 
@@ -512,6 +735,7 @@ class AutoQcTrainingApp:
             self.use_cuda,
             self.config.batch_size,
             self.config.num_workers,
+            spec=self.scan_spec,
         )
         self.folder = self.config.folder
 
@@ -536,6 +760,11 @@ class AutoQcTrainingApp:
 
         if self.config.use_weighted_loss:
             parts.append("weighted")
+
+        if self.config.input_mode == "4d":
+            parts.append(f"4d-{self.config.frame_mode}")
+            if self.config.frame_mode == "pool":
+                parts.append(f"pool-{self.config.temporal_pool}")
 
         parts.append(self.time_str)
 
@@ -661,6 +890,12 @@ class AutoQcTrainingApp:
             input_csv_location,
             self.val_subjects,
             self.config.folder,
+            spec=self.scan_spec,
+            in_channels=self.model_handler.in_channels,
+            frame_mode=self.model_handler.frame_mode,
+            temporal_pool=self.config.temporal_pool,
+            net_channels=self.model_handler.net_channels,
+            net_strides=self.model_handler.net_strides,
         )
 
         output_csv_location = self.config.csv_output_file
@@ -668,8 +903,8 @@ class AutoQcTrainingApp:
             subjects, sessions, runs, suffixes, predict_vals, input_csv_location
         )
         output_csv_folder_name = get_folder_name(output_csv_location)
-        if not os.path.exists(output_csv_folder_name):
-            os.makedirs(output_csv_folder_name)
+        if output_csv_folder_name and not os.path.exists(output_csv_folder_name):
+            os.makedirs(output_csv_folder_name, exist_ok=True)
         output_df.to_csv(output_csv_location, index=False)
         standardized_rmse = compute_standardized_rmse(actual_scores, predict_vals)
         log.info(f"standardized_rmse: {standardized_rmse}")
