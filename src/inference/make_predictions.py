@@ -230,7 +230,7 @@ def get_validation_info(
         data_folder (str): Directory with preprocessed MRI files
 
     Returns:
-        tuple: (subjects, sessions, actual_scores, predicted_scores)
+        tuple: (subjects, sessions, runs, suffixes, actual_scores, predicted_scores, scans)
     """
     spec = spec or ScanSpec()
     model = load_model(
@@ -252,6 +252,7 @@ def get_validation_info(
     sessions = list(output_df["session_id"])
     runs = list(output_df["run_id"])
     suffixes = list(output_df["suffix"])
+    scans = list(output_df["scan"]) if "scan" in output_df.columns else None
     actual_scores = list(output_df["QU_motion"])
     with torch.no_grad():
         inputs = list(output_df.apply(predict, axis=1, args=(data_folder, spec)))
@@ -259,7 +260,7 @@ def get_validation_info(
         predictions = [model(input) for input in inputs]
         predict_vals = [p[0].item() for p in predictions]
 
-        return subjects, sessions, runs, suffixes, actual_scores, predict_vals
+        return subjects, sessions, runs, suffixes, actual_scores, predict_vals, scans
 
 
 def compute_standardized_rmse(actual_scores, predict_vals):
@@ -350,20 +351,37 @@ def create_scatter_plot(actual_vals, predicted_vals, output_file):
     plt.close()
 
 
-def get_predicted_value(row, subjects, sessions, runs, suffixes, predict_vals):
-    """Match predicted value to subject/session/run/suffix combination.
+def get_predicted_value(row, subjects, sessions, runs, suffixes, predict_vals, scans=None):
+    """Match a predicted value back to its CSV row.
+
+    Matches on the `scan` column when available, falling back to the
+    subject/session/run/suffix tuple for legacy CSVs that lack it.
+
+    The fallback is NOT sufficient for field maps. A single session holds
+    dir-AP_run-1_epi and dir-PA_run-1_epi, which share subject_id, session_id,
+    run_id and suffix -- so the four-field key collides and the first match wins
+    for both rows. The `scan` filename is the only unique identifier.
 
     Args:
-        row (pd.Series): DataFrame row with subject and session IDs
+        row (pd.Series): DataFrame row to find a prediction for
         subjects (list): List of subject IDs
         sessions (list): List of session IDs
         runs (list): List of run IDs
         suffixes (list): List of suffix IDs
         predict_vals (list): Corresponding predicted values
+        scans (list): Corresponding scan filenames, when available
 
     Returns:
-        float: Predicted value for the subject/session/run/suffix, or NaN if not found
+        float: The matching predicted value, or NaN if not found
     """
+    row_scan = row["scan"] if "scan" in row.index else None
+
+    if scans is not None and isinstance(row_scan, str) and row_scan.strip():
+        for scan, predict_val in zip(scans, predict_vals):
+            if isinstance(scan, str) and scan.strip() == row_scan.strip():
+                return predict_val
+        return np.nan
+
     zipped_data = zip(subjects, sessions, runs, suffixes, predict_vals)
 
     for subject, session, run, suffix, predict_val in zipped_data:
@@ -377,7 +395,7 @@ def get_predicted_value(row, subjects, sessions, runs, suffixes, predict_vals):
     return np.nan
 
 
-def add_predicted_values(subjects, sessions, runs, suffixes, predict_vals, input_csv_location):
+def add_predicted_values(subjects, sessions, runs, suffixes, predict_vals, input_csv_location, scans=None):
     """Add predicted QU_motion scores to existing CSV data.
 
     Args:
@@ -394,13 +412,15 @@ def add_predicted_values(subjects, sessions, runs, suffixes, predict_vals, input
     input_df = pd.read_csv(input_csv_location)
     output_df = input_df.copy()
     output_df["predicted_qu_motion_score"] = output_df.apply(
-        get_predicted_value, axis=1, args=(subjects, sessions, runs, suffixes, predict_vals)
+        get_predicted_value,
+        axis=1,
+        args=(subjects, sessions, runs, suffixes, predict_vals, scans),
     )
 
     return output_df
 
 
-def get_files_by_pattern(directory, pattern):
+def get_files_by_pattern(directory, pattern, recursive=False):
     """
     Retrieves all files in a directory matching a specified filename pattern.
 
@@ -411,9 +431,14 @@ def get_files_by_pattern(directory, pattern):
     Returns:
         list: A list of file paths that match the pattern.
     """
+    if recursive:
+        # ** with recursive=True descends the whole tree, which is what a BIDS
+        # layout needs (sub-*/ses-*/fmap/*.nii.gz).
+        search_pattern = os.path.join(directory, "**", pattern)
+        return glob.glob(search_pattern, recursive=True)
+
     search_pattern = os.path.join(directory, pattern)
-    files = glob.glob(search_pattern)
-    return files
+    return glob.glob(search_pattern)
 
 
 def get_filename_from_path(file_path):

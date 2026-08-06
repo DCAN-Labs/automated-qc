@@ -32,7 +32,7 @@ import nibabel as nib
 import numpy as np
 
 
-def collect_paths(directory, pattern, csv_path):
+def collect_paths(directory, pattern, csv_path, recursive=False):
     """Resolve the list of files to inspect, either by glob or from a CSV."""
     if csv_path:
         import pandas as pd
@@ -52,6 +52,12 @@ def collect_paths(directory, pattern, csv_path):
                 + ".nii.gz"
             )
         return [os.path.join(directory, n) for n in names]
+
+    if recursive:
+        # BIDS trees nest as sub-*/ses-*/fmap/*.nii.gz, so descend the whole tree.
+        return sorted(
+            glob.glob(os.path.join(directory, "**", pattern), recursive=True)
+        )
 
     return sorted(glob.glob(os.path.join(directory, pattern)))
 
@@ -88,6 +94,12 @@ def main():
     parser.add_argument("--pattern", default="*.nii.gz", help="Glob pattern")
     parser.add_argument("--csv", default=None, help="Read file names from this CSV")
     parser.add_argument(
+        "--recursive",
+        action="store_true",
+        help="Descend into subdirectories. Needed for BIDS-nested trees such as "
+        "<root>/sub-*/ses-*/fmap/.",
+    )
+    parser.add_argument(
         "--percentile",
         type=float,
         default=100.0,
@@ -96,7 +108,7 @@ def main():
     )
     args = parser.parse_args()
 
-    paths = collect_paths(args.directory, args.pattern, args.csv)
+    paths = collect_paths(args.directory, args.pattern, args.csv, args.recursive)
     if not paths:
         print(f"No files matched {os.path.join(args.directory, args.pattern)}")
         return

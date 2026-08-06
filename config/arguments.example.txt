@@ -64,6 +64,8 @@ MODEL_DIR=${PROJECT_DIR}/doc/models/${MODEL_NAME}
 
 # --- Input data -------------------------------------------------------------
 
+# FOLDER may be a flat directory or the root of a BIDS-nested tree; the CSV's
+# `scan` column holds the path relative to it, so no staging is required.
 FOLDER=${SCRATCH_DIR}/fmaps/
 FILE_PATTERN=*_epi.nii.gz
 RAW_CSV=${PROJECT_DIR}/data/${MODEL_NAME}/auto_qc_fmap_curated.csv

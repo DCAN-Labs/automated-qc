@@ -884,7 +884,7 @@ class AutoQcTrainingApp:
                 torch.cuda.empty_cache()
 
         input_csv_location = self.config.csv_input_file
-        subjects, sessions, runs, suffixes, actual_scores, predict_vals = get_validation_info(
+        subjects, sessions, runs, suffixes, actual_scores, predict_vals, scans = get_validation_info(
             self.config.model,
             self.config.model_save_location,
             input_csv_location,
@@ -900,7 +900,7 @@ class AutoQcTrainingApp:
 
         output_csv_location = self.config.csv_output_file
         output_df = add_predicted_values(
-            subjects, sessions, runs, suffixes, predict_vals, input_csv_location
+            subjects, sessions, runs, suffixes, predict_vals, input_csv_location, scans
         )
         output_csv_folder_name = get_folder_name(output_csv_location)
         if output_csv_folder_name and not os.path.exists(output_csv_folder_name):
