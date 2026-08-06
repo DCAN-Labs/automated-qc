@@ -2,8 +2,9 @@
 # automated-qc run configuration -- and02709, 4D field maps
 # =============================================================================
 #
-# Lines marked FILL ME must be set before anything will run.
-# Everything else is derived from SCRATCH_DIR and should be correct as-is.
+# Currently set up for a SMOKE TEST with synthetic labels. See the two lines
+# marked SWITCH FOR REAL RUN at the bottom of the Input data and Training
+# sections when the professional ratings arrive.
 # =============================================================================
 
 
@@ -30,25 +31,27 @@ SLURM_CPUS_PER_TASK=16
 
 
 # --- Model identity ---------------------------------------------------------
-# Schema is model_##{r/s}#. 04 = new hyperparameter/dataset combination,
-# d = 4D input, 0 = first iteration. Rename if the workgroup prefers otherwise.
+# DUMMY in the name so every output path says what these results are worth.
+# Rename to model_04d0 for the real run.
 
-MODEL_NAME=model_04d0
+MODEL_NAME=model_04d0_DUMMY
 MODEL_DIR=${PROJECT_DIR}/doc/models/${MODEL_NAME}
 
 
 # --- Input data -------------------------------------------------------------
-# FILL ME: directory holding the field map NIfTIs (flat, not BIDS-nested).
+# FOLDER is the ROOT of the BIDS-nested tree. No staging needed: the CSV's
+# `scan` column holds each file's path relative to this directory.
+
 FOLDER=/scratch.global/fayzu001/hbcd_fmap_qc_sorted/
 
-# FILL ME: pattern matching those files. Check with:
-#   ls "$FOLDER" | head
+# Matches the spin-echo EPI field maps, excluding the TB1AFI files beside them.
 FILE_PATTERN=*_epi.nii.gz
 
-# FILL ME: CSV with columns subject_id, session_id, run_id, suffix, scan,
-# QU_motion -- one row per field map, with a motion rating. This is the
-# training signal; nothing runs without it.
-RAW_CSV=${PROJECT_DIR}/data/${MODEL_NAME}/auto_qc_fmap_curated.csv
+# SWITCH FOR REAL RUN: point at the professionally rated CSV.
+# Generate this one with:
+#   python scripts/utils/build_fmap_csv.py "$FOLDER" \
+#       --output data/DUMMY/DUMMY_fmap_labels.csv --dummy-labels --limit-subjects 40
+RAW_CSV=${PROJECT_DIR}/data/DUMMY/DUMMY_fmap_labels.csv
 
 FOLD_ASSIGNMENTS_DIR=${MODEL_DIR}/fold_assignments
 K_FOLDS=5
@@ -68,11 +71,12 @@ CACHE_DIR=${SCRATCH_DIR}/${MODEL_NAME}_cache/fold_${FOLD_IDX}/
 
 
 # --- Input dimensionality ---------------------------------------------------
-# FILL ME after FOLDER is set. Run:
+# STILL PLACEHOLDERS -- these are typical spin-echo EPI numbers, NOT your data.
+# Measure first. Note --recursive: without it the survey finds zero files in a
+# BIDS-nested tree.
+#
 #   PYTHONPATH=src "$VENV_PYTHON" scripts/utils/inspect_4d_dims.py \
-#       "$FOLDER" --pattern "$FILE_PATTERN"
-# and paste its suggested values here. The two below are placeholders based on
-# typical spin-echo EPI geometry, NOT measurements of your data.
+#       "$FOLDER" --pattern "$FILE_PATTERN" --recursive
 
 INPUT_MODE=4d
 TARGET_SHAPE=96,96,64
@@ -102,7 +106,11 @@ OPTIMIZER=Adam
 LR=0.001
 SCHEDULER=plateau
 BATCH_SIZE=2
-EPOCHS=100
+
+# SWITCH FOR REAL RUN: 100. Two epochs is enough to prove the plumbing works,
+# and random labels cannot be learned anyway.
+EPOCHS=2
+
 NUM_WORKERS=12
 USE_AMP=true
 USE_TRAIN_VALIDATION_COLS=true
