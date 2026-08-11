@@ -26,3 +26,6 @@ runs
 __pycache__/
 *.py[cod]
 *$py.class
+# personal run configuration
+config/arguments.txt
+config/*.local.txt
