@@ -1,0 +1,55 @@
+load_arguments.sh: loaded 47 entries from /scratch.global/and02709/fmaps_work/automated-qc/config/arguments.txt
+2026-08-10 13:45:42,492 - __main__ - INFO - Loading CSV file: /scratch.global/and02709/fmaps_work/automated-qc/data/DUMMY/DUMMY_fmap_labels.csv
+2026-08-10 13:45:42,530 - __main__ - INFO - Found 40 unique subjects
+2026-08-10 13:45:42,551 - __main__ - INFO - Created 5 strata based on QU_motion percentiles
+2026-08-10 13:45:42,560 - __main__ - INFO - 
+Fold 0:
+2026-08-10 13:45:42,560 - __main__ - INFO -   Training: 32 subjects, QU_motion mean=2.491, std=0.360
+2026-08-10 13:45:42,561 - __main__ - INFO -   Validation: 8 subjects, QU_motion mean=2.734, std=0.367
+2026-08-10 13:45:42,609 - __main__ - INFO -   Saved fold subset CSV to: /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_0_subset.csv
+2026-08-10 13:45:42,609 - __main__ - INFO - 
+Fold 1:
+2026-08-10 13:45:42,610 - __main__ - INFO -   Training: 32 subjects, QU_motion mean=2.560, std=0.397
+2026-08-10 13:45:42,610 - __main__ - INFO -   Validation: 8 subjects, QU_motion mean=2.455, std=0.246
+2026-08-10 13:45:42,617 - __main__ - INFO -   Saved fold subset CSV to: /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_1_subset.csv
+2026-08-10 13:45:42,617 - __main__ - INFO - 
+Fold 2:
+2026-08-10 13:45:42,617 - __main__ - INFO -   Training: 32 subjects, QU_motion mean=2.539, std=0.385
+2026-08-10 13:45:42,617 - __main__ - INFO -   Validation: 8 subjects, QU_motion mean=2.539, std=0.329
+2026-08-10 13:45:42,627 - __main__ - INFO -   Saved fold subset CSV to: /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_2_subset.csv
+2026-08-10 13:45:42,627 - __main__ - INFO - 
+Fold 3:
+2026-08-10 13:45:42,627 - __main__ - INFO -   Training: 32 subjects, QU_motion mean=2.543, std=0.366
+2026-08-10 13:45:42,627 - __main__ - INFO -   Validation: 8 subjects, QU_motion mean=2.526, std=0.408
+2026-08-10 13:45:42,636 - __main__ - INFO -   Saved fold subset CSV to: /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_3_subset.csv
+2026-08-10 13:45:42,636 - __main__ - INFO - 
+Fold 4:
+2026-08-10 13:45:42,636 - __main__ - INFO -   Training: 32 subjects, QU_motion mean=2.564, std=0.358
+2026-08-10 13:45:42,637 - __main__ - INFO -   Validation: 8 subjects, QU_motion mean=2.442, std=0.421
+2026-08-10 13:45:42,643 - __main__ - INFO -   Saved fold subset CSV to: /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_4_subset.csv
+2026-08-10 13:45:42,648 - __main__ - INFO - 
+Saved fold assignments to: /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_assignments.json
+2026-08-10 13:45:42,655 - __main__ - INFO - Saved fold details to: /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_details.json
+2026-08-10 13:45:42,664 - __main__ - INFO - Saved fold assignments CSV to: /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_assignments.csv
+2026-08-10 13:45:42,664 - __main__ - INFO - 
+============================================================
+2026-08-10 13:45:42,664 - __main__ - INFO - K-FOLD PREPARATION COMPLETE
+2026-08-10 13:45:42,664 - __main__ - INFO - ============================================================
+2026-08-10 13:45:42,664 - __main__ - INFO - Total subjects: 40
+2026-08-10 13:45:42,664 - __main__ - INFO - Number of folds: 5
+2026-08-10 13:45:42,664 - __main__ - INFO - Random seed: 42
+2026-08-10 13:45:42,665 - __main__ - INFO - 
+Output files:
+2026-08-10 13:45:42,665 - __main__ - INFO -   - /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_assignments.json
+2026-08-10 13:45:42,665 - __main__ - INFO -   - /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_details.json
+2026-08-10 13:45:42,665 - __main__ - INFO -   - /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_assignments.csv
+2026-08-10 13:45:42,665 - __main__ - INFO -   - /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_0_subset.csv
+2026-08-10 13:45:42,665 - __main__ - INFO -   - /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_1_subset.csv
+2026-08-10 13:45:42,665 - __main__ - INFO -   - /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_2_subset.csv
+2026-08-10 13:45:42,665 - __main__ - INFO -   - /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_3_subset.csv
+2026-08-10 13:45:42,665 - __main__ - INFO -   - /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments/fold_4_subset.csv
+K-fold preparation complete!
+Fold assignments saved to: /scratch.global/and02709/fmaps_work/automated-qc/doc/models/model_04d0_DUMMY/fold_assignments
+
+Now submit the training jobs:
+  /scratch.global/and02709/fmaps_work/automated-qc/scripts/utils/submit_4d_kfold.sh
