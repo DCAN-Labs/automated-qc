@@ -34,3 +34,7 @@ config/*.local.txt
 data/DUMMY/
 doc/models/*_DUMMY/
 slurm-*.out
+
+# generated manifests and model outputs
+data/model_*/
+doc/models/model_*/
