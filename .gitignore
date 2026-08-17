@@ -29,3 +29,8 @@ __pycache__/
 # personal run configuration
 config/arguments.txt
 config/*.local.txt
+
+# smoke-test artifacts and stray job logs
+data/DUMMY/
+doc/models/*_DUMMY/
+slurm-*.out
