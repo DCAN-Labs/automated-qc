@@ -118,6 +118,15 @@ class Config:
         self.parser.add_argument("--csv-output-file", help="CSV output file.")
         self.parser.add_argument("--use-weighted-loss", action="store_true")
         self.parser.add_argument(
+            "--patience",
+            default=0,
+            type=int,
+            help="Stop after this many epochs with no improvement in validation "
+                 "loss. 0 disables early stopping (the previous behaviour). "
+                 "A run that plateaus early otherwise spends the remaining "
+                 "epochs producing nothing.",
+        )
+        self.parser.add_argument(
             "--scheduler",
             default="plateau",
             choices=["plateau", "step", "cosine", "onecycle"],
@@ -836,6 +845,7 @@ class AutoQcTrainingApp:
         )
 
         best_val_loss = float("inf")
+        epochs_without_improvement = 0
 
         for epoch in range(1, self.config.epochs + 1):
             log.info(f"Epoch {epoch}/{self.config.epochs}")
@@ -873,8 +883,11 @@ class AutoQcTrainingApp:
             if val_loss < best_val_loss:
                 best_val_loss = val_loss
                 log.info(f"New best validation loss: {best_val_loss}")
+                epochs_without_improvement = 0
                 # Save the best model here
                 self.model_handler.save_model(self.config.model_save_location)
+            else:
+                epochs_without_improvement += 1
 
             # Log current learning rate
             current_lr = self.optimizer.param_groups[0]["lr"]
@@ -882,6 +895,18 @@ class AutoQcTrainingApp:
             
             if self.use_cuda:
                 torch.cuda.empty_cache()
+
+            # Early stopping. The best checkpoint is already on disk, so
+            # stopping here changes only the wall time -- not the result.
+            patience = getattr(self.config, "patience", 0)
+            if patience and epochs_without_improvement >= patience:
+                log.info(
+                    f"Early stopping at epoch {epoch}: no improvement in "
+                    f"{epochs_without_improvement} epochs (patience={patience}). "
+                    f"Best validation loss {best_val_loss:.6f}; that checkpoint "
+                    "is already saved."
+                )
+                break
 
         input_csv_location = self.config.csv_input_file
         subjects, sessions, runs, suffixes, actual_scores, predict_vals, scans = get_validation_info(
