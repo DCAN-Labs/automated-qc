@@ -91,6 +91,32 @@ dimensions, the frame axis is handled one of two ways:
 - `FRAME_MODE=channels` feeds frames as conv input channels. Cheaper, but needs
   a fixed frame count across every scan and cannot reuse a 1-channel checkpoint.
 
+`SPLIT_FRAMES=true` takes a different route again: instead of one 4D sample per
+file, each frame becomes an independent 3D sample carrying that file's label.
+The forward pass is the same -- `FRAME_MODE=pool` already encodes frames
+separately -- but the loss is not:
+
+| | `FRAME_MODE=pool` | `SPLIT_FRAMES=true` |
+|---|---|---|
+| loss | `(mean(p1, p2) - y)^2` | `(p1 - y)^2 + (p2 - y)^2` |
+| samples | one per file | one per frame (~2x) |
+| network | `FrameWiseRegressor` wrapper | plain 3D regressor |
+
+Frame counts come from the NIfTI header rather than `NUM_FRAMES`, so a file that
+carries a single volume yields one sample instead of a duplicated pair. Both
+frames of a scan share a subject, and splits are made on `subject_id`, so no
+scan can land with one frame in training and the other in validation.
+
+Splitting interacts with normalization: a sliced frame is a 3D array, so
+`NORMALIZE=global` becomes per-frame and erases intensity differences between
+frames. Set `NORMALIZE=shared` to keep whole-acquisition statistics; that makes
+the split frames numerically identical to the planes of a pooled run, so a
+comparison between the two isolates the loss change alone.
+
+At evaluation time the per-frame predictions are averaged back to one score per
+scan, so `standardized_rmse` and the correlations stay comparable with earlier
+pooled runs.
+
 Note that with `pool` the effective forward batch is `BATCH_SIZE x NUM_FRAMES`.
 
 ### Workflow
