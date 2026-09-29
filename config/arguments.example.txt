@@ -94,10 +94,28 @@ CACHE_DIR=${SCRATCH_DIR}/${MODEL_NAME}_cache/fold_${FOLD_IDX}/
 INPUT_MODE=4d
 TARGET_SHAPE=96,96,64
 NUM_FRAMES=4
+
+# SPLIT_FRAMES=true expands each 4D scan into one INDEPENDENT 3D sample per
+# frame, each carrying the file's label and contributing its own loss term.
+# FRAME_MODE is then irrelevant: samples are plain 3D volumes, so the network is
+# the ordinary 3D regressor. Roughly doubles the sample count and the epoch
+# time. Predictions are averaged per scan at evaluation time, so the reported
+# metrics stay comparable with a pooled run.
+SPLIT_FRAMES=false
+
+# Only consulted when SPLIT_FRAMES=false.
 FRAME_MODE=pool
 TEMPORAL_POOL=mean
 FRAME_SELECTION=center
 FRAME_PADDING=edge
+# global    - z-score whatever array the loader returns. With SPLIT_FRAMES=true
+#             that is a single frame, so intensity differences BETWEEN frames
+#             are removed.
+# shared    - z-score against whole-acquisition statistics even when frames are
+#             split, preserving those differences. Produces frames numerically
+#             identical to the planes of a pooled 4D run, so a split-vs-pooled
+#             comparison isolates the change in the loss.
+# per_frame - always per frame, whether split or not.
 NORMALIZE=global
 
 

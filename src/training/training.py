@@ -183,6 +183,15 @@ class Config:
             f"(default when 4d: {DEFAULT_NUM_FRAMES}).",
         )
         self.parser.add_argument(
+            "--split-frames",
+            action="store_true",
+            help="Expand each 4D scan into one independent 3D sample per frame, "
+                 "each carrying the file's label. Each frame then contributes "
+                 "its own loss term instead of the frames being pooled before "
+                 "the loss. Roughly doubles the sample count and makes "
+                 "--frame-mode irrelevant, since samples are plain 3D volumes.",
+        )
+        self.parser.add_argument(
             "--frame-mode",
             default="pool",
             choices=["channels", "pool"],
@@ -212,7 +221,7 @@ class Config:
         self.parser.add_argument(
             "--normalize",
             default="global",
-            choices=["global", "per_frame"],
+            choices=["global", "per_frame", "shared"],
             help="Z-normalize over the whole array (preserves inter-frame "
             "intensity differences) or each frame independently.",
         )
@@ -283,6 +292,8 @@ def build_scan_spec(config):
     elif config.num_frames is not None:
         log.warning("--num-frames is ignored when --input-mode=3d.")
 
+    split_frames = is_4d and getattr(config, "split_frames", False)
+
     spec = ScanSpec(
         input_mode=config.input_mode,
         target_shape=target_shape,
@@ -290,9 +301,20 @@ def build_scan_spec(config):
         frame_padding=config.frame_padding,
         frame_selection=config.frame_selection,
         normalize=config.normalize,
+        split_frames=split_frames,
     )
 
-    if is_4d and config.frame_mode == "channels":
+    if split_frames:
+        # Samples are single 3D volumes, so this is the plain 3D network --
+        # no frame axis for the model to consume.
+        if config.frame_mode == "channels":
+            log.warning(
+                "--frame-mode=channels is ignored with --split-frames; "
+                "each sample is one 3D volume."
+            )
+        in_channels = 1
+        frame_mode = None
+    elif is_4d and config.frame_mode == "channels":
         in_channels = num_frames
         frame_mode = "channels"
     elif is_4d:
@@ -709,6 +731,13 @@ class AutoQcTrainingApp:
                 "frame_mode=pool: each frame is encoded separately, so the "
                 f"effective forward batch is batch_size x {self.scan_spec.num_frames}. "
                 "Lower --batch-size if you hit OOM."
+            )
+        if self.scan_spec.split_frames:
+            log.info(
+                "split_frames: every frame is an independent sample with its own "
+                "loss term, so the dataset is roughly num_frames x larger and "
+                "one epoch takes proportionally longer. Predictions are averaged "
+                "per scan at evaluation time."
             )
 
         self.model_handler = ModelHandler(

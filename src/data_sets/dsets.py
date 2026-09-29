@@ -51,18 +51,30 @@ class ScanSpec:
     normalize: str = "global"               # "global" or "per_frame"
     augment: bool = True
 
+    # When true, a 4D file is expanded into one INDEPENDENT 3D sample per frame
+    # rather than one 4D sample. Each frame then carries the file's label on its
+    # own and contributes its own loss term, instead of the frames being encoded
+    # separately and their predictions averaged before the loss is taken.
+    split_frames: bool = False
+
     @property
     def is_4d(self) -> bool:
         return self.input_mode == "4d"
+
+    @property
+    def emits_3d(self) -> bool:
+        """True when a sample handed to the model is a single 3D volume."""
+        return (not self.is_4d) or self.split_frames
 
     def describe(self) -> str:
         if not self.is_4d:
             return f"3D input, spatial target {tuple(self.target_shape)}"
         frames = "all" if self.num_frames is None else self.num_frames
+        mode = "split into separate 3D samples" if self.split_frames else "one 4D sample"
         return (
             f"4D input, spatial target {tuple(self.target_shape)}, "
             f"frames={frames} ({self.frame_selection}/{self.frame_padding}), "
-            f"normalize={self.normalize}"
+            f"normalize={self.normalize}, {mode}"
         )
 
 
@@ -77,10 +89,13 @@ class CandidateInfoTuple:
     run_int: int = None
     suffix_str: str = None
     augmentation_index: int = None
+    # Which frame of a 4D file this sample is. None means the whole file.
+    # Part of the disk-cache key, so each frame caches independently.
+    frame_index: int = None
     sort_index: float = field(init=False, repr=False)
 
     def __hash__(self):
-        return hash(self.file_path)
+        return hash((self.file_path, self.frame_index))
 
     @property
     def subject(self) -> str:
@@ -151,6 +166,60 @@ def append_candidate(folder, candidate_info_list, row):
     candidate_info_list.append(
         CandidateInfoTuple(qu_motion_float, file_path, subject_str, session_str, run_int, suffix_str)
     )
+
+
+def count_frames(path):
+    """Frame count from the NIfTI header, without reading voxel data.
+
+    Used to expand a 4D file into one sample per frame. Reading the real count
+    rather than assuming ScanSpec.num_frames avoids emitting duplicate samples
+    for the files that carry a single volume under a 4D header.
+    """
+    try:
+        dim = nib.load(path).header["dim"]
+        return int(dim[4]) if int(dim[0]) >= 4 and int(dim[4]) > 0 else 1
+    except Exception as exc:  # unreadable header -> treat as a single volume
+        log.warning(f"Could not read frame count from {path}: {exc}")
+        return 1
+
+
+def expand_frames(candidate_info_list, spec: ScanSpec):
+    """Turn each 4D candidate into one candidate per frame.
+
+    The file's manual rating applies to the whole acquisition, so every frame
+    inherits it. Both frames of a scan therefore share a subject and land in the
+    same cross-validation fold -- splits are made on subject_id upstream -- so
+    this does not leak a near-duplicate volume across the train/validation
+    boundary.
+    """
+    expanded, total_frames = [], 0
+
+    for info in candidate_info_list:
+        n_available = count_frames(info.path_to_file)
+        n_used = n_available if spec.num_frames is None else min(n_available, spec.num_frames)
+        n_used = max(1, n_used)
+        total_frames += n_used
+
+        for frame in range(n_used):
+            expanded.append(
+                CandidateInfoTuple(
+                    info.qu_motion_float,
+                    info.file_path,
+                    info.subject_str,
+                    info.session_str,
+                    info.run_int,
+                    info.suffix_str,
+                    info.augmentation_index,
+                    frame,
+                )
+            )
+
+    log.info(
+        f"split_frames: {len(candidate_info_list)} files -> {total_frames} "
+        f"single-frame samples ({total_frames / max(1, len(candidate_info_list)):.2f} per file)"
+    )
+
+    return expanded
 
 
 def z_normalize(image, mask=None, per_frame=False):
@@ -324,16 +393,18 @@ def random_affine_transform(image, prob=0.8):
     return _apply_spatial(image, _transform)
 
 
-def load_scan_array(scan_path, spec: ScanSpec, is_val_set_bool=True):
+def load_scan_array(scan_path, spec: ScanSpec, is_val_set_bool=True, frame_index=None):
     """Load a NIfTI file and preprocess it into a numpy array.
 
-    Returns a 3D array for spec.input_mode == "3d" and a 4D array shaped
-    (X, Y, Z, T) for "4d". Shared by both training and inference so the two
-    paths cannot drift apart.
+    Returns a 3D array for a 3D input mode, for spec.split_frames (one frame),
+    and a 4D array shaped (X, Y, Z, T) otherwise. Shared by training and
+    inference so the two paths cannot drift apart.
     """
     nii_img = nib.load(scan_path)
     image_data = nii_img.get_fdata()
     image_data = np.array(image_data, dtype=np.float32)
+
+    shared_stats = None
 
     if spec.is_4d:
         if image_data.ndim == 3:
@@ -357,9 +428,33 @@ def load_scan_array(scan_path, spec: ScanSpec, is_val_set_bool=True):
             selection=spec.frame_selection,
             padding=spec.frame_padding,
         )
-        image_data = _apply_spatial(
-            image_data, lambda v: resize_or_pad(v, target_shape=tuple(spec.target_shape))
-        )
+        def _clamp(idx):
+            if idx >= image_data.shape[-1]:
+                log.warning(
+                    f"{scan_path}: frame {idx} requested but only "
+                    f"{image_data.shape[-1]} present; using the last frame."
+                )
+                return image_data.shape[-1] - 1
+            return idx
+
+        if frame_index is not None and spec.normalize != "shared":
+            # Slice first so only the frame in hand is resampled.
+            image_data = image_data[..., _clamp(frame_index)]
+            image_data = resize_or_pad(
+                image_data, target_shape=tuple(spec.target_shape)
+            )
+        else:
+            image_data = _apply_spatial(
+                image_data,
+                lambda v: resize_or_pad(v, target_shape=tuple(spec.target_shape)),
+            )
+            if spec.normalize == "shared":
+                # Whole-acquisition statistics, taken AFTER padding so they are
+                # the same numbers a pooled 4D run would use.
+                finite = image_data[np.isfinite(image_data)]
+                shared_stats = (float(finite.mean()), float(finite.std()))
+            if frame_index is not None:
+                image_data = image_data[..., _clamp(frame_index)]
     else:
         if image_data.ndim != 3:
             raise ValueError(
@@ -368,9 +463,20 @@ def load_scan_array(scan_path, spec: ScanSpec, is_val_set_bool=True):
             )
         image_data = resize_or_pad(image_data, target_shape=tuple(spec.target_shape))
 
-    image_data = z_normalize(
-        image_data, per_frame=(spec.is_4d and spec.normalize == "per_frame")
-    )
+    # Normalization and frame splitting interact. Once a frame is sliced out it
+    # is a 3D array, so "global" statistics are that frame's own -- splitting
+    # silently removes any intensity difference BETWEEN frames. Use
+    # normalize="shared" to keep whole-file statistics, which preserves that
+    # difference; it is the setting that makes a split run directly comparable
+    # with a pooled 4D run.
+    if shared_stats is not None:
+        mean, std = shared_stats
+        image_data = (image_data - mean) / std if std else image_data - mean
+    else:
+        image_data = z_normalize(
+            image_data,
+            per_frame=(spec.normalize == "per_frame" and image_data.ndim == 4),
+        )
 
     # Apply augmentations only for training
     if not is_val_set_bool and spec.augment:
@@ -385,32 +491,34 @@ def load_scan_array(scan_path, spec: ScanSpec, is_val_set_bool=True):
 def to_model_tensor(image_data, spec: ScanSpec):
     """Convert a preprocessed array to the canonical model input layout.
 
-    Both modes return a 4D per-sample tensor (T, X, Y, Z), which the DataLoader
-    batches to (B, T, X, Y, Z):
+    Returns a 4D per-sample tensor, which the DataLoader batches to 5D:
 
-      - 3D inputs give T=1, which is byte-for-byte what the old
-        `.unsqueeze(0)` produced, so existing checkpoints stay compatible.
-      - 4D inputs move the NIfTI trailing frame axis to the front.
-
-    The model wrapper then decides whether T means "input channels" or "frames
-    to encode separately and pool over".
+      - a 3D volume (3d mode, or one frame of a split 4D file) gains a leading
+        singleton axis, giving (1, X, Y, Z) -> batched (B, 1, X, Y, Z), which is
+        exactly what a plain 3D conv stack expects.
+      - an unsplit 4D scan moves the NIfTI trailing frame axis to the front,
+        giving (T, X, Y, Z) -> batched (B, T, X, Y, Z) for FrameWiseRegressor.
     """
     array = np.ascontiguousarray(image_data)
 
-    if spec.is_4d:
-        # (X, Y, Z, T) -> (T, X, Y, Z)
-        array = np.moveaxis(array, -1, 0)
-        return torch.from_numpy(np.ascontiguousarray(array))
+    if array.ndim == 3:
+        return torch.from_numpy(array).unsqueeze(0)
 
-    return torch.from_numpy(array).unsqueeze(0)
-
+    # (X, Y, Z, T) -> (T, X, Y, Z)
+    array = np.moveaxis(array, -1, 0)
+    return torch.from_numpy(np.ascontiguousarray(array))
 
 class AutoQcMRIs:
     def __init__(self, candidate_info, is_val_set_bool, spec: ScanSpec = None):
         spec = spec or ScanSpec()
         scan_path = candidate_info.path_to_file
 
-        image_data = load_scan_array(scan_path, spec, is_val_set_bool)
+        image_data = load_scan_array(
+            scan_path,
+            spec,
+            is_val_set_bool,
+            frame_index=getattr(candidate_info, "frame_index", None),
+        )
 
         self.mri_image_tensor = to_model_tensor(image_data, spec)
         self.subject_session_uid = candidate_info
@@ -454,6 +562,13 @@ class AutoQcDataset(Dataset):
             self.candidateInfo_list = [
                 x for x in self.candidateInfo_list if x.subject_str == subject
             ]
+
+        # Expand before shuffling so the two frames of a scan are not adjacent
+        # in every batch.
+        if self.spec.is_4d and self.spec.split_frames:
+            self.candidateInfo_list = expand_frames(
+                self.candidateInfo_list, self.spec
+            )
 
         if sortby_str == "random":
             random.shuffle(self.candidateInfo_list)

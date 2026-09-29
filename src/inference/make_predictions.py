@@ -36,6 +36,7 @@ import argparse
 
 from data_sets.dsets import (
     ScanSpec,
+    count_frames,
     load_scan_array,
     resize_or_pad,
     to_model_tensor,
@@ -159,10 +160,36 @@ def predict(row, data_folder, spec=None):
             f"{data_folder}/{subject}_{session}_run-{run}_{suffix}.nii.gz"
         )
 
+    if spec is not None and getattr(spec, "split_frames", False):
+        # One mini-batch holding every frame of this scan, so a single forward
+        # produces a prediction per frame.
+        return get_frame_batch(scan_path, spec)
+
     scan_image_tensor = get_image_tensor(scan_path, spec=spec)
     value = scan_image_tensor.unsqueeze(0)
 
     return value
+
+
+def get_frame_batch(mri_path, spec):
+    """Stack every frame of one scan into a batch of 3D volumes.
+
+    Shape (n_frames, 1, X, Y, Z). The caller reduces the resulting per-frame
+    predictions to one score per scan, so the reported metrics stay on the same
+    footing as a run that fed the whole 4D volume at once.
+    """
+    n_available = count_frames(mri_path)
+    n_used = n_available if spec.num_frames is None else min(n_available, spec.num_frames)
+    n_used = max(1, n_used)
+
+    frames = [
+        to_model_tensor(
+            load_scan_array(mri_path, spec, is_val_set_bool=True, frame_index=i), spec
+        )
+        for i in range(n_used)
+    ]
+
+    return torch.stack(frames)
 
 
 def get_image_tensor(mri_path, spec=None):
@@ -258,7 +285,15 @@ def get_validation_info(
         inputs = list(output_df.apply(predict, axis=1, args=(data_folder, spec)))
 
         predictions = [model(input) for input in inputs]
-        predict_vals = [p[0].item() for p in predictions]
+        predict_vals, frame_vals = [], []
+        for p in predictions:
+            if isinstance(p, (list, tuple)):
+                p = p[0]
+            per_frame = p.reshape(-1).tolist()
+            frame_vals.append(per_frame)
+            # Mean over frames: one score per scan, comparable with the
+            # pooled-4D runs and with the single manual rating.
+            predict_vals.append(sum(per_frame) / len(per_frame))
 
         return subjects, sessions, runs, suffixes, actual_scores, predict_vals, scans
 
@@ -583,7 +618,8 @@ if __name__ == "__main__":
         "--frame_selection", default="center", choices=["center", "first", "uniform"]
     )
     parser.add_argument("--frame_padding", default="edge", choices=["edge", "zero"])
-    parser.add_argument("--normalize", default="global", choices=["global", "per_frame"])
+    parser.add_argument("--normalize", default="global",
+                        choices=["global", "per_frame", "shared"])
 
     # Apply the arguments file before the real parse so the command line wins.
     _, _mapping = resolve_arguments_file(parser, sys.argv[1:])
