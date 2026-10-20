@@ -155,6 +155,23 @@ def build_file_name(row):
     return f"{subject_str}_{session_str}_run-{run_int}_{suffix_str}.nii.gz"
 
 
+def read_frame_index(row):
+    """Frame index carried by a CSV row, or None for a scan-level row.
+
+    A per-frame label CSV holds one row per (scan, frame) with that frame's own
+    rating. When this column is present the rows already ARE the samples, so
+    expand_frames must not also run -- see AutoQcDataset.__init__.
+
+    `raw != raw` is the NaN test without importing pandas here.
+    """
+    if "frame_index" not in row.index:
+        return None
+    raw = row["frame_index"]
+    if raw is None or raw != raw or (isinstance(raw, str) and not raw.strip()):
+        return None
+    return int(raw)
+
+
 def append_candidate(folder, candidate_info_list, row):
     subject_str = row["subject_id"]
     session_str = row["session_id"]
@@ -164,7 +181,16 @@ def append_candidate(folder, candidate_info_list, row):
     file_path = os.path.join(folder, file_name)
     qu_motion_float = float(row["QU_motion"])
     candidate_info_list.append(
-        CandidateInfoTuple(qu_motion_float, file_path, subject_str, session_str, run_int, suffix_str)
+        CandidateInfoTuple(
+            qu_motion_float,
+            file_path,
+            subject_str,
+            session_str,
+            run_int,
+            suffix_str,
+            None,
+            read_frame_index(row),
+        )
     )
 
 
@@ -563,12 +589,43 @@ class AutoQcDataset(Dataset):
                 x for x in self.candidateInfo_list if x.subject_str == subject
             ]
 
-        # Expand before shuffling so the two frames of a scan are not adjacent
-        # in every batch.
-        if self.spec.is_4d and self.spec.split_frames:
-            self.candidateInfo_list = expand_frames(
-                self.candidateInfo_list, self.spec
+        # Two ways a frame can become its own sample:
+        #
+        #   1. The CSV is scan-level, so expand_frames synthesises one sample
+        #      per frame and every frame inherits the file's single rating.
+        #      That duplication is a known cost: with QU_line it took pooled
+        #      r = 0.721 down to 0.470, because a rating that describes the
+        #      acquisition is being asked of each volume separately.
+        #
+        #   2. The CSV already carries one row per (scan, frame) with that
+        #      frame's own rating. Then the rows ARE the samples and expanding
+        #      again would double them and reattach the wrong labels.
+        #
+        # Expansion happens before shuffling so the frames of one scan are not
+        # adjacent in every batch.
+        has_frame_labels = any(
+            c.frame_index is not None for c in self.candidateInfo_list
+        )
+
+        if has_frame_labels and not (self.spec.is_4d and self.spec.split_frames):
+            raise ValueError(
+                "CSV carries a frame_index column, so each row is a single "
+                "frame with its own rating, but input_mode/split_frames are "
+                "not set for split 3D samples. Set INPUT_MODE=4d and "
+                "SPLIT_FRAMES=true, or drop the frame_index column."
             )
+
+        if self.spec.is_4d and self.spec.split_frames:
+            if has_frame_labels:
+                log.info(
+                    f"per-frame labels: {len(self.candidateInfo_list)} rows "
+                    f"already carry frame_index, so each frame uses its own "
+                    f"rating and expand_frames is skipped"
+                )
+            else:
+                self.candidateInfo_list = expand_frames(
+                    self.candidateInfo_list, self.spec
+                )
 
         if sortby_str == "random":
             random.shuffle(self.candidateInfo_list)

@@ -386,7 +386,7 @@ def create_scatter_plot(actual_vals, predicted_vals, output_file):
     plt.close()
 
 
-def get_predicted_value(row, subjects, sessions, runs, suffixes, predict_vals, scans=None):
+def get_predicted_value(row, subjects, sessions, runs, suffixes, predict_vals, scans=None, frames=None):
     """Match a predicted value back to its CSV row.
 
     Matches on the `scan` column when available, falling back to the
@@ -412,6 +412,25 @@ def get_predicted_value(row, subjects, sessions, runs, suffixes, predict_vals, s
     row_scan = row["scan"] if "scan" in row.index else None
 
     if scans is not None and isinstance(row_scan, str) and row_scan.strip():
+        # With per-frame labels several rows share one `scan`, so the filename
+        # alone is no longer unique -- the same collision the four-field key had
+        # for dir-AP/dir-PA, one level down. Disambiguate on frame_index when
+        # both sides carry it.
+        row_frame = row["frame_index"] if "frame_index" in row.index else None
+        if row_frame is not None and row_frame != row_frame:  # NaN
+            row_frame = None
+
+        if frames is not None and row_frame is not None:
+            for scan, frame, predict_val in zip(scans, frames, predict_vals):
+                if (
+                    isinstance(scan, str)
+                    and scan.strip() == row_scan.strip()
+                    and frame is not None
+                    and int(frame) == int(row_frame)
+                ):
+                    return predict_val
+            return np.nan
+
         for scan, predict_val in zip(scans, predict_vals):
             if isinstance(scan, str) and scan.strip() == row_scan.strip():
                 return predict_val
@@ -430,7 +449,7 @@ def get_predicted_value(row, subjects, sessions, runs, suffixes, predict_vals, s
     return np.nan
 
 
-def add_predicted_values(subjects, sessions, runs, suffixes, predict_vals, input_csv_location, scans=None):
+def add_predicted_values(subjects, sessions, runs, suffixes, predict_vals, input_csv_location, scans=None, frames=None):
     """Add predicted QU_motion scores to existing CSV data.
 
     Args:
@@ -449,10 +468,24 @@ def add_predicted_values(subjects, sessions, runs, suffixes, predict_vals, input
     output_df["predicted_qu_motion_score"] = output_df.apply(
         get_predicted_value,
         axis=1,
-        args=(subjects, sessions, runs, suffixes, predict_vals, scans),
+        args=(subjects, sessions, runs, suffixes, predict_vals, scans, frames),
     )
 
     return output_df
+
+
+def _merge_keys(left, right):
+    """Columns to join predictions onto labels, most specific first.
+
+    `scan` is the only unique identifier at file level -- dir-AP and dir-PA
+    share subject, session, run and suffix. With per-frame labels even `scan`
+    repeats, so frame_index joins too. Falls back to the legacy four-field key
+    only for CSVs that predate the `scan` column.
+    """
+    shared = set(left.columns) & set(right.columns)
+    if "scan" in shared:
+        return ["scan", "frame_index"] if "frame_index" in shared else ["scan"]
+    return ["subject_id", "session_id", "run_id", "suffix"]
 
 
 def get_files_by_pattern(directory, pattern, recursive=False):
@@ -502,47 +535,55 @@ def make_predictions_on_folder(directory_path, file_pattern, model, spec=None):
         model (torch.nn.Module): Loaded model for prediction
 
     Returns:
-        pd.DataFrame: DataFrame with columns: subject_id, session_id, run_id, suffix, predicted_score
+        pd.DataFrame: columns subject_id, session_id, run_id, suffix, scan,
+            frame_index, predicted_score. `scan` is the path relative to
+            directory_path and is the only unique key -- dir-AP and dir-PA
+            share the other four fields. With spec.split_frames one row is
+            emitted per frame and frame_index identifies which; otherwise
+            frame_index is None.
     """
     spec = spec or ScanSpec()
     matching_files = get_files_by_pattern(directory_path, file_pattern)
 
-    df = pd.DataFrame(
-        {
-            "subject_id": [],
-            "session_id": [],
-            "run_id": [],
-            "suffix": [],
-            "predicted_score": [],
+    rows = []
+    if not matching_files:
+        print("No files found matching the pattern.")
+    for file_path in matching_files:
+        file_name = get_filename_from_path(file_path)
+        parts = file_name.split("_")
+        base_row = {
+            "subject_id": parts[0],
+            "session_id": parts[1],
+            "run_id": parts[2],
+            "suffix": parts[3],
+            "scan": os.path.relpath(file_path, directory_path),
         }
-    )
-    if matching_files:
-        for file_path in matching_files:
-            image_tensor = get_image_tensor(file_path, spec=spec)
-            file_name = get_filename_from_path(file_path)
-            parts = file_name.split("_")
-            subject_id = parts[0]
-            session_id = parts[1]
-            run_id = parts[2]
-            suffix = parts[3]
-            with torch.no_grad():
-                unsqueezed_image_tensor = image_tensor.unsqueeze(0)
-                prediction = model(unsqueezed_image_tensor)
+
+        with torch.no_grad():
+            if spec.split_frames:
+                # One forward over every frame, each row keeping its own score.
+                # Averaging to a per-scan value is the caller's choice: with
+                # per-frame labels the frames are separate observations and
+                # collapsing them would discard what was trained for.
+                batch = get_frame_batch(file_path, spec)
+                prediction = model(batch)
                 if isinstance(prediction, (list, tuple)):
                     prediction = prediction[0]
-                prediction_p = prediction.item()
-                new_row = pd.DataFrame(
-                    {
-                        "subject_id": [subject_id],
-                        "session_id": [session_id],
-                        "run_id": [run_id],
-                        "suffix": [suffix],
-                        "predicted_score": [prediction_p],
-                    }
-                )
-                df = pd.concat([df, new_row], ignore_index=True)
-    else:
-        print("No files found matching the pattern.")
+                values = prediction.detach().reshape(-1).tolist()
+                for i, value in enumerate(values):
+                    rows.append({**base_row, "frame_index": i,
+                                 "predicted_score": value})
+            else:
+                image_tensor = get_image_tensor(file_path, spec=spec)
+                prediction = model(image_tensor.unsqueeze(0))
+                if isinstance(prediction, (list, tuple)):
+                    prediction = prediction[0]
+                rows.append({**base_row, "frame_index": None,
+                             "predicted_score": prediction.item()})
+
+    columns = ["subject_id", "session_id", "run_id", "suffix", "scan",
+               "frame_index", "predicted_score"]
+    df = pd.DataFrame(rows, columns=columns)
 
     return df
 
@@ -620,6 +661,14 @@ if __name__ == "__main__":
     parser.add_argument("--frame_padding", default="edge", choices=["edge", "zero"])
     parser.add_argument("--normalize", default="global",
                         choices=["global", "per_frame", "shared"])
+    parser.add_argument(
+        "--split_frames",
+        action="store_true",
+        help="Each frame was a separate 3D training sample. Must match the "
+             "value used at training time: without it the ScanSpec built here "
+             "differs from the one the checkpoint was trained under, and the "
+             "per-frame inference path in predict() never runs.",
+    )
 
     # Apply the arguments file before the real parse so the command line wins.
     _, _mapping = resolve_arguments_file(parser, sys.argv[1:])
@@ -678,6 +727,7 @@ if __name__ == "__main__":
         frame_padding=args.frame_padding,
         frame_selection=args.frame_selection,
         normalize=args.normalize,
+        split_frames=args.split_frames,
     )
 
     if is_4d and args.frame_mode == "channels":
@@ -704,7 +754,10 @@ if __name__ == "__main__":
         merged_df = pd.merge(
             df,
             expected_validation_df,
-            on=["subject_id", "session_id", "run_id", "suffix"],
+            # dir-AP and dir-PA share subject/session/run/suffix, so the
+            # four-field key silently matches the wrong row. Use the filename,
+            # plus frame_index when the labels are per-frame.
+            on=_merge_keys(df, expected_validation_df),
             how="inner",
         )
         actual_scores = list(merged_df["qu-motion-score"])

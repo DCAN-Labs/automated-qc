@@ -26,6 +26,61 @@ def base(v):
     return os.path.basename(str(v).strip()) if isinstance(v, str) else None
 
 
+def check_frame_counts(out, folder, per_frame):
+    """Compare ratings per file against the volume count in the NIfTI header.
+
+    Some files declare dim0=4 while carrying a single volume (65 of 3520 in the
+    QU_line cohort). A rater working from a viewer that always shows two panes
+    could produce two ratings for such a file, and the second would reference a
+    volume that does not exist. Reads headers only, no voxel data.
+    """
+    try:
+        import nibabel as nib
+    except ImportError:
+        print("\n--check-frames: nibabel not importable, skipping")
+        return
+
+    counts = out.groupby("scan").size() if per_frame else None
+    bad_count, bad_index, missing = [], [], 0
+
+    for scan in out["scan"].unique():
+        path = os.path.join(folder, str(scan))
+        if not os.path.exists(path):
+            missing += 1
+            continue
+        try:
+            dim = nib.load(path).header["dim"]
+            n = int(dim[4]) if int(dim[0]) >= 4 and int(dim[4]) > 0 else 1
+        except Exception as exc:
+            print(f"  could not read {scan}: {exc}")
+            continue
+
+        if per_frame:
+            rated = int(counts[scan])
+            if rated != n:
+                bad_count.append((scan, rated, n))
+            hi = out.loc[out["scan"] == scan, "frame_index"].max()
+            if hi is not None and hi == hi and int(hi) >= n:
+                bad_index.append((scan, int(hi), n))
+
+    print(f"\n=== frame check against headers in {folder} ===")
+    if missing:
+        print(f"  {missing} scans not found on disk")
+    if not per_frame:
+        print("  scan-level labels: nothing to reconcile")
+        return
+    if bad_count:
+        print(f"  {len(bad_count)} files whose rating count != volume count:")
+        for s, r, n in bad_count[:5]:
+            print(f"    {os.path.basename(s)}: {r} ratings, {n} volume(s)")
+    if bad_index:
+        print(f"  {len(bad_index)} files with a frame_index past the last volume:")
+        for s, hi, n in bad_index[:5]:
+            print(f"    {os.path.basename(s)}: index {hi}, only {n} volume(s)")
+    if not bad_count and not bad_index:
+        print("  OK: every rated file has one rating per volume, indices in range")
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -38,6 +93,18 @@ def main():
     p.add_argument("--keep-unrated", action="store_true",
                    help="Keep rows with no rating. The pipeline cannot train on "
                         "NaN, so use only for inspection.")
+    p.add_argument("--frame-column", default=None,
+                   help="Column in the labels file naming which volume of a 4D "
+                        "scan each rating refers to. Supply this once per-frame "
+                        "ratings exist. Without it, two ratings for one file "
+                        "collide on the filename and one is lost.")
+    p.add_argument("--frame-base", type=int, default=0, choices=[0, 1],
+                   help="Whether the rater's frame numbering starts at 0 or 1. "
+                        "Output is always 0-based, matching nibabel indexing.")
+    p.add_argument("--check-frames", metavar="FOLDER", default=None,
+                   help="Validate rating counts against the NIfTI headers under "
+                        "FOLDER. Catches files rated twice that hold only one "
+                        "volume under a 4D header.")
     a = p.parse_args()
 
     man = pd.read_csv(a.manifest)
@@ -70,21 +137,63 @@ def main():
     man = man.copy()
     man["_k"] = man["scan"].map(base)
 
-    dup = int(lab.duplicated(subset=["_k"]).sum())
+    per_frame = a.frame_column is not None
+    if per_frame and a.frame_column not in lab.columns:
+        sys.exit(f"ERROR: --frame-column {a.frame_column!r} not found. "
+                 f"Columns present: {', '.join(lab.columns)}")
+
+    if per_frame:
+        # One row per (file, frame). Normalise the rater's numbering to 0-based
+        # so it indexes nibabel's trailing axis directly.
+        lab["frame_index"] = (
+            pd.to_numeric(lab[a.frame_column], errors="coerce") - a.frame_base
+        )
+        bad = int(lab["frame_index"].isna().sum())
+        if bad:
+            sys.exit(f"ERROR: {bad} label rows have an unparseable "
+                     f"{a.frame_column!r}; fix the export before merging")
+        if (lab["frame_index"] < 0).any():
+            sys.exit(f"ERROR: negative frame_index after subtracting "
+                     f"--frame-base {a.frame_base}; check the numbering base")
+        lab["frame_index"] = lab["frame_index"].astype(int)
+        keys = ["_k", "frame_index"]
+        print(f"per-frame ratings: joining on (basename, {a.frame_column}), "
+              f"{a.frame_base}-based -> 0-based")
+    else:
+        keys = ["_k"]
+
+    dup = int(lab.duplicated(subset=keys).sum())
     if dup:
-        print(f"WARNING: {dup} duplicate keys in labels; keeping first of each")
-        lab = lab.drop_duplicates(subset=["_k"], keep="first")
+        if per_frame:
+            sys.exit(f"ERROR: {dup} duplicate (file, frame) keys in labels. "
+                     f"Each volume should be rated once; resolve the "
+                     f"duplicates rather than letting one win silently.")
+        ex = lab[lab.duplicated(subset=keys, keep=False)]["_k"].unique()[:3]
+        sys.exit(f"ERROR: {dup} duplicate filenames in labels with no "
+                 f"--frame-column given, e.g. {', '.join(map(str, ex))}.\n"
+                 f"If these are per-frame ratings, pass --frame-column so both "
+                 f"are kept. Silently keeping the first would discard half the "
+                 f"ratings and still train.")
 
     extra = [c for c in ("scanner_manufacturer", "nrev") if c in lab.columns]
-    cols = ["_k", a.label_column] + extra
+    cols = keys + [a.label_column] + extra
 
-    out = man.drop(columns=["QU_motion"], errors="ignore").merge(
-        lab[cols], on="_k", how="left").drop(columns=["_k"])
-    out = out.rename(columns={a.label_column: "QU_motion"})
+    # Joining on "_k" alone is one-to-many when the labels are per-frame, so a
+    # scan-level manifest row fans out into one row per rated frame. That is
+    # exactly the shape the dataset wants.
+    n_manifest = len(man)
+    out = (man.drop(columns=["QU_motion"], errors="ignore")
+              .merge(lab[cols], on="_k", how="left")
+              .drop(columns=["_k"])
+              .rename(columns={a.label_column: "QU_motion"}))
     out["QU_motion_source"] = f"{os.path.basename(a.labels)}:{a.label_column}"
 
     matched = int(out["QU_motion"].notna().sum())
-    print(f"\nmatched {matched} of {len(out)} manifest rows")
+    if per_frame:
+        print(f"\n{n_manifest} manifest files -> {len(out)} frame rows, "
+              f"{matched} rated")
+    else:
+        print(f"\nmatched {matched} of {len(out)} manifest rows")
     if len(lab) - matched > 0:
         print(f"{len(lab) - matched} label rows had no matching file on disk")
 
@@ -97,6 +206,9 @@ def main():
 
     if out.empty:
         sys.exit("ERROR: no rated rows remain -- check the join keys match")
+
+    if a.check_frames:
+        check_frame_counts(out, a.check_frames, per_frame)
 
     v = out["QU_motion"]
     print("\n=== label distribution ===")
