@@ -1,4 +1,5 @@
 import copy
+import dataclasses
 import functools
 import logging
 import os
@@ -504,14 +505,44 @@ def load_scan_array(scan_path, spec: ScanSpec, is_val_set_bool=True, frame_index
             per_frame=(spec.normalize == "per_frame" and image_data.ndim == 4),
         )
 
-    # Apply augmentations only for training
-    if not is_val_set_bool and spec.augment:
-        image_data = random_flip_lr(image_data)
-
-        if np.random.random() < 0.8:
-            image_data = random_affine_transform(image_data)
-
+    # NOTE: augmentation deliberately does NOT happen here any more.
+    #
+    # This function's result is written to the disk cache by
+    # get_mri_raw_candidate. Augmenting before that point froze one random
+    # perturbation per sample into the cache on the first epoch and replayed
+    # it for every epoch, every fold, and every later run sharing the cache
+    # directory -- a one-time distortion of the training set rather than the
+    # per-epoch variety augmentation is supposed to provide.
+    #
+    # Augmentation now runs in AutoQcDataset.__getitem__, after the cache.
+    # is_val_set_bool is kept in the signature for callers but no longer
+    # changes the output, which is why the cache key pins it to a constant.
     return image_data
+
+
+def augment_model_tensor(tensor):
+    """Random flip and affine on a model-layout tensor, after the disk cache.
+
+    Accepts the canonical (C, X, Y, Z) layout from to_model_tensor and returns
+    the same layout. The underlying augmentations expect the NIfTI layout, so a
+    single-channel sample is squeezed to (X, Y, Z) and a multi-frame sample is
+    moved back to (X, Y, Z, T) -- that way a 4D scan is perturbed identically
+    across its frames, exactly as before.
+    """
+    array = tensor.numpy() if hasattr(tensor, "numpy") else np.asarray(tensor)
+    single_channel = array.shape[0] == 1
+
+    array = array[0] if single_channel else np.moveaxis(array, 0, -1)
+
+    array = random_flip_lr(array)
+    if np.random.random() < 0.8:
+        array = random_affine_transform(array)
+
+    array = np.ascontiguousarray(
+        array[np.newaxis, ...] if single_channel else np.moveaxis(array, -1, 0)
+    )
+
+    return torch.from_numpy(array)
 
 
 def to_model_tensor(image_data, spec: ScanSpec):
@@ -580,6 +611,13 @@ class AutoQcDataset(Dataset):
     ):
         self.is_val_set_bool = is_val_set_bool
         self.spec = spec or ScanSpec()
+
+        # The key the disk cache is consulted with. `augment` is normalised out
+        # because augmentation now happens after retrieval, so a cached volume
+        # is valid whether or not this dataset augments -- and runs that differ
+        # only in that flag share cache entries instead of duplicating them.
+        self._cache_spec = dataclasses.replace(self.spec, augment=False)
+
         self.candidateInfo_list = copy.copy(
             get_candidate_info_list(folder, df, subjects)
         )
@@ -655,10 +693,17 @@ class AutoQcDataset(Dataset):
 
     def __getitem__(self, ndx):
         candidate_info = self.candidateInfo_list[ndx]
-        candidate_a = get_mri_raw_candidate(
-            candidate_info, self.is_val_set_bool, self.spec
-        )
+
+        # The cached volume is deterministic: augmentation is applied below,
+        # after retrieval, so each epoch sees a fresh perturbation. Pinning
+        # is_val_set_bool to True in the key also means a scan cached while in
+        # one fold's training set is reused as another fold's validation set,
+        # rather than being stored twice.
+        candidate_a = get_mri_raw_candidate(candidate_info, True, self._cache_spec)
         candidate_t = candidate_a.to(torch.float32)
+
+        if not self.is_val_set_bool and self.spec.augment:
+            candidate_t = augment_model_tensor(candidate_t).to(torch.float32)
 
         qu_motion = candidate_info.qu_motion_float
         qu_motion_t = torch.tensor(qu_motion, dtype=torch.float32)

@@ -135,7 +135,14 @@ def coerce_for_action(action, raw_value, key):
     if isinstance(action, argparse._StoreTrueAction):
         return parse_bool(raw_value)
     if isinstance(action, argparse._StoreFalseAction):
+        # dest is the negated name here (--no-x stores False into x only when
+        # passed), so the config key is read as the FLAG, not the dest.
         return not parse_bool(raw_value)
+    # BooleanOptionalAction's dest is the positive name, so the config key
+    # reads naturally: AUGMENT=false means augment=False. Without this branch
+    # it would fall through and store the string "false", which is truthy.
+    if isinstance(action, getattr(argparse, "BooleanOptionalAction", ())):
+        return parse_bool(raw_value)
 
     if raw_value == "" and action.type is not None:
         # An empty value means "leave the argparse default alone".

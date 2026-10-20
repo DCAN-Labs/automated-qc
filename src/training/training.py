@@ -66,6 +66,86 @@ def count_items(input_list):
             counts[item] = 1
     return counts
 
+
+def build_label_weights(item_counts, power=1.0, clip=0.0, normalize=False,
+                        active=True):
+    """Per-label-value loss weights, with the knobs to tame inverse frequency.
+
+    Plain inverse frequency (power=1.0) gives every DISTINCT label value the
+    same total weight. That has two consequences worth being deliberate about:
+
+      - The loss-optimal constant prediction becomes the unweighted mean of the
+        value set, not of the sample distribution. For a label that is 78%
+        zeros with values {0, 0.3, 0.7, 1.0, 1.3, 1.5, 1.7, 2.0, 2.7, 3.0}
+        that is 1.42 rather than 0.31, so predictions sit well above the data
+        mean and standardized_rmse -- which scores against a mean predictor --
+        can never look good.
+      - A value seen once outweighs a value seen n times by a factor of n. One
+        idiosyncratic rating can carry thousands of times the gradient of a
+        common one.
+
+    power=0.5 keeps minority emphasis while cutting that ratio to sqrt(n);
+    power=0.0 is uniform. clip caps any weight at a multiple of the median.
+    normalize rescales so the sample-weighted mean weight is 1, which leaves
+    the optimum alone but puts the loss back on the MSE scale -- worth doing
+    before comparing a reported loss against label variance.
+
+    Defaults reproduce the original behaviour exactly.
+    """
+    if not item_counts:
+        return {}
+
+    weights = {k: float(v) ** -float(power) for k, v in item_counts.items()}
+
+    if clip and clip > 0:
+        ordered = sorted(weights.values())
+        mid = len(ordered) // 2
+        median = (ordered[mid] if len(ordered) % 2
+                  else 0.5 * (ordered[mid - 1] + ordered[mid]))
+        ceiling = clip * median
+        n_clipped = sum(1 for w in weights.values() if w > ceiling)
+        weights = {k: min(w, ceiling) for k, w in weights.items()}
+        if n_clipped:
+            log.info(
+                f"weight clip: {n_clipped} of {len(weights)} label values "
+                f"capped at {clip}x median ({ceiling:.6g})"
+            )
+
+    total = sum(item_counts.values())
+    weighted_mean = sum(weights[k] * n for k, n in item_counts.items()) / total
+
+    if normalize and weighted_mean > 0:
+        weights = {k: w / weighted_mean for k, w in weights.items()}
+        weighted_mean = 1.0
+
+    if active:
+        # The constant that minimises the weighted loss. Comparing this with
+        # the data mean says up front how far predictions will be pulled.
+        wsum = sum(weights[k] * n for k, n in item_counts.items())
+        optimum = (
+            sum(weights[k] * n * float(k) for k, n in item_counts.items()) / wsum
+            if wsum else float("nan")
+        )
+        data_mean = sum(float(k) * n for k, n in item_counts.items()) / total
+        ratio = max(weights.values()) / min(weights.values())
+        log.info(
+            f"label weights: power={power} clip={clip or 'off'} "
+            f"normalize={normalize} | {len(weights)} distinct values | "
+            f"max/min weight ratio {ratio:.1f}x | mean weight "
+            f"{weighted_mean:.6g}"
+        )
+        log.info(
+            f"label weights: loss-optimal constant prediction {optimum:.4f} "
+            f"vs data mean {data_mean:.4f}"
+            + (
+                " -- predictions will be biased upward by roughly this gap"
+                if optimum - data_mean > 0.05 else ""
+            )
+        )
+
+    return weights
+
+
 # Refactored Configuration class to handle CLI arguments
 class Config:
     def __init__(self):
@@ -117,6 +197,44 @@ class Config:
         self.parser.add_argument("--folder", help="Folder where MRIs are stored")
         self.parser.add_argument("--csv-output-file", help="CSV output file.")
         self.parser.add_argument("--use-weighted-loss", action="store_true")
+        self.parser.add_argument(
+            "--weight-power",
+            default=1.0,
+            type=float,
+            help="Exponent on inverse label frequency: weight = count**-p. "
+            "1.0 is plain inverse frequency (the previous behaviour), which "
+            "gives every DISTINCT label value equal total weight -- so the "
+            "loss-optimal constant becomes the mean of the value set rather "
+            "than of the sample distribution, and a label seen once outweighs "
+            "a common one by the full count ratio. 0.5 softens that, 0.0 is "
+            "uniform. Only used with --use-weighted-loss.",
+        )
+        self.parser.add_argument(
+            "--weight-clip",
+            default=0.0,
+            type=float,
+            help="Cap any weight at this multiple of the median weight. 0 "
+            "disables. Stops singleton label values from dominating the "
+            "gradient. Only used with --use-weighted-loss.",
+        )
+        self.parser.add_argument(
+            "--weight-normalize",
+            action="store_true",
+            help="Rescale weights so the sample-weighted mean is 1, putting "
+            "the loss back on the MSE scale and making reported losses "
+            "comparable to label variance. Does not change the optimum, but "
+            "does change gradient magnitude, so the learning rate may need "
+            "revisiting. Only used with --use-weighted-loss.",
+        )
+        self.parser.add_argument(
+            "--augment",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+            help="Train-time random flips and small affine jitter. Applied "
+            "AFTER the disk cache, so each epoch sees a fresh perturbation; "
+            "previously it ran before memoization and one perturbation per "
+            "sample was frozen in for the whole run. --no-augment disables.",
+        )
         self.parser.add_argument(
             "--patience",
             default=0,
@@ -302,6 +420,7 @@ def build_scan_spec(config):
         frame_selection=config.frame_selection,
         normalize=config.normalize,
         split_frames=split_frames,
+        augment=getattr(config, "augment", True),
     )
 
     if split_frames:
@@ -456,9 +575,13 @@ class TrainingLoop:
 
         training_df = df[df["training"] == 1]
         qu_motion_scores = list(training_df["QU_motion"])
-        item_counts = count_items(qu_motion_scores)
-        weighted_counts = {key: 1.0 / value for key, value in item_counts.items()}
-        self.weights = weighted_counts
+        self.weights = build_label_weights(
+            count_items(qu_motion_scores),
+            power=getattr(config, "weight_power", 1.0),
+            clip=getattr(config, "weight_clip", 0.0),
+            normalize=getattr(config, "weight_normalize", False),
+            active=config.use_weighted_loss,
+        )
 
     def train_epoch(self, epoch, train_dl):
         self.model_handler.model.train()

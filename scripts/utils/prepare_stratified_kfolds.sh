@@ -41,7 +41,25 @@ mkdir -p "$FOLD_ASSIGNMENTS_DIR"
 --k-folds "$K_FOLDS" \
 --random-seed "$RANDOM_SEED"
 
-echo "K-fold preparation complete!"
+# A shell script exits with the status of its LAST command. Without this check
+# the trailing echoes below would mask a Python crash, and the job would be
+# recorded COMPLETED 0:0 having written nothing -- which is exactly what
+# happened when a broken pandas install went unnoticed for hours.
+status=$?
+if [ "$status" -ne 0 ]; then
+    echo "ERROR: prepare_stratified_kfolds.py exited $status" >&2
+    exit "$status"
+fi
+
+# Exit 0 is necessary but not sufficient: verify the folds are actually there.
+produced=$(ls "$FOLD_ASSIGNMENTS_DIR"/fold_*_subset.csv 2>/dev/null | wc -l)
+if [ "$produced" -ne "$K_FOLDS" ]; then
+    echo "ERROR: expected $K_FOLDS fold files in $FOLD_ASSIGNMENTS_DIR," \
+         "found $produced" >&2
+    exit 1
+fi
+
+echo "K-fold preparation complete! ($produced fold files)"
 echo "Fold assignments saved to: $FOLD_ASSIGNMENTS_DIR"
 echo ""
 echo "Now submit the training jobs:"

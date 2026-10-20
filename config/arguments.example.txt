@@ -142,5 +142,42 @@ USE_AMP=true
 USE_TRAIN_VALIDATION_COLS=true
 USE_WEIGHTED_LOSS=false
 
+# --- Loss weighting --------------------------------------------------------
+#
+# Only consulted when USE_WEIGHTED_LOSS=true. Weight for a label value with
+# count n is n**-WEIGHT_POWER.
+#
+# WEIGHT_POWER=1.0 is plain inverse frequency. Be aware what it implies: every
+# DISTINCT label value receives the same total weight, so the loss-optimal
+# constant prediction becomes the mean of the value SET rather than of the
+# sample distribution. For QU_line, whose values are
+# {0, 0.3, 0.7, 1.0, 1.3, 1.5, 1.7, 2.0, 2.7, 3.0}, that is 1.42 against a
+# data mean of 0.31 -- which is why predictions from the weighted runs sit
+# near 1.0, and why standardized_rmse (scored against a mean predictor) can
+# never look good. It also means a value rated once outweighs a value rated
+# 3459 times by 3459x.
+#
+# 0.5 keeps minority emphasis while cutting that ratio to sqrt(n) and moving
+# the optimum to 0.81. 0.0 is uniform, equivalent to plain MSE.
+WEIGHT_POWER=1.0
+
+# Cap any weight at this multiple of the median weight; 0 disables. Stops a
+# singleton label value from dominating the gradient.
+WEIGHT_CLIP=0
+
+# Rescale so the sample-weighted mean weight is 1. Does not move the optimum,
+# but puts the loss back on the MSE scale so reported losses are comparable to
+# label variance. Changes gradient magnitude, so revisit LR if you enable it.
+WEIGHT_NORMALIZE=false
+
+# --- Augmentation ----------------------------------------------------------
+#
+# Random left-right flips and small affine jitter on training samples only.
+# Applied AFTER the disk cache, so each epoch sees a fresh perturbation.
+# (Before this was fixed, augmentation ran before memoization: one random
+# perturbation per sample was frozen into the cache on the first epoch and
+# replayed for every epoch and every fold thereafter.)
+AUGMENT=true
+
 # Warm-start from a 3D checkpoint. Leave empty to train from scratch.
 PRETRAINED_WEIGHTS=

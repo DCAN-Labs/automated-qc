@@ -479,28 +479,52 @@ def main():
         runs = parse_logs(a.log_pattern)
         if not runs.empty:
             md.append("## Convergence\n")
-            r = runs[["fold", "n_train", "n_val", "epochs_requested",
-                      "n_improvements", "last_improvement_epoch",
-                      "minutes_to_last_improvement", "wall_minutes",
-                      "best_val_loss"]].copy()
-            for c in ("fold", "n_train", "n_val", "epochs_requested",
-                      "n_improvements", "last_improvement_epoch"):
+            # epochs_run is the last epoch banner actually seen in the log;
+            # epochs_requested is only the configured ceiling. Reporting the
+            # ceiling made every early-stopped run look like it ran to 100.
+            r = runs[["fold", "n_train", "n_val", "epochs_run",
+                      "epochs_requested", "n_improvements",
+                      "last_improvement_epoch", "minutes_to_last_improvement",
+                      "wall_minutes", "best_val_loss"]].copy()
+            for c in ("fold", "n_train", "n_val", "epochs_run",
+                      "epochs_requested", "n_improvements",
+                      "last_improvement_epoch"):
                 r[c] = r[c].astype("Int64")
-            r.columns = ["fold", "train", "val", "epochs", "improvements",
-                         "last impr. epoch", "min to last impr.", "wall min",
-                         "best val loss"]
-            md.append(to_md(r, floatfmt=".2f") + "\n")
+            r.columns = ["fold", "train", "val", "epochs run", "max epochs",
+                         "improvements", "last impr. epoch",
+                         "min to last impr.", "wall min", "best val loss"]
+            md.append(to_md(r, floatfmt=".4g") + "\n")
 
             wasted = (runs["wall_minutes"] - runs["minutes_to_last_improvement"]).sum()
             md.append(f"- total wall time {runs['wall_minutes'].sum()/60:.1f} h; "
                       f"**{wasted/60:.1f} h produced no improvement**")
+
+            stopped = runs[runs["epochs_run"] < runs["epochs_requested"]]
+            if len(stopped) == len(runs):
+                md.append(f"- every fold stopped early "
+                          f"(epochs {', '.join(str(int(e)) for e in runs['epochs_run'])}"
+                          f" of {int(runs['epochs_requested'].iloc[0])}), so "
+                          f"patience is doing its job")
+            elif len(stopped):
+                md.append(f"- {len(stopped)} of {len(runs)} folds stopped early; "
+                          f"the rest hit the epoch ceiling and may be "
+                          f"undertrained")
+            else:
+                md.append("- no fold stopped early: every run hit the epoch "
+                          "ceiling, so the ceiling, not convergence, ended "
+                          "training. Raise --epochs or set --patience.")
+
             if runs["best_val_loss"].notna().any():
                 bl = runs["best_val_loss"].mean()
-                md.append(f"- mean best validation loss {bl:.4f} vs label variance "
-                          f"{label_sd**2:.4f} "
-                          f"({100*(bl/label_sd**2 - 1):+.1f}% vs the mean predictor)")
-            md.append("- if improvement stops early, more epochs will not help; "
-                      "add early stopping to make iteration cheap\n")
+                md.append(f"- mean best validation loss {bl:.4g}")
+                md.append(
+                    "  - NOTE: with `--use-weighted-loss` this is a *weighted* "
+                    "loss and is not on the same scale as label variance "
+                    f"({label_sd**2:.4f}); comparing the two says nothing "
+                    "about accuracy. Use standardized_rmse above for that, or "
+                    "pass `--weight-normalize` at training time to put the "
+                    "loss back on the MSE scale."
+                )
 
             if fig_convergence(runs, os.path.join(a.outdir, "convergence.png")):
                 fig_paths["convergence.png"] = "Where the saved checkpoint came from"
