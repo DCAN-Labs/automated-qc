@@ -96,7 +96,7 @@ CACHE_DIR=${SCRATCH_DIR}/${MODEL_NAME}_cache/fold_${FOLD_IDX}/
 # How image files are read.
 #   auto - inspect the NIfTI headers and decide. Counts axes with extent > 1,
 #          so a file declaring 4D while holding a single volume reads as 3D
-#          (65 of the 4412 HBCD field maps do exactly that), and a volume
+#          (77 of the 4412 HBCD field maps do exactly that), and a volume
 #          shaped (X, Y, 1) reads as 2D.
 #   2d   - single-slice images. Builds a 2D network; TARGET_SHAPE takes two
 #          values. AlexNet is 3D-only, so use MODEL=Regressor.
@@ -147,8 +147,9 @@ NUM_FRAMES=4
 # frame, each carrying the file's label and contributing its own loss term.
 # FRAME_MODE is then irrelevant: samples are plain 3D volumes, so the network is
 # the ordinary 3D regressor. Roughly doubles the sample count and the epoch
-# time. Predictions are averaged per scan at evaluation time, so the reported
-# metrics stay comparable with a pooled run.
+# time. What the output CSV reports is set by PREDICTION_SCOPE above; the
+# summary statistics and scatter plot are always per scan, so they stay
+# comparable with a pooled run either way.
 SPLIT_FRAMES=false
 
 # Only consulted when SPLIT_FRAMES=false.

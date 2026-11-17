@@ -15,7 +15,7 @@ example command if you have already done step 3: `source ~/projects/automated-qc
 
 Note that this is specific for MSI users.
 
-`cd ~/projects/dcan-nnunet-v2/`
+`cd ~/projects/automated-qc/`
 
 `module load python3/3.12.4_anaconda2024.06-1_libmamba`
 
@@ -78,23 +78,53 @@ cp config/arguments.example.txt config/arguments.txt
 # then replace every <x500> with your username
 ```
 
-## 4D input (field maps)
+## Input data: dimensionality and frames
 
-The pipeline accepts 4D scans as well as 3D anatomicals. Since there is no
-`nn.Conv4d` and MONAI's convolution factory only registers 1/2/3 spatial
-dimensions, the frame axis is handled one of two ways:
+`INPUT_MODE` decides how image files are read.
+
+| value | meaning |
+|---|---|
+| `auto` | inspect the NIfTI headers and decide |
+| `2d` | single-slice images |
+| `3d` | one volume per file |
+| `4d` | several volumes per file |
+
+`auto` counts axes with extent greater than one rather than trusting `dim0`, so
+a file declaring 4D while carrying a single volume is read as 3D, and a volume
+shaped `(X, Y, 1)` is read as 2D. In the HBCD field map cohort 77 of 4412 files
+are in the first category.
+
+Detection is a property of the **cohort**, not of individual files: the
+network's spatial rank is fixed when the model is built. A mixed cohort is
+therefore an error, with the distribution printed, unless `ALLOW_MIXED_DIMS=true`
+tells it to take the majority. `DIM_SURVEY_LIMIT` caps how many headers are
+read; `0` reads all of them.
+
+An explicit mode is honoured even when the data disagrees -- you get a warning,
+not a failure, because forcing a mode is sometimes the point.
+
+`2d` builds a 2D network, and `TARGET_SHAPE` then takes two values rather than
+three. `MODEL=AlexNet` is 3D-only, so use `MODEL=Regressor`.
+
+The survey itself lives in `src/data_sets/dims.py`; `scripts/utils/inspect_4d_dims.py`
+is the standalone version to run before training, and prints the same
+distribution.
+
+### Handling the frame axis
+
+There is no `nn.Conv4d`, and MONAI's convolution factory registers only 1/2/3
+spatial dimensions, so a 4D file reaches the network one of three ways.
 
 - `FRAME_MODE=pool` (default) encodes each frame with a shared 3D backbone and
   pools the per-frame predictions. Handles a variable frame count, and at one
   frame it is identical to the original 3D model, so `model_02r7` checkpoints
-  load directly via `PRETRAINED_WEIGHTS`.
+  load directly via `PRETRAINED_WEIGHTS`. The effective forward batch is
+  `BATCH_SIZE x NUM_FRAMES`.
 - `FRAME_MODE=channels` feeds frames as conv input channels. Cheaper, but needs
   a fixed frame count across every scan and cannot reuse a 1-channel checkpoint.
-
-`SPLIT_FRAMES=true` takes a different route again: instead of one 4D sample per
-file, each frame becomes an independent 3D sample carrying that file's label.
-The forward pass is the same -- `FRAME_MODE=pool` already encodes frames
-separately -- but the loss is not:
+- `SPLIT_FRAMES=true` makes each frame an independent 3D sample. The forward
+  pass matches `pool` -- that already encodes frames separately -- but the loss
+  does not:
 
 | | `FRAME_MODE=pool` | `SPLIT_FRAMES=true` |
 |---|---|---|
@@ -102,27 +132,92 @@ separately -- but the loss is not:
 | samples | one per file | one per frame (~2x) |
 | network | `FrameWiseRegressor` wrapper | plain 3D regressor |
 
-Frame counts come from the NIfTI header rather than `NUM_FRAMES`, so a file that
-carries a single volume yields one sample instead of a duplicated pair. Both
-frames of a scan share a subject, and splits are made on `subject_id`, so no
-scan can land with one frame in training and the other in validation.
+Frame counts come from the NIfTI header rather than `NUM_FRAMES`, so a file
+carrying a single volume yields one sample instead of a duplicated pair. Both
+frames of a scan share a subject and splits are made on `subject_id`, so no scan
+lands with one frame in training and the other in validation.
 
 Splitting interacts with normalization: a sliced frame is a 3D array, so
 `NORMALIZE=global` becomes per-frame and erases intensity differences between
-frames. Set `NORMALIZE=shared` to keep whole-acquisition statistics; that makes
-the split frames numerically identical to the planes of a pooled run, so a
-comparison between the two isolates the loss change alone.
+frames. `NORMALIZE=shared` keeps whole-acquisition statistics, which makes split
+frames numerically identical to the planes of a pooled run -- so a comparison
+between the two isolates the loss change alone.
 
-At evaluation time the per-frame predictions are averaged back to one score per
-scan, so `standardized_rmse` and the correlations stay comparable with earlier
-pooled runs.
+## What the QC scores describe
 
-Note that with `pool` the effective forward batch is `BATCH_SIZE x NUM_FRAMES`.
+Two settings, deliberately separate from how frames reach the network: how
+volumes get into the model and what the ratings describe are different
+questions.
 
-### Workflow
+**`LABEL_SCOPE`** says what one manual rating covers.
+
+- `scan` -- one rating for the whole file. When frames are split they each
+  inherit it. For `QU_line` that duplication was expensive: half the files hold
+  two volumes a rater scores differently, and training on the duplicate took
+  pooled `r` from 0.751 down to 0.470.
+- `frame` -- one rating per volume. Requires a `frame_index` column in
+  `RAW_CSV`; build it with
+  `merge_qc_labels.py --frame-column <column>`, naming the column in the
+  manual-rating export that holds the volume index.
+
+**`PREDICTION_SCOPE`** says what the output CSV reports.
+
+- `scan` -- one score per file, averaging its volumes. Comparable with a single
+  manual rating.
+- `frame` -- each volume's own prediction, one row per volume.
+- `both` -- per-volume rows plus the scan-level mean, which carries an empty
+  `frame_index`.
+
+Averaging makes per-volume prediction differences identically zero, so any
+measure of whether the model separates the two volumes needs `frame` or `both`.
+Summary statistics and the scatter plot are always computed per scan, so they
+stay comparable across settings.
+
+## Network architecture
+
+The MONAI Regressor is configurable from the arguments file: `NET_CHANNELS`,
+`NET_STRIDES`, `NET_KERNEL_SIZE`, `NET_NUM_RES_UNITS`, `NET_DROPOUT`,
+`NET_ACT`, `NET_NORM`, `NET_BIAS`. Leaving a value empty keeps MONAI's own
+default rather than pinning it here. `MODEL=AlexNet` has a fixed architecture
+and warns that it is ignoring these.
+
+Channel depth has to suit the input: the `260x320x320` anatomical default was
+seven stages, six stride-2 downsamples. At `96x96x64` the Z axis supports about
+five before collapsing to a single voxel.
+
+## Loss weighting
+
+`USE_WEIGHTED_LOSS=true` weights a label value with count `n` by
+`n ** -WEIGHT_POWER`.
+
+`WEIGHT_POWER=1.0` is plain inverse frequency, and it is worth being explicit
+about what that implies: every **distinct** label value receives the same total
+weight, so the loss-optimal constant prediction becomes the mean of the value
+*set* rather than of the sample distribution. For `QU_line`, whose values are
+`{0, 0.3, 0.7, 1.0, 1.3, 1.5, 1.7, 2.0, 2.7, 3.0}`, that optimum is 1.42
+against a data mean of 0.31 -- which is why predictions from the weighted runs
+sat near 1.0 and why `standardized_rmse`, scored against a mean predictor,
+could never look good. A value rated once also outweighs a value rated 3459
+times by 3459x.
+
+`WEIGHT_POWER=0.5` keeps minority emphasis while cutting that ratio to
+`sqrt(n)`. `0.0` is uniform, equivalent to plain MSE. `WEIGHT_CLIP` caps any
+weight at a multiple of the median; `WEIGHT_NORMALIZE` puts the loss back on
+the MSE scale without moving the optimum (it does change gradient magnitude, so
+revisit `LR`).
+
+## Augmentation
+
+`AUGMENT=true` applies random left-right flips and small affine jitter to
+training samples only, **after** the disk cache, so each epoch sees a fresh
+perturbation. Before this was fixed, augmentation ran before memoization: one
+random perturbation per sample was frozen into the cache on the first epoch and
+replayed for every epoch and every fold thereafter.
+
+## Workflow
 
 ```bash
-# 1. Measure the cohort -- sets TARGET_SHAPE and NUM_FRAMES
+# 1. Measure the cohort -- suggests TARGET_SHAPE and NUM_FRAMES
 python scripts/utils/inspect_4d_dims.py "$FOLDER" --pattern '*_epi.nii.gz'
 #    (scripts/utils/inspect_4d_dims_fsl.sh is an fslhd equivalent needing no venv)
 
@@ -135,10 +230,28 @@ sbatch scripts/utils/prepare_stratified_kfolds.sh
 ./scripts/utils/submit_4d_kfold.sh
 ```
 
-Step 1 matters: the defaults in `dsets.py` are placeholders. It also reports any
-files that declare `dim0=4` while carrying `dim4=1` -- a single volume wearing a
-4D header, which would otherwise be silently edge-padded up to `NUM_FRAMES` by
-duplicating that one frame.
+Step 1 still matters with `INPUT_MODE=auto`: auto settles dimensionality and
+frame counts, but not `TARGET_SHAPE`, and the defaults in `dsets.py` are
+placeholders.
+
+Fold preparation verifies its own output -- it checks the Python exit status and
+counts the fold files, rather than reporting success because the last `echo`
+succeeded.
+
+## Reporting results
+
+`doc/analysis/fmap_qc_results.qmd` renders out-of-fold metrics, the scanner
+confound decomposition, screening thresholds with ROC, per-frame agreement and a
+model comparison:
+
+```bash
+quarto render doc/analysis/fmap_qc_results.qmd -P models:"model_a,model_b"
+```
+
+Models are grouped by the set of scans they were scored on, so a model evaluated
+on an artifact-enriched subset is never tabled against one evaluated on the full
+cohort. `scripts/utils/fmap_results_analyze.py` is the Python equivalent for the
+metrics and figures, without the screening tables.
 
 ## Notes on model naming schema
 
