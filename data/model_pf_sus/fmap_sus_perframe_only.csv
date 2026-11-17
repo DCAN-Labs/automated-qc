@@ -1,0 +1,433 @@
+subject_id,session_id,run_id,suffix,dir,acq,scan,QU_motion,scanner_manufacturer,nrev,QU_motion_source,frame_index
+sub-5647927998,ses-V03,2,epi,PA,,sub-5647927998/ses-V03/fmap/sub-5647927998_ses-V03_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5647927998,ses-V03,2,epi,PA,,sub-5647927998/ses-V03/fmap/sub-5647927998_ses-V03_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2431023660,ses-V02,2,epi,PA,,sub-2431023660/ses-V02/fmap/sub-2431023660_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2431023660,ses-V02,2,epi,PA,,sub-2431023660/ses-V02/fmap/sub-2431023660_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2431023660,ses-V02,1,epi,PA,,sub-2431023660/ses-V02/fmap/sub-2431023660_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2431023660,ses-V02,1,epi,PA,,sub-2431023660/ses-V02/fmap/sub-2431023660_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5484337008,ses-V02,2,epi,AP,,sub-5484337008/ses-V02/fmap/sub-5484337008_ses-V02_dir-AP_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5484337008,ses-V02,2,epi,AP,,sub-5484337008/ses-V02/fmap/sub-5484337008_ses-V02_dir-AP_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2086002254,ses-V03,2,epi,PA,,sub-2086002254/ses-V03/fmap/sub-2086002254_ses-V03_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2086002254,ses-V03,2,epi,PA,,sub-2086002254/ses-V03/fmap/sub-2086002254_ses-V03_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1878099646,ses-V02,2,epi,PA,,sub-1878099646/ses-V02/fmap/sub-1878099646_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1878099646,ses-V02,2,epi,PA,,sub-1878099646/ses-V02/fmap/sub-1878099646_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3750252801,ses-V03,1,epi,PA,,sub-3750252801/ses-V03/fmap/sub-3750252801_ses-V03_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3750252801,ses-V03,1,epi,PA,,sub-3750252801/ses-V03/fmap/sub-3750252801_ses-V03_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2974534830,ses-V02,4,epi,AP,,sub-2974534830/ses-V02/fmap/sub-2974534830_ses-V02_dir-AP_run-4_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2974534830,ses-V02,4,epi,AP,,sub-2974534830/ses-V02/fmap/sub-2974534830_ses-V02_dir-AP_run-4_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2317973580,ses-V02,1,epi,PA,,sub-2317973580/ses-V02/fmap/sub-2317973580_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2317973580,ses-V02,1,epi,PA,,sub-2317973580/ses-V02/fmap/sub-2317973580_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1651649799,ses-V02,2,epi,PA,,sub-1651649799/ses-V02/fmap/sub-1651649799_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1651649799,ses-V02,2,epi,PA,,sub-1651649799/ses-V02/fmap/sub-1651649799_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1292626180,ses-V02,1,epi,PA,,sub-1292626180/ses-V02/fmap/sub-1292626180_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1292626180,ses-V02,1,epi,PA,,sub-1292626180/ses-V02/fmap/sub-1292626180_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6180427390,ses-V02,2,epi,PA,,sub-6180427390/ses-V02/fmap/sub-6180427390_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6180427390,ses-V02,2,epi,PA,,sub-6180427390/ses-V02/fmap/sub-6180427390_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1451479226,ses-V02,2,epi,PA,,sub-1451479226/ses-V02/fmap/sub-1451479226_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1451479226,ses-V02,2,epi,PA,,sub-1451479226/ses-V02/fmap/sub-1451479226_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6317950838,ses-V02,2,epi,AP,,sub-6317950838/ses-V02/fmap/sub-6317950838_ses-V02_dir-AP_run-2_epi.nii.gz,2.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6317950838,ses-V02,2,epi,AP,,sub-6317950838/ses-V02/fmap/sub-6317950838_ses-V02_dir-AP_run-2_epi.nii.gz,2.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6950650184,ses-V03,2,epi,PA,,sub-6950650184/ses-V03/fmap/sub-6950650184_ses-V03_dir-PA_run-2_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6950650184,ses-V03,2,epi,PA,,sub-6950650184/ses-V03/fmap/sub-6950650184_ses-V03_dir-PA_run-2_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2108302412,ses-V04,2,epi,AP,,sub-2108302412/ses-V04/fmap/sub-2108302412_ses-V04_dir-AP_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2108302412,ses-V04,2,epi,AP,,sub-2108302412/ses-V04/fmap/sub-2108302412_ses-V04_dir-AP_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5899696502,ses-V02,3,epi,PA,,sub-5899696502/ses-V02/fmap/sub-5899696502_ses-V02_dir-PA_run-3_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5899696502,ses-V02,3,epi,PA,,sub-5899696502/ses-V02/fmap/sub-5899696502_ses-V02_dir-PA_run-3_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6317950838,ses-V02,3,epi,AP,,sub-6317950838/ses-V02/fmap/sub-6317950838_ses-V02_dir-AP_run-3_epi.nii.gz,3.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6317950838,ses-V02,3,epi,AP,,sub-6317950838/ses-V02/fmap/sub-6317950838_ses-V02_dir-AP_run-3_epi.nii.gz,3.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3201248552,ses-V02,1,epi,AP,,sub-3201248552/ses-V02/fmap/sub-3201248552_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3201248552,ses-V02,1,epi,AP,,sub-3201248552/ses-V02/fmap/sub-3201248552_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4508636820,ses-V02,1,epi,AP,,sub-4508636820/ses-V02/fmap/sub-4508636820_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4508636820,ses-V02,1,epi,AP,,sub-4508636820/ses-V02/fmap/sub-4508636820_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3502973928,ses-V02,2,epi,AP,,sub-3502973928/ses-V02/fmap/sub-3502973928_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3502973928,ses-V02,2,epi,AP,,sub-3502973928/ses-V02/fmap/sub-3502973928_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4508636820,ses-V02,2,epi,AP,,sub-4508636820/ses-V02/fmap/sub-4508636820_ses-V02_dir-AP_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4508636820,ses-V02,2,epi,AP,,sub-4508636820/ses-V02/fmap/sub-4508636820_ses-V02_dir-AP_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4480650279,ses-V02,1,epi,AP,,sub-4480650279/ses-V02/fmap/sub-4480650279_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4480650279,ses-V02,1,epi,AP,,sub-4480650279/ses-V02/fmap/sub-4480650279_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6180427390,ses-V02,1,epi,PA,,sub-6180427390/ses-V02/fmap/sub-6180427390_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6180427390,ses-V02,1,epi,PA,,sub-6180427390/ses-V02/fmap/sub-6180427390_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4508636820,ses-V02,3,epi,AP,,sub-4508636820/ses-V02/fmap/sub-4508636820_ses-V02_dir-AP_run-3_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4508636820,ses-V02,3,epi,AP,,sub-4508636820/ses-V02/fmap/sub-4508636820_ses-V02_dir-AP_run-3_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4437325778,ses-V02,3,epi,AP,,sub-4437325778/ses-V02/fmap/sub-4437325778_ses-V02_dir-AP_run-3_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4437325778,ses-V02,3,epi,AP,,sub-4437325778/ses-V02/fmap/sub-4437325778_ses-V02_dir-AP_run-3_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7888062905,ses-V02,2,epi,AP,,sub-7888062905/ses-V02/fmap/sub-7888062905_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7888062905,ses-V02,2,epi,AP,,sub-7888062905/ses-V02/fmap/sub-7888062905_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6366019652,ses-V02,1,epi,PA,,sub-6366019652/ses-V02/fmap/sub-6366019652_ses-V02_dir-PA_run-1_epi.nii.gz,2.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6366019652,ses-V02,1,epi,PA,,sub-6366019652/ses-V02/fmap/sub-6366019652_ses-V02_dir-PA_run-1_epi.nii.gz,2.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6366019652,ses-V02,2,epi,PA,,sub-6366019652/ses-V02/fmap/sub-6366019652_ses-V02_dir-PA_run-2_epi.nii.gz,2.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6366019652,ses-V02,2,epi,PA,,sub-6366019652/ses-V02/fmap/sub-6366019652_ses-V02_dir-PA_run-2_epi.nii.gz,2.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8386300876,ses-V02,1,epi,AP,,sub-8386300876/ses-V02/fmap/sub-8386300876_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8386300876,ses-V02,1,epi,AP,,sub-8386300876/ses-V02/fmap/sub-8386300876_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6366019652,ses-V02,1,epi,AP,,sub-6366019652/ses-V02/fmap/sub-6366019652_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6366019652,ses-V02,1,epi,AP,,sub-6366019652/ses-V02/fmap/sub-6366019652_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4437325778,ses-V02,2,epi,AP,,sub-4437325778/ses-V02/fmap/sub-4437325778_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4437325778,ses-V02,2,epi,AP,,sub-4437325778/ses-V02/fmap/sub-4437325778_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2461273134,ses-V02,3,epi,PA,,sub-2461273134/ses-V02/fmap/sub-2461273134_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2461273134,ses-V02,3,epi,PA,,sub-2461273134/ses-V02/fmap/sub-2461273134_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2157170067,ses-V02,1,epi,PA,,sub-2157170067/ses-V02/fmap/sub-2157170067_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2157170067,ses-V02,1,epi,PA,,sub-2157170067/ses-V02/fmap/sub-2157170067_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2892269439,ses-V02,2,epi,AP,,sub-2892269439/ses-V02/fmap/sub-2892269439_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2892269439,ses-V02,2,epi,AP,,sub-2892269439/ses-V02/fmap/sub-2892269439_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6366019652,ses-V02,2,epi,AP,,sub-6366019652/ses-V02/fmap/sub-6366019652_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6366019652,ses-V02,2,epi,AP,,sub-6366019652/ses-V02/fmap/sub-6366019652_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2592886245,ses-V02,1,epi,AP,,sub-2592886245/ses-V02/fmap/sub-2592886245_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2592886245,ses-V02,1,epi,AP,,sub-2592886245/ses-V02/fmap/sub-2592886245_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4026401485,ses-V02,2,epi,PA,,sub-4026401485/ses-V02/fmap/sub-4026401485_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4026401485,ses-V02,2,epi,PA,,sub-4026401485/ses-V02/fmap/sub-4026401485_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7888062905,ses-V02,1,epi,AP,,sub-7888062905/ses-V02/fmap/sub-7888062905_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7888062905,ses-V02,1,epi,AP,,sub-7888062905/ses-V02/fmap/sub-7888062905_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6479449640,ses-V02,1,epi,AP,,sub-6479449640/ses-V02/fmap/sub-6479449640_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6479449640,ses-V02,1,epi,AP,,sub-6479449640/ses-V02/fmap/sub-6479449640_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3485327545,ses-V02,1,epi,AP,,sub-3485327545/ses-V02/fmap/sub-3485327545_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3485327545,ses-V02,1,epi,AP,,sub-3485327545/ses-V02/fmap/sub-3485327545_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6670703623,ses-V02,3,epi,PA,,sub-6670703623/ses-V02/fmap/sub-6670703623_ses-V02_dir-PA_run-3_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6670703623,ses-V02,3,epi,PA,,sub-6670703623/ses-V02/fmap/sub-6670703623_ses-V02_dir-PA_run-3_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7864619447,ses-V02,1,epi,PA,,sub-7864619447/ses-V02/fmap/sub-7864619447_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7864619447,ses-V02,1,epi,PA,,sub-7864619447/ses-V02/fmap/sub-7864619447_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6104594843,ses-V02,1,epi,AP,,sub-6104594843/ses-V02/fmap/sub-6104594843_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6104594843,ses-V02,1,epi,AP,,sub-6104594843/ses-V02/fmap/sub-6104594843_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3201248552,ses-V02,2,epi,AP,,sub-3201248552/ses-V02/fmap/sub-3201248552_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3201248552,ses-V02,2,epi,AP,,sub-3201248552/ses-V02/fmap/sub-3201248552_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5523391074,ses-V02,2,epi,AP,,sub-5523391074/ses-V02/fmap/sub-5523391074_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5523391074,ses-V02,2,epi,AP,,sub-5523391074/ses-V02/fmap/sub-5523391074_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6394962030,ses-V02,1,epi,AP,,sub-6394962030/ses-V02/fmap/sub-6394962030_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6394962030,ses-V02,1,epi,AP,,sub-6394962030/ses-V02/fmap/sub-6394962030_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1715234407,ses-V03,1,epi,PA,,sub-1715234407/ses-V03/fmap/sub-1715234407_ses-V03_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1715234407,ses-V03,1,epi,PA,,sub-1715234407/ses-V03/fmap/sub-1715234407_ses-V03_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4960713392,ses-V02,1,epi,AP,,sub-4960713392/ses-V02/fmap/sub-4960713392_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4960713392,ses-V02,1,epi,AP,,sub-4960713392/ses-V02/fmap/sub-4960713392_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7032042752,ses-V02,1,epi,AP,,sub-7032042752/ses-V02/fmap/sub-7032042752_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7032042752,ses-V02,1,epi,AP,,sub-7032042752/ses-V02/fmap/sub-7032042752_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6095924044,ses-V02,2,epi,PA,,sub-6095924044/ses-V02/fmap/sub-6095924044_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6095924044,ses-V02,2,epi,PA,,sub-6095924044/ses-V02/fmap/sub-6095924044_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4863658967,ses-V02,2,epi,PA,,sub-4863658967/ses-V02/fmap/sub-4863658967_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4863658967,ses-V02,2,epi,PA,,sub-4863658967/ses-V02/fmap/sub-4863658967_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4960713392,ses-V02,2,epi,AP,,sub-4960713392/ses-V02/fmap/sub-4960713392_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4960713392,ses-V02,2,epi,AP,,sub-4960713392/ses-V02/fmap/sub-4960713392_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8564904184,ses-V02,1,epi,AP,,sub-8564904184/ses-V02/fmap/sub-8564904184_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8564904184,ses-V02,1,epi,AP,,sub-8564904184/ses-V02/fmap/sub-8564904184_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6479449640,ses-V02,3,epi,AP,,sub-6479449640/ses-V02/fmap/sub-6479449640_ses-V02_dir-AP_run-3_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6479449640,ses-V02,3,epi,AP,,sub-6479449640/ses-V02/fmap/sub-6479449640_ses-V02_dir-AP_run-3_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1896452985,ses-V02,2,epi,AP,,sub-1896452985/ses-V02/fmap/sub-1896452985_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1896452985,ses-V02,2,epi,AP,,sub-1896452985/ses-V02/fmap/sub-1896452985_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8564904184,ses-V02,2,epi,AP,,sub-8564904184/ses-V02/fmap/sub-8564904184_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8564904184,ses-V02,2,epi,AP,,sub-8564904184/ses-V02/fmap/sub-8564904184_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4790400660,ses-V02,1,epi,AP,,sub-4790400660/ses-V02/fmap/sub-4790400660_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4790400660,ses-V02,1,epi,AP,,sub-4790400660/ses-V02/fmap/sub-4790400660_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2638458275,ses-V02,1,epi,AP,,sub-2638458275/ses-V02/fmap/sub-2638458275_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Siemens Healthineers,3.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2638458275,ses-V02,1,epi,AP,,sub-2638458275/ses-V02/fmap/sub-2638458275_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Siemens Healthineers,3.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6479449640,ses-V02,1,epi,PA,,sub-6479449640/ses-V02/fmap/sub-6479449640_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6479449640,ses-V02,1,epi,PA,,sub-6479449640/ses-V02/fmap/sub-6479449640_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1878099646,ses-V02,3,epi,AP,,sub-1878099646/ses-V02/fmap/sub-1878099646_ses-V02_dir-AP_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1878099646,ses-V02,3,epi,AP,,sub-1878099646/ses-V02/fmap/sub-1878099646_ses-V02_dir-AP_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6479449640,ses-V02,2,epi,PA,,sub-6479449640/ses-V02/fmap/sub-6479449640_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6479449640,ses-V02,2,epi,PA,,sub-6479449640/ses-V02/fmap/sub-6479449640_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4790400660,ses-V02,2,epi,AP,,sub-4790400660/ses-V02/fmap/sub-4790400660_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4790400660,ses-V02,2,epi,AP,,sub-4790400660/ses-V02/fmap/sub-4790400660_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8227500916,ses-V02,3,epi,AP,,sub-8227500916/ses-V02/fmap/sub-8227500916_ses-V02_dir-AP_run-3_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8227500916,ses-V02,3,epi,AP,,sub-8227500916/ses-V02/fmap/sub-8227500916_ses-V02_dir-AP_run-3_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6508959685,ses-V02,2,epi,AP,,sub-6508959685/ses-V02/fmap/sub-6508959685_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6508959685,ses-V02,2,epi,AP,,sub-6508959685/ses-V02/fmap/sub-6508959685_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7895772037,ses-V02,1,epi,AP,,sub-7895772037/ses-V02/fmap/sub-7895772037_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7895772037,ses-V02,1,epi,AP,,sub-7895772037/ses-V02/fmap/sub-7895772037_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4057214315,ses-V02,1,epi,AP,,sub-4057214315/ses-V02/fmap/sub-4057214315_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4057214315,ses-V02,1,epi,AP,,sub-4057214315/ses-V02/fmap/sub-4057214315_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6479449640,ses-V02,3,epi,PA,,sub-6479449640/ses-V02/fmap/sub-6479449640_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6479449640,ses-V02,3,epi,PA,,sub-6479449640/ses-V02/fmap/sub-6479449640_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3095718704,ses-V02,5,epi,AP,,sub-3095718704/ses-V02/fmap/sub-3095718704_ses-V02_dir-AP_run-5_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3095718704,ses-V02,5,epi,AP,,sub-3095718704/ses-V02/fmap/sub-3095718704_ses-V02_dir-AP_run-5_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3430056043,ses-V02,1,epi,PA,,sub-3430056043/ses-V02/fmap/sub-3430056043_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3430056043,ses-V02,1,epi,PA,,sub-3430056043/ses-V02/fmap/sub-3430056043_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6855355611,ses-V02,1,epi,AP,,sub-6855355611/ses-V02/fmap/sub-6855355611_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6855355611,ses-V02,1,epi,AP,,sub-6855355611/ses-V02/fmap/sub-6855355611_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7380832265,ses-V02,2,epi,PA,,sub-7380832265/ses-V02/fmap/sub-7380832265_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7380832265,ses-V02,2,epi,PA,,sub-7380832265/ses-V02/fmap/sub-7380832265_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5073224043,ses-V02,1,epi,AP,,sub-5073224043/ses-V02/fmap/sub-5073224043_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5073224043,ses-V02,1,epi,AP,,sub-5073224043/ses-V02/fmap/sub-5073224043_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7775881285,ses-V02,2,epi,PA,,sub-7775881285/ses-V02/fmap/sub-7775881285_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7775881285,ses-V02,2,epi,PA,,sub-7775881285/ses-V02/fmap/sub-7775881285_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4220460942,ses-V02,2,epi,PA,,sub-4220460942/ses-V02/fmap/sub-4220460942_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4220460942,ses-V02,2,epi,PA,,sub-4220460942/ses-V02/fmap/sub-4220460942_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6855355611,ses-V02,2,epi,AP,,sub-6855355611/ses-V02/fmap/sub-6855355611_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6855355611,ses-V02,2,epi,AP,,sub-6855355611/ses-V02/fmap/sub-6855355611_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2594790963,ses-V02,1,epi,PA,,sub-2594790963/ses-V02/fmap/sub-2594790963_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2594790963,ses-V02,1,epi,PA,,sub-2594790963/ses-V02/fmap/sub-2594790963_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4798635163,ses-V03,2,epi,PA,,sub-4798635163/ses-V03/fmap/sub-4798635163_ses-V03_dir-PA_run-2_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4798635163,ses-V03,2,epi,PA,,sub-4798635163/ses-V03/fmap/sub-4798635163_ses-V03_dir-PA_run-2_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7864619447,ses-V02,1,epi,AP,,sub-7864619447/ses-V02/fmap/sub-7864619447_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7864619447,ses-V02,1,epi,AP,,sub-7864619447/ses-V02/fmap/sub-7864619447_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7740678172,ses-V02,2,epi,PA,,sub-7740678172/ses-V02/fmap/sub-7740678172_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7740678172,ses-V02,2,epi,PA,,sub-7740678172/ses-V02/fmap/sub-7740678172_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7381936673,ses-V02,2,epi,PA,,sub-7381936673/ses-V02/fmap/sub-7381936673_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7381936673,ses-V02,2,epi,PA,,sub-7381936673/ses-V02/fmap/sub-7381936673_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7895772037,ses-V02,3,epi,AP,,sub-7895772037/ses-V02/fmap/sub-7895772037_ses-V02_dir-AP_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7895772037,ses-V02,3,epi,AP,,sub-7895772037/ses-V02/fmap/sub-7895772037_ses-V02_dir-AP_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3881942734,ses-V02,1,epi,PA,,sub-3881942734/ses-V02/fmap/sub-3881942734_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3881942734,ses-V02,1,epi,PA,,sub-3881942734/ses-V02/fmap/sub-3881942734_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4435393098,ses-V02,2,epi,PA,,sub-4435393098/ses-V02/fmap/sub-4435393098_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4435393098,ses-V02,2,epi,PA,,sub-4435393098/ses-V02/fmap/sub-4435393098_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4798635163,ses-V03,1,epi,PA,,sub-4798635163/ses-V03/fmap/sub-4798635163_ses-V03_dir-PA_run-1_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4798635163,ses-V03,1,epi,PA,,sub-4798635163/ses-V03/fmap/sub-4798635163_ses-V03_dir-PA_run-1_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1878099646,ses-V02,1,epi,PA,,sub-1878099646/ses-V02/fmap/sub-1878099646_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1878099646,ses-V02,1,epi,PA,,sub-1878099646/ses-V02/fmap/sub-1878099646_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6124244156,ses-V02,2,epi,PA,,sub-6124244156/ses-V02/fmap/sub-6124244156_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6124244156,ses-V02,2,epi,PA,,sub-6124244156/ses-V02/fmap/sub-6124244156_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3956785090,ses-V02,1,epi,AP,,sub-3956785090/ses-V02/fmap/sub-3956785090_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3956785090,ses-V02,1,epi,AP,,sub-3956785090/ses-V02/fmap/sub-3956785090_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5681963322,ses-V02,2,epi,AP,,sub-5681963322/ses-V02/fmap/sub-5681963322_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5681963322,ses-V02,2,epi,AP,,sub-5681963322/ses-V02/fmap/sub-5681963322_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3179461036,ses-V02,1,epi,AP,,sub-3179461036/ses-V02/fmap/sub-3179461036_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3179461036,ses-V02,1,epi,AP,,sub-3179461036/ses-V02/fmap/sub-3179461036_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3881942734,ses-V02,2,epi,PA,,sub-3881942734/ses-V02/fmap/sub-3881942734_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3881942734,ses-V02,2,epi,PA,,sub-3881942734/ses-V02/fmap/sub-3881942734_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8378245917,ses-V02,1,epi,PA,,sub-8378245917/ses-V02/fmap/sub-8378245917_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8378245917,ses-V02,1,epi,PA,,sub-8378245917/ses-V02/fmap/sub-8378245917_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3841100540,ses-V02,2,epi,PA,,sub-3841100540/ses-V02/fmap/sub-3841100540_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3841100540,ses-V02,2,epi,PA,,sub-3841100540/ses-V02/fmap/sub-3841100540_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6723159995,ses-V02,2,epi,PA,,sub-6723159995/ses-V02/fmap/sub-6723159995_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6723159995,ses-V02,2,epi,PA,,sub-6723159995/ses-V02/fmap/sub-6723159995_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1364866366,ses-V02,3,epi,PA,,sub-1364866366/ses-V02/fmap/sub-1364866366_ses-V02_dir-PA_run-3_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1364866366,ses-V02,3,epi,PA,,sub-1364866366/ses-V02/fmap/sub-1364866366_ses-V02_dir-PA_run-3_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8381968888,ses-V02,2,epi,PA,,sub-8381968888/ses-V02/fmap/sub-8381968888_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8381968888,ses-V02,2,epi,PA,,sub-8381968888/ses-V02/fmap/sub-8381968888_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7057716036,ses-V02,2,epi,AP,,sub-7057716036/ses-V02/fmap/sub-7057716036_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7057716036,ses-V02,2,epi,AP,,sub-7057716036/ses-V02/fmap/sub-7057716036_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6490863352,ses-V02,1,epi,AP,,sub-6490863352/ses-V02/fmap/sub-6490863352_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6490863352,ses-V02,1,epi,AP,,sub-6490863352/ses-V02/fmap/sub-6490863352_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2717179897,ses-V02,2,epi,PA,,sub-2717179897/ses-V02/fmap/sub-2717179897_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2717179897,ses-V02,2,epi,PA,,sub-2717179897/ses-V02/fmap/sub-2717179897_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7983759188,ses-V02,6,epi,PA,,sub-7983759188/ses-V02/fmap/sub-7983759188_ses-V02_dir-PA_run-6_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7983759188,ses-V02,6,epi,PA,,sub-7983759188/ses-V02/fmap/sub-7983759188_ses-V02_dir-PA_run-6_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5370147493,ses-V02,1,epi,PA,,sub-5370147493/ses-V02/fmap/sub-5370147493_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5370147493,ses-V02,1,epi,PA,,sub-5370147493/ses-V02/fmap/sub-5370147493_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7983759188,ses-V02,7,epi,PA,,sub-7983759188/ses-V02/fmap/sub-7983759188_ses-V02_dir-PA_run-7_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7983759188,ses-V02,7,epi,PA,,sub-7983759188/ses-V02/fmap/sub-7983759188_ses-V02_dir-PA_run-7_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4922556163,ses-V02,1,epi,PA,,sub-4922556163/ses-V02/fmap/sub-4922556163_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4922556163,ses-V02,1,epi,PA,,sub-4922556163/ses-V02/fmap/sub-4922556163_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6428263569,ses-V02,2,epi,PA,,sub-6428263569/ses-V02/fmap/sub-6428263569_ses-V02_dir-PA_run-2_epi.nii.gz,2.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6428263569,ses-V02,2,epi,PA,,sub-6428263569/ses-V02/fmap/sub-6428263569_ses-V02_dir-PA_run-2_epi.nii.gz,2.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6388595051,ses-V02,1,epi,PA,,sub-6388595051/ses-V02/fmap/sub-6388595051_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6388595051,ses-V02,1,epi,PA,,sub-6388595051/ses-V02/fmap/sub-6388595051_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8590954812,ses-V02,2,epi,PA,,sub-8590954812/ses-V02/fmap/sub-8590954812_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8590954812,ses-V02,2,epi,PA,,sub-8590954812/ses-V02/fmap/sub-8590954812_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8295699252,ses-V02,3,epi,PA,,sub-8295699252/ses-V02/fmap/sub-8295699252_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8295699252,ses-V02,3,epi,PA,,sub-8295699252/ses-V02/fmap/sub-8295699252_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5837878614,ses-V02,1,epi,PA,,sub-5837878614/ses-V02/fmap/sub-5837878614_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5837878614,ses-V02,1,epi,PA,,sub-5837878614/ses-V02/fmap/sub-5837878614_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5681963322,ses-V02,1,epi,AP,,sub-5681963322/ses-V02/fmap/sub-5681963322_ses-V02_dir-AP_run-1_epi.nii.gz,0.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5681963322,ses-V02,1,epi,AP,,sub-5681963322/ses-V02/fmap/sub-5681963322_ses-V02_dir-AP_run-1_epi.nii.gz,0.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1207562424,ses-V02,2,epi,AP,,sub-1207562424/ses-V02/fmap/sub-1207562424_ses-V02_dir-AP_run-2_epi.nii.gz,2.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1207562424,ses-V02,2,epi,AP,,sub-1207562424/ses-V02/fmap/sub-1207562424_ses-V02_dir-AP_run-2_epi.nii.gz,2.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1905441215,ses-V02,2,epi,AP,,sub-1905441215/ses-V02/fmap/sub-1905441215_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1905441215,ses-V02,2,epi,AP,,sub-1905441215/ses-V02/fmap/sub-1905441215_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7740678172,ses-V02,3,epi,PA,,sub-7740678172/ses-V02/fmap/sub-7740678172_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7740678172,ses-V02,3,epi,PA,,sub-7740678172/ses-V02/fmap/sub-7740678172_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1408279147,ses-V04,2,epi,PA,,sub-1408279147/ses-V04/fmap/sub-1408279147_ses-V04_dir-PA_run-2_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1408279147,ses-V04,2,epi,PA,,sub-1408279147/ses-V04/fmap/sub-1408279147_ses-V04_dir-PA_run-2_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1204007421,ses-V02,3,epi,AP,,sub-1204007421/ses-V02/fmap/sub-1204007421_ses-V02_dir-AP_run-3_epi.nii.gz,2.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1204007421,ses-V02,3,epi,AP,,sub-1204007421/ses-V02/fmap/sub-1204007421_ses-V02_dir-AP_run-3_epi.nii.gz,2.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1207562424,ses-V02,1,epi,PA,,sub-1207562424/ses-V02/fmap/sub-1207562424_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1207562424,ses-V02,1,epi,PA,,sub-1207562424/ses-V02/fmap/sub-1207562424_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5618028924,ses-V02,1,epi,PA,,sub-5618028924/ses-V02/fmap/sub-5618028924_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5618028924,ses-V02,1,epi,PA,,sub-5618028924/ses-V02/fmap/sub-5618028924_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3975512155,ses-V02,2,epi,PA,,sub-3975512155/ses-V02/fmap/sub-3975512155_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3975512155,ses-V02,2,epi,PA,,sub-3975512155/ses-V02/fmap/sub-3975512155_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2317973580,ses-V02,2,epi,AP,,sub-2317973580/ses-V02/fmap/sub-2317973580_ses-V02_dir-AP_run-2_epi.nii.gz,0.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2317973580,ses-V02,2,epi,AP,,sub-2317973580/ses-V02/fmap/sub-2317973580_ses-V02_dir-AP_run-2_epi.nii.gz,0.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4790400660,ses-V02,2,epi,PA,,sub-4790400660/ses-V02/fmap/sub-4790400660_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4790400660,ses-V02,2,epi,PA,,sub-4790400660/ses-V02/fmap/sub-4790400660_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8152162913,ses-V02,1,epi,AP,,sub-8152162913/ses-V02/fmap/sub-8152162913_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8152162913,ses-V02,1,epi,AP,,sub-8152162913/ses-V02/fmap/sub-8152162913_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3975512155,ses-V02,1,epi,PA,,sub-3975512155/ses-V02/fmap/sub-3975512155_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3975512155,ses-V02,1,epi,PA,,sub-3975512155/ses-V02/fmap/sub-3975512155_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4406675372,ses-V02,1,epi,AP,,sub-4406675372/ses-V02/fmap/sub-4406675372_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4406675372,ses-V02,1,epi,AP,,sub-4406675372/ses-V02/fmap/sub-4406675372_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4052296260,ses-V02,2,epi,PA,,sub-4052296260/ses-V02/fmap/sub-4052296260_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4052296260,ses-V02,2,epi,PA,,sub-4052296260/ses-V02/fmap/sub-4052296260_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7660550616,ses-V02,2,epi,AP,,sub-7660550616/ses-V02/fmap/sub-7660550616_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7660550616,ses-V02,2,epi,AP,,sub-7660550616/ses-V02/fmap/sub-7660550616_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4157522245,ses-V02,1,epi,AP,,sub-4157522245/ses-V02/fmap/sub-4157522245_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4157522245,ses-V02,1,epi,AP,,sub-4157522245/ses-V02/fmap/sub-4157522245_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2556786908,ses-V02,1,epi,PA,,sub-2556786908/ses-V02/fmap/sub-2556786908_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2556786908,ses-V02,1,epi,PA,,sub-2556786908/ses-V02/fmap/sub-2556786908_ses-V02_dir-PA_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4157522245,ses-V02,2,epi,AP,,sub-4157522245/ses-V02/fmap/sub-4157522245_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4157522245,ses-V02,2,epi,AP,,sub-4157522245/ses-V02/fmap/sub-4157522245_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4098318726,ses-V02,2,epi,PA,,sub-4098318726/ses-V02/fmap/sub-4098318726_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4098318726,ses-V02,2,epi,PA,,sub-4098318726/ses-V02/fmap/sub-4098318726_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1777331944,ses-V02,1,epi,AP,,sub-1777331944/ses-V02/fmap/sub-1777331944_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1777331944,ses-V02,1,epi,AP,,sub-1777331944/ses-V02/fmap/sub-1777331944_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2326674000,ses-V02,2,epi,PA,,sub-2326674000/ses-V02/fmap/sub-2326674000_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2326674000,ses-V02,2,epi,PA,,sub-2326674000/ses-V02/fmap/sub-2326674000_ses-V02_dir-PA_run-2_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8152162913,ses-V02,3,epi,AP,,sub-8152162913/ses-V02/fmap/sub-8152162913_ses-V02_dir-AP_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8152162913,ses-V02,3,epi,AP,,sub-8152162913/ses-V02/fmap/sub-8152162913_ses-V02_dir-AP_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6894067411,ses-V02,1,epi,PA,,sub-6894067411/ses-V02/fmap/sub-6894067411_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6894067411,ses-V02,1,epi,PA,,sub-6894067411/ses-V02/fmap/sub-6894067411_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7575972984,ses-V02,2,epi,PA,,sub-7575972984/ses-V02/fmap/sub-7575972984_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7575972984,ses-V02,2,epi,PA,,sub-7575972984/ses-V02/fmap/sub-7575972984_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1112686507,ses-V02,2,epi,AP,,sub-1112686507/ses-V02/fmap/sub-1112686507_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,2.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1112686507,ses-V02,2,epi,AP,,sub-1112686507/ses-V02/fmap/sub-1112686507_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,2.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3074353762,ses-V02,1,epi,AP,,sub-3074353762/ses-V02/fmap/sub-3074353762_ses-V02_dir-AP_run-1_epi.nii.gz,0.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3074353762,ses-V02,1,epi,AP,,sub-3074353762/ses-V02/fmap/sub-3074353762_ses-V02_dir-AP_run-1_epi.nii.gz,0.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8378245917,ses-V02,1,epi,AP,,sub-8378245917/ses-V02/fmap/sub-8378245917_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8378245917,ses-V02,1,epi,AP,,sub-8378245917/ses-V02/fmap/sub-8378245917_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2894111492,ses-V02,1,epi,PA,,sub-2894111492/ses-V02/fmap/sub-2894111492_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2894111492,ses-V02,1,epi,PA,,sub-2894111492/ses-V02/fmap/sub-2894111492_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2368305128,ses-V02,1,epi,AP,,sub-2368305128/ses-V02/fmap/sub-2368305128_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2368305128,ses-V02,1,epi,AP,,sub-2368305128/ses-V02/fmap/sub-2368305128_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2777989348,ses-V03,1,epi,AP,,sub-2777989348/ses-V03/fmap/sub-2777989348_ses-V03_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2777989348,ses-V03,1,epi,AP,,sub-2777989348/ses-V03/fmap/sub-2777989348_ses-V03_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2894111492,ses-V02,2,epi,PA,,sub-2894111492/ses-V02/fmap/sub-2894111492_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2894111492,ses-V02,2,epi,PA,,sub-2894111492/ses-V02/fmap/sub-2894111492_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7285801354,ses-V04,2,epi,PA,,sub-7285801354/ses-V04/fmap/sub-7285801354_ses-V04_dir-PA_run-2_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7285801354,ses-V04,2,epi,PA,,sub-7285801354/ses-V04/fmap/sub-7285801354_ses-V04_dir-PA_run-2_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7076153032,ses-V03,3,epi,AP,,sub-7076153032/ses-V03/fmap/sub-7076153032_ses-V03_dir-AP_run-3_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7076153032,ses-V03,3,epi,AP,,sub-7076153032/ses-V03/fmap/sub-7076153032_ses-V03_dir-AP_run-3_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8154461505,ses-V02,2,epi,PA,,sub-8154461505/ses-V02/fmap/sub-8154461505_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8154461505,ses-V02,2,epi,PA,,sub-8154461505/ses-V02/fmap/sub-8154461505_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5030811337,ses-V02,2,epi,PA,,sub-5030811337/ses-V02/fmap/sub-5030811337_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,2.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5030811337,ses-V02,2,epi,PA,,sub-5030811337/ses-V02/fmap/sub-5030811337_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,2.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7713245760,ses-V02,1,epi,AP,,sub-7713245760/ses-V02/fmap/sub-7713245760_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7713245760,ses-V02,1,epi,AP,,sub-7713245760/ses-V02/fmap/sub-7713245760_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7713245760,ses-V02,2,epi,AP,,sub-7713245760/ses-V02/fmap/sub-7713245760_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7713245760,ses-V02,2,epi,AP,,sub-7713245760/ses-V02/fmap/sub-7713245760_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4157522245,ses-V02,1,epi,PA,,sub-4157522245/ses-V02/fmap/sub-4157522245_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4157522245,ses-V02,1,epi,PA,,sub-4157522245/ses-V02/fmap/sub-4157522245_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5030811337,ses-V02,1,epi,PA,,sub-5030811337/ses-V02/fmap/sub-5030811337_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,2.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5030811337,ses-V02,1,epi,PA,,sub-5030811337/ses-V02/fmap/sub-5030811337_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,GE MEDICAL SYSTEMS,2.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1451479226,ses-V02,2,epi,AP,,sub-1451479226/ses-V02/fmap/sub-1451479226_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1451479226,ses-V02,2,epi,AP,,sub-1451479226/ses-V02/fmap/sub-1451479226_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1451479226,ses-V02,1,epi,AP,,sub-1451479226/ses-V02/fmap/sub-1451479226_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1451479226,ses-V02,1,epi,AP,,sub-1451479226/ses-V02/fmap/sub-1451479226_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7381936673,ses-V02,1,epi,AP,,sub-7381936673/ses-V02/fmap/sub-7381936673_ses-V02_dir-AP_run-1_epi.nii.gz,0.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7381936673,ses-V02,1,epi,AP,,sub-7381936673/ses-V02/fmap/sub-7381936673_ses-V02_dir-AP_run-1_epi.nii.gz,0.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1364866366,ses-V02,2,epi,AP,,sub-1364866366/ses-V02/fmap/sub-1364866366_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1364866366,ses-V02,2,epi,AP,,sub-1364866366/ses-V02/fmap/sub-1364866366_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7057716036,ses-V02,4,epi,PA,,sub-7057716036/ses-V02/fmap/sub-7057716036_ses-V02_dir-PA_run-4_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7057716036,ses-V02,4,epi,PA,,sub-7057716036/ses-V02/fmap/sub-7057716036_ses-V02_dir-PA_run-4_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2368305128,ses-V02,2,epi,AP,,sub-2368305128/ses-V02/fmap/sub-2368305128_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2368305128,ses-V02,2,epi,AP,,sub-2368305128/ses-V02/fmap/sub-2368305128_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7740678172,ses-V02,1,epi,PA,,sub-7740678172/ses-V02/fmap/sub-7740678172_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7740678172,ses-V02,1,epi,PA,,sub-7740678172/ses-V02/fmap/sub-7740678172_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7888062905,ses-V02,2,epi,PA,,sub-7888062905/ses-V02/fmap/sub-7888062905_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7888062905,ses-V02,2,epi,PA,,sub-7888062905/ses-V02/fmap/sub-7888062905_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8378245917,ses-V02,2,epi,AP,,sub-8378245917/ses-V02/fmap/sub-8378245917_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8378245917,ses-V02,2,epi,AP,,sub-8378245917/ses-V02/fmap/sub-8378245917_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5347814901,ses-V02,2,epi,PA,,sub-5347814901/ses-V02/fmap/sub-5347814901_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5347814901,ses-V02,2,epi,PA,,sub-5347814901/ses-V02/fmap/sub-5347814901_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7950689261,ses-V02,5,epi,PA,,sub-7950689261/ses-V02/fmap/sub-7950689261_ses-V02_dir-PA_run-5_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7950689261,ses-V02,5,epi,PA,,sub-7950689261/ses-V02/fmap/sub-7950689261_ses-V02_dir-PA_run-5_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8152162913,ses-V02,1,epi,PA,,sub-8152162913/ses-V02/fmap/sub-8152162913_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8152162913,ses-V02,1,epi,PA,,sub-8152162913/ses-V02/fmap/sub-8152162913_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4561116659,ses-V02,1,epi,AP,,sub-4561116659/ses-V02/fmap/sub-4561116659_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4561116659,ses-V02,1,epi,AP,,sub-4561116659/ses-V02/fmap/sub-4561116659_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2609467571,ses-V02,2,epi,PA,,sub-2609467571/ses-V02/fmap/sub-2609467571_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2609467571,ses-V02,2,epi,PA,,sub-2609467571/ses-V02/fmap/sub-2609467571_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4098318726,ses-V02,1,epi,PA,,sub-4098318726/ses-V02/fmap/sub-4098318726_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4098318726,ses-V02,1,epi,PA,,sub-4098318726/ses-V02/fmap/sub-4098318726_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6836855077,ses-V02,1,epi,AP,,sub-6836855077/ses-V02/fmap/sub-6836855077_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6836855077,ses-V02,1,epi,AP,,sub-6836855077/ses-V02/fmap/sub-6836855077_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3746232436,ses-V02,1,epi,AP,,sub-3746232436/ses-V02/fmap/sub-3746232436_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3746232436,ses-V02,1,epi,AP,,sub-3746232436/ses-V02/fmap/sub-3746232436_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4549879437,ses-V02,1,epi,PA,,sub-4549879437/ses-V02/fmap/sub-4549879437_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4549879437,ses-V02,1,epi,PA,,sub-4549879437/ses-V02/fmap/sub-4549879437_ses-V02_dir-PA_run-1_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6836855077,ses-V02,2,epi,AP,,sub-6836855077/ses-V02/fmap/sub-6836855077_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6836855077,ses-V02,2,epi,AP,,sub-6836855077/ses-V02/fmap/sub-6836855077_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8154461505,ses-V02,2,epi,AP,,sub-8154461505/ses-V02/fmap/sub-8154461505_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8154461505,ses-V02,2,epi,AP,,sub-8154461505/ses-V02/fmap/sub-8154461505_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4157522245,ses-V02,2,epi,PA,,sub-4157522245/ses-V02/fmap/sub-4157522245_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4157522245,ses-V02,2,epi,PA,,sub-4157522245/ses-V02/fmap/sub-4157522245_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7426430440,ses-V02,2,epi,AP,,sub-7426430440/ses-V02/fmap/sub-7426430440_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7426430440,ses-V02,2,epi,AP,,sub-7426430440/ses-V02/fmap/sub-7426430440_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2456570624,ses-V02,1,epi,AP,,sub-2456570624/ses-V02/fmap/sub-2456570624_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2456570624,ses-V02,1,epi,AP,,sub-2456570624/ses-V02/fmap/sub-2456570624_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6598593009,ses-V02,2,epi,PA,,sub-6598593009/ses-V02/fmap/sub-6598593009_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6598593009,ses-V02,2,epi,PA,,sub-6598593009/ses-V02/fmap/sub-6598593009_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1364866366,ses-V02,1,epi,AP,,sub-1364866366/ses-V02/fmap/sub-1364866366_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1364866366,ses-V02,1,epi,AP,,sub-1364866366/ses-V02/fmap/sub-1364866366_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1451479226,ses-V02,1,epi,PA,,sub-1451479226/ses-V02/fmap/sub-1451479226_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1451479226,ses-V02,1,epi,PA,,sub-1451479226/ses-V02/fmap/sub-1451479226_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3746232436,ses-V02,2,epi,AP,,sub-3746232436/ses-V02/fmap/sub-3746232436_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3746232436,ses-V02,2,epi,AP,,sub-3746232436/ses-V02/fmap/sub-3746232436_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4539569870,ses-V02,1,epi,AP,,sub-4539569870/ses-V02/fmap/sub-4539569870_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4539569870,ses-V02,1,epi,AP,,sub-4539569870/ses-V02/fmap/sub-4539569870_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2680368895,ses-V02,1,epi,AP,,sub-2680368895/ses-V02/fmap/sub-2680368895_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2680368895,ses-V02,1,epi,AP,,sub-2680368895/ses-V02/fmap/sub-2680368895_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7285801354,ses-V04,2,epi,AP,,sub-7285801354/ses-V04/fmap/sub-7285801354_ses-V04_dir-AP_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7285801354,ses-V04,2,epi,AP,,sub-7285801354/ses-V04/fmap/sub-7285801354_ses-V04_dir-AP_run-2_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3667555796,ses-V02,2,epi,PA,,sub-3667555796/ses-V02/fmap/sub-3667555796_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3667555796,ses-V02,2,epi,PA,,sub-3667555796/ses-V02/fmap/sub-3667555796_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1812846484,ses-V02,1,epi,PA,,sub-1812846484/ses-V02/fmap/sub-1812846484_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1812846484,ses-V02,1,epi,PA,,sub-1812846484/ses-V02/fmap/sub-1812846484_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6428263569,ses-V02,2,epi,AP,,sub-6428263569/ses-V02/fmap/sub-6428263569_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6428263569,ses-V02,2,epi,AP,,sub-6428263569/ses-V02/fmap/sub-6428263569_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1121004486,ses-V02,4,epi,AP,,sub-1121004486/ses-V02/fmap/sub-1121004486_ses-V02_dir-AP_run-4_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1121004486,ses-V02,4,epi,AP,,sub-1121004486/ses-V02/fmap/sub-1121004486_ses-V02_dir-AP_run-4_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5171123392,ses-V02,2,epi,PA,,sub-5171123392/ses-V02/fmap/sub-5171123392_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5171123392,ses-V02,2,epi,PA,,sub-5171123392/ses-V02/fmap/sub-5171123392_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4725257188,ses-V02,3,epi,PA,,sub-4725257188/ses-V02/fmap/sub-4725257188_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4725257188,ses-V02,3,epi,PA,,sub-4725257188/ses-V02/fmap/sub-4725257188_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5899696502,ses-V02,4,epi,AP,,sub-5899696502/ses-V02/fmap/sub-5899696502_ses-V02_dir-AP_run-4_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5899696502,ses-V02,4,epi,AP,,sub-5899696502/ses-V02/fmap/sub-5899696502_ses-V02_dir-AP_run-4_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7715021374,ses-V02,2,epi,PA,,sub-7715021374/ses-V02/fmap/sub-7715021374_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7715021374,ses-V02,2,epi,PA,,sub-7715021374/ses-V02/fmap/sub-7715021374_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7713245760,ses-V02,2,epi,PA,,sub-7713245760/ses-V02/fmap/sub-7713245760_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7713245760,ses-V02,2,epi,PA,,sub-7713245760/ses-V02/fmap/sub-7713245760_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2115862877,ses-V02,2,epi,PA,,sub-2115862877/ses-V02/fmap/sub-2115862877_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2115862877,ses-V02,2,epi,PA,,sub-2115862877/ses-V02/fmap/sub-2115862877_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1743196443,ses-V02,2,epi,PA,,sub-1743196443/ses-V02/fmap/sub-1743196443_ses-V02_dir-PA_run-2_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1743196443,ses-V02,2,epi,PA,,sub-1743196443/ses-V02/fmap/sub-1743196443_ses-V02_dir-PA_run-2_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2077693010,ses-V02,2,epi,PA,,sub-2077693010/ses-V02/fmap/sub-2077693010_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2077693010,ses-V02,2,epi,PA,,sub-2077693010/ses-V02/fmap/sub-2077693010_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2368305128,ses-V02,1,epi,PA,,sub-2368305128/ses-V02/fmap/sub-2368305128_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2368305128,ses-V02,1,epi,PA,,sub-2368305128/ses-V02/fmap/sub-2368305128_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4578780925,ses-V02,2,epi,AP,,sub-4578780925/ses-V02/fmap/sub-4578780925_ses-V02_dir-AP_run-2_epi.nii.gz,0.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4578780925,ses-V02,2,epi,AP,,sub-4578780925/ses-V02/fmap/sub-4578780925_ses-V02_dir-AP_run-2_epi.nii.gz,0.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1329355075,ses-V02,2,epi,PA,,sub-1329355075/ses-V02/fmap/sub-1329355075_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,2.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1329355075,ses-V02,2,epi,PA,,sub-1329355075/ses-V02/fmap/sub-1329355075_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Siemens Healthineers,2.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4271450923,ses-V03,1,epi,AP,,sub-4271450923/ses-V03/fmap/sub-4271450923_ses-V03_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4271450923,ses-V03,1,epi,AP,,sub-4271450923/ses-V03/fmap/sub-4271450923_ses-V03_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5171123392,ses-V02,2,epi,AP,,sub-5171123392/ses-V02/fmap/sub-5171123392_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5171123392,ses-V02,2,epi,AP,,sub-5171123392/ses-V02/fmap/sub-5171123392_ses-V02_dir-AP_run-2_epi.nii.gz,1.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8500388800,ses-V02,1,epi,PA,,sub-8500388800/ses-V02/fmap/sub-8500388800_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8500388800,ses-V02,1,epi,PA,,sub-8500388800/ses-V02/fmap/sub-8500388800_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3448939944,ses-V02,4,epi,AP,,sub-3448939944/ses-V02/fmap/sub-3448939944_ses-V02_dir-AP_run-4_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3448939944,ses-V02,4,epi,AP,,sub-3448939944/ses-V02/fmap/sub-3448939944_ses-V02_dir-AP_run-4_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3373663008,ses-V02,2,epi,AP,,sub-3373663008/ses-V02/fmap/sub-3373663008_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3373663008,ses-V02,2,epi,AP,,sub-3373663008/ses-V02/fmap/sub-3373663008_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7377103903,ses-V02,2,epi,AP,,sub-7377103903/ses-V02/fmap/sub-7377103903_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7377103903,ses-V02,2,epi,AP,,sub-7377103903/ses-V02/fmap/sub-7377103903_ses-V02_dir-AP_run-2_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3074353762,ses-V02,2,epi,AP,,sub-3074353762/ses-V02/fmap/sub-3074353762_ses-V02_dir-AP_run-2_epi.nii.gz,0.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3074353762,ses-V02,2,epi,AP,,sub-3074353762/ses-V02/fmap/sub-3074353762_ses-V02_dir-AP_run-2_epi.nii.gz,0.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5841251823,ses-V02,1,epi,AP,,sub-5841251823/ses-V02/fmap/sub-5841251823_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,3.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5841251823,ses-V02,1,epi,AP,,sub-5841251823/ses-V02/fmap/sub-5841251823_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,GE MEDICAL SYSTEMS,3.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4568587088,ses-V03,2,epi,PA,,sub-4568587088/ses-V03/fmap/sub-4568587088_ses-V03_dir-PA_run-2_epi.nii.gz,0.5,Siemens Healthineers,2.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4568587088,ses-V03,2,epi,PA,,sub-4568587088/ses-V03/fmap/sub-4568587088_ses-V03_dir-PA_run-2_epi.nii.gz,0.5,Siemens Healthineers,2.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4665504048,ses-V02,1,epi,PA,,sub-4665504048/ses-V02/fmap/sub-4665504048_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4665504048,ses-V02,1,epi,PA,,sub-4665504048/ses-V02/fmap/sub-4665504048_ses-V02_dir-PA_run-1_epi.nii.gz,0.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5342153811,ses-V02,3,epi,PA,,sub-5342153811/ses-V02/fmap/sub-5342153811_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5342153811,ses-V02,3,epi,PA,,sub-5342153811/ses-V02/fmap/sub-5342153811_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-4561116659,ses-V02,2,epi,AP,,sub-4561116659/ses-V02/fmap/sub-4561116659_ses-V02_dir-AP_run-2_epi.nii.gz,2.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-4561116659,ses-V02,2,epi,AP,,sub-4561116659/ses-V02/fmap/sub-4561116659_ses-V02_dir-AP_run-2_epi.nii.gz,2.5,GE MEDICAL SYSTEMS,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3499042222,ses-V02,1,epi,AP,,sub-3499042222/ses-V02/fmap/sub-3499042222_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3499042222,ses-V02,1,epi,AP,,sub-3499042222/ses-V02/fmap/sub-3499042222_ses-V02_dir-AP_run-1_epi.nii.gz,2.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-1471076940,ses-V02,2,epi,AP,,sub-1471076940/ses-V02/fmap/sub-1471076940_ses-V02_dir-AP_run-2_epi.nii.gz,0.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-1471076940,ses-V02,2,epi,AP,,sub-1471076940/ses-V02/fmap/sub-1471076940_ses-V02_dir-AP_run-2_epi.nii.gz,0.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-8447450915,ses-V02,3,epi,PA,,sub-8447450915/ses-V02/fmap/sub-8447450915_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-8447450915,ses-V02,3,epi,PA,,sub-8447450915/ses-V02/fmap/sub-8447450915_ses-V02_dir-PA_run-3_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-5986648557,ses-V02,2,epi,PA,,sub-5986648557/ses-V02/fmap/sub-5986648557_ses-V02_dir-PA_run-2_epi.nii.gz,0.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-5986648557,ses-V02,2,epi,PA,,sub-5986648557/ses-V02/fmap/sub-5986648557_ses-V02_dir-PA_run-2_epi.nii.gz,0.5,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-7841433286,ses-V02,2,epi,PA,,sub-7841433286/ses-V02/fmap/sub-7841433286_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-7841433286,ses-V02,2,epi,PA,,sub-7841433286/ses-V02/fmap/sub-7841433286_ses-V02_dir-PA_run-2_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2334283964,ses-V02,1,epi,PA,,sub-2334283964/ses-V02/fmap/sub-2334283964_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2334283964,ses-V02,1,epi,PA,,sub-2334283964/ses-V02/fmap/sub-2334283964_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Philips Medical Systems,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-3975512155,ses-V02,1,epi,AP,,sub-3975512155/ses-V02/fmap/sub-3975512155_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-3975512155,ses-V02,1,epi,AP,,sub-3975512155/ses-V02/fmap/sub-3975512155_ses-V02_dir-AP_run-1_epi.nii.gz,1.5,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6421906257,ses-V02,1,epi,AP,,sub-6421906257/ses-V02/fmap/sub-6421906257_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6421906257,ses-V02,1,epi,AP,,sub-6421906257/ses-V02/fmap/sub-6421906257_ses-V02_dir-AP_run-1_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2180982297,ses-V02,2,epi,PA,,sub-2180982297/ses-V02/fmap/sub-2180982297_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2180982297,ses-V02,2,epi,PA,,sub-2180982297/ses-V02/fmap/sub-2180982297_ses-V02_dir-PA_run-2_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-6598593009,ses-V02,1,epi,PA,,sub-6598593009/ses-V02/fmap/sub-6598593009_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-6598593009,ses-V02,1,epi,PA,,sub-6598593009/ses-V02/fmap/sub-6598593009_ses-V02_dir-PA_run-1_epi.nii.gz,1.0,Siemens Healthineers,1.0,suspetibility_artifact.tsv.txt:frame2,1
+sub-2230813745,ses-V02,3,epi,AP,,sub-2230813745/ses-V02/fmap/sub-2230813745_ses-V02_dir-AP_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame1,0
+sub-2230813745,ses-V02,3,epi,AP,,sub-2230813745/ses-V02/fmap/sub-2230813745_ses-V02_dir-AP_run-3_epi.nii.gz,1.0,Philips,1.0,suspetibility_artifact.tsv.txt:frame2,1

@@ -38,3 +38,7 @@ slurm-*.out
 # generated manifests and model outputs
 data/model_04*/
 doc/models/model_04*/
+
+# local config snapshots and disk cache
+config/*.bak
+data-unversioned/
