@@ -26,6 +26,7 @@ from data_sets.dsets import (
     AutoQcDataset,
     ScanSpec,
     DEFAULT_3D_TARGET_SHAPE,
+    DEFAULT_2D_TARGET_SHAPE,
     DEFAULT_4D_TARGET_SHAPE,
     DEFAULT_NUM_FRAMES,
 )
@@ -39,6 +40,7 @@ from inference.make_predictions import (
 from models.torchmodels import get_alexnet_model
 from models.regressor import get_regressor_model
 from models.temporal import load_backbone_state_dict
+from data_sets.dims import resolve_input_mode
 from util.arguments import add_arguments_file_option, resolve_arguments_file
 from util.logconf import logging
 from util.util import enumerateWithEstimate
@@ -282,8 +284,47 @@ class Config:
         self.parser.add_argument(
             "--input-mode",
             default="3d",
-            choices=["3d", "4d"],
-            help="3d for anatomical volumes; 4d for field maps / other 4D series.",
+            choices=["auto", "2d", "3d", "4d"],
+            help="How image files are read. 'auto' inspects the NIfTI headers "
+            "of the cohort and decides, counting axes with extent > 1 so a "
+            "file declaring 4D while holding one volume is treated as 3D. An "
+            "explicit value forces that reading and only warns when the data "
+            "disagrees.",
+        )
+        self.parser.add_argument(
+            "--allow-mixed-dims",
+            action="store_true",
+            help="With --input-mode=auto, accept a cohort whose files differ "
+            "in dimensionality and take the majority instead of failing. The "
+            "network is built for one spatial rank, so the minority files are "
+            "forced into it.",
+        )
+        self.parser.add_argument(
+            "--dim-survey-limit",
+            default=200,
+            type=int,
+            help="How many files --input-mode=auto inspects. 0 reads every "
+            "one; a few hundred settles it in practice.",
+        )
+        self.parser.add_argument(
+            "--label-scope",
+            default="scan",
+            choices=["scan", "frame"],
+            help="What a QC rating describes. 'scan' is one rating for the "
+            "whole file, inherited by every volume when the file is split. "
+            "'frame' expects a frame_index column and gives each volume its "
+            "own rating. Independent of how frames reach the network.",
+        )
+        self.parser.add_argument(
+            "--prediction-scope",
+            default="scan",
+            choices=["scan", "frame", "both"],
+            help="What the prediction CSV reports. 'scan' averages a file's "
+            "volumes into one score (comparable with a single manual rating). "
+            "'frame' writes each volume's own prediction. 'both' writes "
+            "per-volume predictions alongside the scan mean. Per-volume output "
+            "is required to measure whether the model separates the volumes at "
+            "all -- averaging makes those differences identically zero.",
         )
         self.parser.add_argument(
             "--target-shape",
@@ -354,6 +395,40 @@ class Config:
             help="Comma-separated MONAI Regressor strides.",
         )
         self.parser.add_argument(
+            "--net-kernel-size",
+            default=3,
+            type=int,
+            help="Convolution kernel size for the MONAI Regressor.",
+        )
+        self.parser.add_argument(
+            "--net-num-res-units",
+            default=2,
+            type=int,
+            help="Residual units per layer. 0 gives plain convolutions.",
+        )
+        self.parser.add_argument(
+            "--net-dropout",
+            default=None,
+            type=float,
+            help="Dropout probability. Unset means no dropout.",
+        )
+        self.parser.add_argument(
+            "--net-act",
+            default="PRELU",
+            help="Activation, e.g. PRELU, RELU, LEAKYRELU.",
+        )
+        self.parser.add_argument(
+            "--net-norm",
+            default="INSTANCE",
+            help="Normalisation, e.g. INSTANCE, BATCH, GROUP.",
+        )
+        self.parser.add_argument(
+            "--net-bias",
+            action=argparse.BooleanOptionalAction,
+            default=True,
+            help="Whether convolutions carry a bias term.",
+        )
+        self.parser.add_argument(
             "--pretrained-weights",
             default=None,
             help="Optional checkpoint to warm-start from (e.g. a model_02r7 fold).",
@@ -376,17 +451,92 @@ def parse_int_tuple(text, default):
     return tuple(int(part) for part in str(text).split(",") if part.strip())
 
 
+def resolve_dimensionality(config):
+    """Turn --input-mode (possibly "auto") into a concrete 2d/3d/4d mode.
+
+    Reads headers rather than trusting the CSV, because the network's spatial
+    rank is fixed at construction and a cohort that silently mixes ranks would
+    otherwise fail deep inside the first forward pass.
+    """
+    mode = (config.input_mode or "3d").lower()
+    if mode != "auto" and not getattr(config, "verify_dims", True):
+        return mode
+
+    try:
+        df = pd.read_csv(config.csv_input_file)
+    except Exception as exc:
+        if mode == "auto":
+            raise ValueError(
+                f"--input-mode=auto needs {config.csv_input_file} to list the "
+                f"scans to inspect, but it could not be read: {exc}"
+            )
+        log.warning(f"could not read {config.csv_input_file} to verify dims: {exc}")
+        return mode
+
+    if "scan" in df.columns:
+        scans = [s for s in df["scan"].dropna().astype(str) if s.strip()]
+    else:
+        scans = []
+    if not scans:
+        if mode == "auto":
+            raise ValueError(
+                "--input-mode=auto needs a 'scan' column naming each file; the "
+                f"CSV {config.csv_input_file} has none."
+            )
+        return mode
+
+    resolved, _ = resolve_input_mode(
+        mode,
+        config.folder,
+        scans,
+        limit=getattr(config, "dim_survey_limit", 200),
+        allow_mixed=getattr(config, "allow_mixed_dims", False),
+    )
+    return resolved
+
+
+def collect_net_kwargs(config):
+    """Gather --net-* architecture options that were actually set.
+
+    Only keys present here are forwarded, so anything left at its CLI default
+    of None lets MONAI's own default stand rather than this script pinning it.
+    """
+    mapping = (
+        ("net_kernel_size", "kernel_size"),
+        ("net_num_res_units", "num_res_units"),
+        ("net_dropout", "dropout"),
+        ("net_act", "act"),
+        ("net_norm", "norm"),
+        ("net_bias", "bias"),
+    )
+    out = {}
+    for cli_name, monai_name in mapping:
+        value = getattr(config, cli_name, None)
+        if value is not None:
+            out[monai_name] = value
+    return out
+
+
 def build_scan_spec(config):
     """Resolve CLI arguments into a ScanSpec plus the model input channel count."""
-    is_4d = config.input_mode == "4d"
+    input_mode = resolve_dimensionality(config)
+    is_4d = input_mode == "4d"
+    is_2d = input_mode == "2d"
 
-    default_shape = DEFAULT_4D_TARGET_SHAPE if is_4d else DEFAULT_3D_TARGET_SHAPE
+    if is_2d:
+        default_shape = DEFAULT_2D_TARGET_SHAPE
+    elif is_4d:
+        default_shape = DEFAULT_4D_TARGET_SHAPE
+    else:
+        default_shape = DEFAULT_3D_TARGET_SHAPE
     target_shape = parse_int_tuple(config.target_shape, default_shape)
 
-    if len(target_shape) != 3:
+    expected_rank = 2 if is_2d else 3
+    if len(target_shape) != expected_rank:
         raise ValueError(
-            f"--target-shape must give 3 spatial dimensions, got {target_shape}. "
-            "The frame count is set separately with --num-frames."
+            f"--target-shape must give {expected_rank} spatial dimensions for "
+            f"--input-mode={input_mode}, got {target_shape}. The frame count is "
+            "set separately with --num-frames."
         )
 
     num_frames = None
@@ -412,8 +562,17 @@ def build_scan_spec(config):
 
     split_frames = is_4d and getattr(config, "split_frames", False)
 
+    label_scope = getattr(config, "label_scope", "scan")
+    if label_scope == "frame" and not split_frames:
+        raise ValueError(
+            "LABEL_SCOPE=frame gives each volume its own rating, which only "
+            "makes sense when volumes are separate samples. Set "
+            "FRAME_MODE=split (SPLIT_FRAMES=true) with INPUT_MODE=4d."
+        )
+
     spec = ScanSpec(
-        input_mode=config.input_mode,
+        input_mode=input_mode,
+        label_scope=label_scope,
         target_shape=target_shape,
         num_frames=num_frames,
         frame_padding=config.frame_padding,
@@ -495,6 +654,7 @@ class ModelHandler:
         temporal_pool="mean",
         net_channels=None,
         net_strides=None,
+        net_kwargs=None,
     ):
         self.model_name = model_name
         self.use_cuda = use_cuda
@@ -505,6 +665,9 @@ class ModelHandler:
         self.temporal_pool = temporal_pool
         self.net_channels = net_channels
         self.net_strides = net_strides
+        # Architecture knobs passed straight to MONAI. Empty means every
+        # Regressor default is left alone.
+        self.net_kwargs = dict(net_kwargs or {})
         self.model = self._init_model()
 
     def _init_model(self):
@@ -519,16 +682,23 @@ class ModelHandler:
                 kwargs["channels"] = self.net_channels
             if self.net_strides:
                 kwargs["strides"] = self.net_strides
+            kwargs.update(self.net_kwargs)
             model = get_regressor_model(**kwargs)
             log.info("Using Regressor model")
         else:
+            if self.net_kwargs or self.net_channels or self.net_strides:
+                log.warning(
+                    "AlexNet3D has a fixed architecture; --net-* options "
+                    f"{sorted(set(self.net_kwargs) | {'channels', 'strides'} if self.net_channels or self.net_strides else set(self.net_kwargs))} "
+                    "are ignored. Use --model Regressor to configure the network."
+                )
             model = get_alexnet_model(
                 4608,
                 in_channels=self.in_channels,
                 frame_mode=self.frame_mode,
                 temporal_pool=self.temporal_pool,
             )
-            log.info("Using AlexNet3D")
+            log.info("Using AlexNet3D (fixed architecture, 3D only)")
 
         # Always move to the specified device consistently
         log.info(f"Moving model to device: {self.device}")
@@ -877,6 +1047,7 @@ class AutoQcTrainingApp:
             net_strides=parse_int_tuple(self.config.net_strides, None)
             if self.config.net_strides
             else None,
+            net_kwargs=collect_net_kwargs(self.config),
         )
 
         if self.config.pretrained_weights:
@@ -1061,7 +1232,8 @@ class AutoQcTrainingApp:
                 break
 
         input_csv_location = self.config.csv_input_file
-        subjects, sessions, runs, suffixes, actual_scores, predict_vals, scans = get_validation_info(
+        (subjects, sessions, runs, suffixes, actual_scores, predict_vals,
+         scans, frames) = get_validation_info(
             self.config.model,
             self.config.model_save_location,
             input_csv_location,
@@ -1073,16 +1245,33 @@ class AutoQcTrainingApp:
             temporal_pool=self.config.temporal_pool,
             net_channels=self.model_handler.net_channels,
             net_strides=self.model_handler.net_strides,
+            prediction_scope=getattr(self.config, "prediction_scope", "scan"),
         )
 
         output_csv_location = self.config.csv_output_file
         output_df = add_predicted_values(
-            subjects, sessions, runs, suffixes, predict_vals, input_csv_location, scans
+            subjects, sessions, runs, suffixes, predict_vals, input_csv_location,
+            scans, frames,
         )
         output_csv_folder_name = get_folder_name(output_csv_location)
         if output_csv_folder_name and not os.path.exists(output_csv_folder_name):
             os.makedirs(output_csv_folder_name, exist_ok=True)
         output_df.to_csv(output_csv_location, index=False)
+        if frames is not None:
+            # Summary statistics and the scatter plot describe scans, not
+            # volumes; averaging here keeps them comparable with earlier runs
+            # while the CSV above retains the per-volume detail.
+            by_scan = {}
+            for key, truth, pred in zip(scans or subjects, actual_scores, predict_vals):
+                by_scan.setdefault(key, [truth, []])[1].append(pred)
+            actual_scores = [v[0] for v in by_scan.values()]
+            predict_vals = [sum(v[1]) / len(v[1]) for v in by_scan.values()]
+            log.info(
+                f"prediction_scope={self.config.prediction_scope}: CSV holds "
+                f"per-volume rows; summary metrics computed over "
+                f"{len(actual_scores)} scans."
+            )
+
         standardized_rmse = compute_standardized_rmse(actual_scores, predict_vals)
         log.info(f"standardized_rmse: {standardized_rmse}")
         create_scatter_plot(actual_scores, predict_vals, self.config.plot_location)

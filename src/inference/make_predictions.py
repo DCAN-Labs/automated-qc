@@ -246,6 +246,7 @@ def get_validation_info(
     temporal_pool="mean",
     net_channels=None,
     net_strides=None,
+    prediction_scope="scan",
 ):
     """Generate predictions for validation subjects.
 
@@ -257,7 +258,10 @@ def get_validation_info(
         data_folder (str): Directory with preprocessed MRI files
 
     Returns:
-        tuple: (subjects, sessions, runs, suffixes, actual_scores, predicted_scores, scans)
+        tuple: (subjects, sessions, runs, suffixes, actual_scores,
+            predicted_scores, scans, frames). `frames` is None when
+            prediction_scope="scan"; otherwise it gives each row's volume index
+            (None for the scan-level rows added by "both").
     """
     spec = spec or ScanSpec()
     model = load_model(
@@ -295,7 +299,43 @@ def get_validation_info(
             # pooled-4D runs and with the single manual rating.
             predict_vals.append(sum(per_frame) / len(per_frame))
 
-        return subjects, sessions, runs, suffixes, actual_scores, predict_vals, scans
+        if prediction_scope == "scan":
+            # One score per file: each volume's prediction averaged. Comparable
+            # with a single manual rating, but it erases any difference the
+            # model saw between volumes -- so r_gap is identically zero and the
+            # per-volume question cannot be asked of this output.
+            return (subjects, sessions, runs, suffixes, actual_scores,
+                    predict_vals, scans, None)
+
+        # Per-volume output: one row per frame, each keeping its own prediction.
+        # Every other column is repeated so the row still identifies its scan.
+        f_subjects, f_sessions, f_runs, f_suffixes = [], [], [], []
+        f_actual, f_pred, f_scans, f_frames = [], [], [], []
+        for i, per_frame in enumerate(frame_vals):
+            for frame_index, value in enumerate(per_frame):
+                f_subjects.append(subjects[i])
+                f_sessions.append(sessions[i])
+                f_runs.append(runs[i])
+                f_suffixes.append(suffixes[i])
+                f_actual.append(actual_scores[i])
+                f_pred.append(value)
+                f_scans.append(scans[i] if scans is not None else None)
+                f_frames.append(frame_index)
+
+        if prediction_scope == "both":
+            # Scan-level rows carry frame_index NaN so the two kinds are
+            # separable downstream; neither overwrites the other.
+            f_subjects += list(subjects)
+            f_sessions += list(sessions)
+            f_runs += list(runs)
+            f_suffixes += list(suffixes)
+            f_actual += list(actual_scores)
+            f_pred += list(predict_vals)
+            f_scans += list(scans) if scans is not None else [None] * len(subjects)
+            f_frames += [None] * len(subjects)
+
+        return (f_subjects, f_sessions, f_runs, f_suffixes, f_actual,
+                f_pred, f_scans if scans is not None else None, f_frames)
 
 
 def compute_standardized_rmse(actual_scores, predict_vals):
@@ -465,6 +505,27 @@ def add_predicted_values(subjects, sessions, runs, suffixes, predict_vals, input
     """
     input_df = pd.read_csv(input_csv_location)
     output_df = input_df.copy()
+
+    # Per-volume predictions need somewhere to live. If the CSV is scan-level
+    # the output must gain a row per volume, otherwise all but the first
+    # prediction of each scan would be silently dropped on the join -- which is
+    # exactly how averaged output came to look like a model that scored both
+    # volumes identically.
+    if frames is not None and "frame_index" not in output_df.columns:
+        wanted = {}
+        for scan, frame in zip(scans or [], frames):
+            if frame is None:
+                continue
+            wanted.setdefault(scan, set()).add(int(frame))
+
+        if wanted:
+            expanded = []
+            for row in output_df.to_dict("records"):
+                indices = sorted(wanted.get(row.get("scan"), {0}))
+                for frame_index in indices:
+                    expanded.append({**row, "frame_index": frame_index})
+            output_df = pd.DataFrame(expanded)
+
     output_df["predicted_qu_motion_score"] = output_df.apply(
         get_predicted_value,
         axis=1,

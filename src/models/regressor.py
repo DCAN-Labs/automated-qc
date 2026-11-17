@@ -13,6 +13,12 @@ def get_regressor_model(
     strides=DEFAULT_STRIDES,
     frame_mode=None,
     temporal_pool="mean",
+    kernel_size=3,
+    num_res_units=2,
+    dropout=None,
+    act="PRELU",
+    norm="INSTANCE",
+    bias=True,
 ):
     """Build the MONAI Regressor, optionally wrapped for 4D input.
 
@@ -33,14 +39,26 @@ def get_regressor_model(
     """
     in_shape = [in_channels, *spatial_shape]
 
+    # MONAI derives the convolution rank from len(in_shape) - 1, so a 2-element
+    # spatial_shape builds a 2D network and a 3-element one builds 3D. Nothing
+    # here needs to branch on dimensionality.
+    spatial_dims = len(spatial_shape)
+    if spatial_dims not in (2, 3):
+        raise ValueError(
+            f"spatial_shape must have 2 or 3 entries, got {tuple(spatial_shape)}"
+        )
+
     print("=" * 50)
     print("CREATING NEW REGRESSOR MODEL")
     print(f"in_shape: {in_shape}")
     print(f"channels: {channels}")
     print(f"strides: {strides}")
+    print(f"spatial_dims: {spatial_dims}")
     print(f"frame_mode: {frame_mode or '3d'}")
     if frame_mode == "pool":
         print(f"temporal_pool: {temporal_pool}")
+    print(f"kernel_size: {kernel_size}  num_res_units: {num_res_units}")
+    print(f"act: {act}  norm: {norm}  dropout: {dropout}  bias: {bias}")
     print("=" * 50)
 
     model = Regressor(
@@ -48,6 +66,12 @@ def get_regressor_model(
         out_shape=1,
         channels=tuple(channels),
         strides=tuple(strides),
+        kernel_size=kernel_size,
+        num_res_units=num_res_units,
+        act=act,
+        norm=norm,
+        dropout=dropout,
+        bias=bias,
     )
 
     if frame_mode == "pool":

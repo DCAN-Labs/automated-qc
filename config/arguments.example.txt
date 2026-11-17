@@ -91,7 +91,55 @@ CACHE_DIR=${SCRATCH_DIR}/${MODEL_NAME}_cache/fold_${FOLD_IDX}/
 #     python scripts/utils/inspect_4d_dims.py "${FOLDER}" --pattern "${FILE_PATTERN}"
 # The values below are placeholders based on typical spin-echo EPI geometry.
 
-INPUT_MODE=4d
+# --- Dimensionality --------------------------------------------------------
+#
+# How image files are read.
+#   auto - inspect the NIfTI headers and decide. Counts axes with extent > 1,
+#          so a file declaring 4D while holding a single volume reads as 3D
+#          (65 of the 4412 HBCD field maps do exactly that), and a volume
+#          shaped (X, Y, 1) reads as 2D.
+#   2d   - single-slice images. Builds a 2D network; TARGET_SHAPE takes two
+#          values. AlexNet is 3D-only, so use MODEL=Regressor.
+#   3d   - one volume per file.
+#   4d   - multiple volumes per file; see FRAME_MODE below.
+#
+# Detection is per cohort, not per file: the network's spatial rank is fixed
+# when it is built, so a mixed cohort is an error unless ALLOW_MIXED_DIMS is
+# set. An explicit mode is honoured even when the data disagrees -- you get a
+# warning, not a failure, because forcing a mode is sometimes the point.
+INPUT_MODE=auto
+
+# Accept a cohort whose files differ in dimensionality and take the majority.
+ALLOW_MIXED_DIMS=false
+
+# How many files INPUT_MODE=auto inspects. 0 reads all of them; headers are
+# cheap but a few thousand reads over shared storage is not free.
+DIM_SURVEY_LIMIT=200
+
+# --- What the QC scores describe -------------------------------------------
+#
+# LABEL_SCOPE says what one rating covers:
+#   scan  - one rating for the whole file. When volumes are split into separate
+#           samples they each inherit it. For QU_line this duplication cost
+#           r = 0.751 -> 0.470, because half the files hold two volumes a rater
+#           would score differently.
+#   frame - one rating per volume. Requires a frame_index column in RAW_CSV;
+#           build it with merge_qc_labels.py --frame-column.
+#
+# This is independent of FRAME_MODE: how volumes reach the network and what
+# the ratings describe are separate questions.
+LABEL_SCOPE=scan
+
+# PREDICTION_SCOPE says what the output CSV reports:
+#   scan  - one score per file, averaging its volumes. Comparable with a single
+#           manual rating.
+#   frame - each volume's own prediction, one row per volume.
+#   both  - per-volume rows plus the scan-level mean (frame_index empty).
+#
+# Averaging makes per-volume differences identically zero, so measuring whether
+# the model separates the volumes at all requires frame or both.
+PREDICTION_SCOPE=scan
+
 TARGET_SHAPE=96,96,64
 NUM_FRAMES=4
 
@@ -124,7 +172,27 @@ NORMALIZE=global
 # At 96x96x64 the Z axis only supports about 5 before collapsing to one voxel.
 
 NET_CHANNELS=16,32,64,128,256,512
-NET_STRIDES=2,2,2,2,2
+NET_STRIDES=
+
+# --- Network architecture ---------------------------------------------------
+#
+# Passed straight to the MONAI Regressor. Leave a value empty to keep MONAI's
+# own default rather than pinning it here. Ignored by MODEL=AlexNet, which has
+# a fixed architecture.
+#
+# Convolution kernel size.
+NET_KERNEL_SIZE=3
+# Residual units per layer; 0 gives plain convolutions.
+NET_NUM_RES_UNITS=2
+# Dropout probability. Empty means none.
+NET_DROPOUT=
+# Activation: PRELU, RELU, LEAKYRELU, ...
+NET_ACT=PRELU
+# Normalisation: INSTANCE, BATCH, GROUP, ...
+NET_NORM=INSTANCE
+# Whether convolutions carry a bias term.
+NET_BIAS=true
+
 
 
 # --- Training ---------------------------------------------------------------

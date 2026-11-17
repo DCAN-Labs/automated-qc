@@ -29,6 +29,7 @@ DEFAULT_3D_TARGET_SHAPE = (260, 320, 320)
 # the 260x320x320 target would pad ~95% zeros and waste an enormous amount of
 # memory once multiplied by the frame axis.
 DEFAULT_4D_TARGET_SHAPE = (96, 96, 64)
+DEFAULT_2D_TARGET_SHAPE = (256, 256)
 
 # Default number of frames retained from a 4D field map acquisition.
 DEFAULT_NUM_FRAMES = 4
@@ -44,13 +45,20 @@ class ScanSpec:
     would silently return stale tensors of the previous shape.
     """
 
-    input_mode: str = "3d"                  # "3d" or "4d"
+    input_mode: str = "3d"                  # "2d", "3d" or "4d" (never "auto")
     target_shape: Tuple[int, ...] = DEFAULT_3D_TARGET_SHAPE
     num_frames: Optional[int] = None        # None keeps every frame (4d only)
     frame_padding: str = "edge"             # "edge" or "zero"
     frame_selection: str = "center"         # "center", "first", or "uniform"
     normalize: str = "global"               # "global" or "per_frame"
     augment: bool = True
+
+    # What a QC rating describes. "scan" means one rating for the whole file,
+    # which every frame then inherits when the file is split. "frame" means the
+    # CSV carries a frame_index column and each volume has its own rating.
+    # This is independent of how the frames are fed to the network: a 4D file
+    # can have one total score or one score per volume either way.
+    label_scope: str = "scan"               # "scan" or "frame"
 
     # When true, a 4D file is expanded into one INDEPENDENT 3D sample per frame
     # rather than one 4D sample. Each frame then carries the file's label on its
@@ -61,6 +69,19 @@ class ScanSpec:
     @property
     def is_4d(self) -> bool:
         return self.input_mode == "4d"
+
+    @property
+    def is_2d(self) -> bool:
+        return self.input_mode == "2d"
+
+    @property
+    def spatial_dims(self) -> int:
+        """Spatial rank the network is built for: 2 for 2d, else 3."""
+        return 2 if self.is_2d else 3
+
+    @property
+    def labels_per_frame(self) -> bool:
+        return self.label_scope == "frame"
 
     @property
     def emits_3d(self) -> bool:
@@ -558,7 +579,10 @@ def to_model_tensor(image_data, spec: ScanSpec):
     """
     array = np.ascontiguousarray(image_data)
 
-    if array.ndim == 3:
+    # 2D slice (H, W) -> (1, H, W); 3D volume (X, Y, Z) -> (1, X, Y, Z). In both
+    # cases the leading axis is the conv input channel, and the DataLoader adds
+    # the batch axis in front of it.
+    if array.ndim in (2, 3):
         return torch.from_numpy(array).unsqueeze(0)
 
     # (X, Y, Z, T) -> (T, X, Y, Z)
@@ -647,10 +671,18 @@ class AutoQcDataset(Dataset):
 
         if has_frame_labels and not (self.spec.is_4d and self.spec.split_frames):
             raise ValueError(
-                "CSV carries a frame_index column, so each row is a single "
-                "frame with its own rating, but input_mode/split_frames are "
-                "not set for split 3D samples. Set INPUT_MODE=4d and "
-                "SPLIT_FRAMES=true, or drop the frame_index column."
+                "CSV carries a frame_index column, so each row is one volume "
+                "with its own rating, but the loader is not configured to emit "
+                "volumes as separate samples. Set INPUT_MODE=4d and "
+                "FRAME_MODE=split (LABEL_SCOPE=frame), or drop the column."
+            )
+
+        if self.spec.labels_per_frame and not has_frame_labels:
+            raise ValueError(
+                "LABEL_SCOPE=frame promises one rating per volume, but no row "
+                "carries a frame_index. Either add the column (see "
+                "merge_qc_labels.py --frame-column) or set LABEL_SCOPE=scan, "
+                "which duplicates the file's single rating across its volumes."
             )
 
         if self.spec.is_4d and self.spec.split_frames:
