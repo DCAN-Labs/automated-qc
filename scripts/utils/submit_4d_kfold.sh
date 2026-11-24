@@ -22,6 +22,12 @@ if [ ! -f "$ARGUMENTS_FILE" ]; then
     exit 1
 fi
 
+# load_arguments.sh expands ${FOLD_IDX} into CSV_INPUT_FILE and friends, and
+# under `set -u` an unset FOLD_IDX aborts the source before anything is
+# submitted. Bind a placeholder; the real value is resolved per fold below.
+: "${FOLD_IDX:=0}"
+export FOLD_IDX
+
 . "$AUTO_QC_HOME/scripts/utils/load_arguments.sh" "$ARGUMENTS_FILE"
 
 JOB_SCRIPT="$PROJECT_DIR/scripts/config/auto-qc-training_model_agate_fmap_4d_kfold.sh"
